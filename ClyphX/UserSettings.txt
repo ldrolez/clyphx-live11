@@ -1,0 +1,286 @@
+# Copyright (C) 2013-2017 Stray <stray411@hotmail.com>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# For questions regarding this module contact
+# Stray <stray411@hotmail.com>
+ 
+
+
+***************************** [SETTINGS NOTES] **************************
+
+
+# Please DO NOT change any of the spacing in this file. 
+ 
+# Please DO NOT change the name of this file or its file extension.  When done 
+# making your changes to the settings below, just save the file.
+ 
+# After saving this file, you will need to close/restart Live for your changes 
+# to take effect.
+   
+# For Windows 7/Vista users, depending on how your privileges are set up, you may 
+# not be able to save changes you make to this file. You may receive an error
+# such as Access Denied when trying to save. If this occurs, you will need to 
+# drag this file onto your desktop, then make your changes and save. When
+# done, drag the file back into the ClyphX folder.
+
+
+
+***************************** [SNAPSHOT SETTINGS] **************************
+
+
+INCLUDE_NESTED_DEVICES_IN_SNAPSHOTS = On
+# Setting:
+# Off or On
+
+# Description:
+# Determines whether or not nested Devices (Devices inside of Racks) will be
+# included in Snapshots. This setting only applies if you're using Live 8.2.2
+# or later.
+
+
+
+SNAPSHOT_PARAMETER_LIMIT = 500
+# Setting:
+# Any whole number
+ 
+# Description:
+# Determines the number of parameters that Snapshots will be allowed to store.
+# If the limit is exceeded, you'll receive an error message.
+
+# Note:
+# Please use caution when adjusting this setting. Recalling Snapshots that have
+# stored 1000 or more parameters can cause delays and momentary freezing of Live's GUI.
+
+
+
+***************************** [EXTRA PREFS] **************************
+
+
+PROCESS_XCLIPS_IF_TRACK_MUTED = True
+# Setting:
+# True or False
+
+# Description:
+# Determines whether or not X-Clips on a Muted Track will be processed.
+
+
+
+STARTUP_ACTIONS = Off
+# Setting:
+# Off or Action(s) to perform on set load.
+
+# Description:
+# Performs an Action List when a set is loaded.
+
+
+
+NAVIGATION_HIGHLIGHT = On
+# Setting:
+# On or Off
+
+# Description:
+# Displays a highlight around the selected Clip.
+
+
+
+EXCLUSIVE_ARM_ON_SELECT = Off
+# Setting:
+# On or Off
+
+# Description:
+# Upon selecting Tracks, if the selected Track can be armed, it will be armed 
+# and any other armed Tracks will be disarmed.
+
+# Note:
+# This function may produce undesirable results if Select On Launch is on
+# in your Live preferences.
+
+
+    
+EXCLUSIVE_SHOW_GROUP_ON_SELECT = Off
+# Setting:
+# On or Off
+
+# Description:
+# Upon selecting Tracks, if the selected Track is a Group Track, it will be 
+# unfolded and any other Group Tracks will be folded.
+
+# Note:
+# This function may produce undesirable results if Select On Launch is on
+# in your Live preferences.
+
+
+
+CLIP_RECORD_LENGTH_SET_BY_GLOBAL_QUANTIZATION = Off
+# Setting:
+# On or Off
+
+# Description:
+# This changes the behavior of launching the selected Clip Slot so that 
+# (under the Conditions listed below) you can easily record a new Clip with a length 
+# defined by the Global Quantization value.  This will do nothing if the Conditions 
+# below aren't met.
+
+# Conditions:
+# - Selected Track is armed  
+# - Selected Clip Slot has no Clip on it
+# - Global Quantization is not set to None
+
+
+
+DEFAULT_INSERTED_MIDI_CLIP_LENGTH = 0
+# Setting:
+# 0 (for Off) or 2 - 16 (for number of bars to use)
+
+# Description:
+# Upon inserting a blank MIDI Clip onto the selected Clip Slot, the Clip's length
+# will be set to the length (in bars) specified in the setting above.
+
+# Note:
+# This will not change the default zoom setting of the Clip, so you'll only see the 
+# Clip's first bar. You'll need to zoom out to see the rest of the Clip.
+
+
+
+***************************** [CSLINKER] **************************
+
+
+# CSLinker allows you to link the grid selectors (colored borders around clips) of 
+# two Control Surfaces either horizontally or vertically.    
+
+# The Control Surface script names to use are as shown in Live's Control Surface chooser.  
+# If a Control Surface's name has a space in it (like MXT Live), you should use an underscore 
+# in place of the space (like MXT_Live).
+
+# Note, Push and Push2 cannot be used for matched linking.  Additionally, horizontal linking
+# with Push2 may produce undesirable results due to Push2's inclusion of Chain mixer settings
+# along side normal Track mixer settings. 
+
+
+CSLINKER_MATCHED_LINK = False
+# Setting:
+# True for matched link or False for horizonal/vertical link.
+
+# Description:
+# Determines whether the two Control Surfaces should have a matched link meaning that
+# they will lay on top of each other.  This setting overrides CSLINKER_HORIZONTAL_LINK.
+# and CSLINKER_MULTI_AXIS_LINK.
+
+
+
+CSLINKER_HORIZONTAL_LINK = True
+# Setting:
+# True for horizontal link or False for vertical link.
+
+# Description:
+# Determines whether the two Control Surfaces should be horizontal or vertically linked.
+
+
+
+CSLINKER_MULTI_AXIS_LINK = False
+# Setting:
+# True for multi-axis link.
+
+# Determines whether movement should be sychronized in all directions (vertical and horizontal) or
+# purely on a single axis determined by the CS_HORIZONTAL_LINK setting.
+
+
+
+CSLINKER_SCRIPT_1_NAME = None
+# Setting:
+# None (to turn linking off) or the name of a Control Surface.
+
+# Description:
+# The first Control Surface script that should be linked.
+
+
+
+CSLINKER_SCRIPT_2_NAME = None
+# Setting:
+# None (to turn linking off) or the name of a Control Surface.
+
+# Description:
+# The second Control Surface script that should be linked.
+
+
+
+******************************* [USER CONTROLS] ******************************* 
+
+
+# Below, you can specify a list of MIDI Controls to use as X-Controls. 
+
+# The entry format is: CONTROL_NAME = MSG_TYPE, MIDI_CHANNEL, NOTE_OR_CC_NUM, ON_ACTION_LIST
+
+# CONTROL_NAME = A unique one-word name (Identifier) for the control. See [IDENTIFIER NOTE] below. 
+# MSG_TYPE = The word Note or CC.
+# MIDI_CHANNEL = The MIDI Channel number in the range of 1 - 16
+# NOTE_OR_CC = The Note or CC number in the range of 0 - 127.
+# ON_ACTION_LIST = The Action List to perform when the control sends an on message.
+
+# Example: MY_BTN1 = NOTE, 1, 10, 1/MUTE ; 2/MUTE
+
+
+# You can optionally specify an Action List to perform when the control sends an off message.
+# To do this, place a comma after the On Action List and then specify the Off Action List.
+
+# Example: MY_BTN2 = CC, 16, 117, 1/MUTE ; 2/MUTE, 3/PLAY >
+
+
+# To perform the same Action List for the On Action List and Off Action List, just specify an asterick 
+# for the Off Action List.  
+
+# Example: MY_BTN3 = NOTE, 5, 0, 1/MUTE, *
+
+
+# Below is an example list that has been commented out (the # at the beginning of 
+# a line makes the line a comment). Your list should be formatted in the same way 
+# except without the # at the beginning of each line.
+
+
+# btn_1 = note, 1, 0, mute , *
+
+# btn_2 = note, 1, 1, solo
+
+# btn_3 = cc, 9, 2, arm
+
+# btn_4 = cc, 9, 3, mon
+
+#>>>>>>>>DELETE THIS ENTIRE LINE AND START YOUR LIST HERE<<<<<<<<#
+
+
+******************************* [USER VARIABLES] ******************************* 
+
+
+# Below, you can specify a list of Variables to use in your Action Lists.
+
+# The entry format is: VARIABLE_NAME = VALUE
+
+# VARIABLE_NAME = A unique one-word name (Identifier) for the variable. See [IDENTIFIER NOTE] below.  
+# VALUE = Any value or word or combination of words. See the User Variables section of the manual for
+# more info on this.  
+
+# The Variables listed below are just examples and can be removed.
+
+
+ex_var1 = 10
+ex_var2 = mute
+
+
+******************************* [IDENTIFIER NOTE] *******************************
+
+
+# Identifiers and Variable names should not contain characters other than letters, numbers and underscores.  
+# Also, Variable names and their values are not case-sensitive.
