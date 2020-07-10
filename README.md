@@ -5,6 +5,8 @@ X Pro, but the 2.6.2 is the last free version to work with Live 10.
 
 You can still use it but do not try to get support on nativeKONTROL forums, it is not supported by them anymore.
 
+![Advanced Ableton Control Macros](https://drolez.com/blog/i/ableton-advanced-macros.gif)
+
 ## Installation
 
 * Get the ZIP in the releases.
