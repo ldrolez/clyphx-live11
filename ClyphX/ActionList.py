@@ -27,8 +27,8 @@ class ActionList:
     __doc__ = ' Simple class that allows X-Triggers with no name to trigger Action Lists and can also be used to trigger ClyphX Actions via UserActions. '
     
     def __init__(self, name = 'none'):
-	self.name = name
-	
+        self.name = name
+        
     
 # local variables:
 # tab-width: 4

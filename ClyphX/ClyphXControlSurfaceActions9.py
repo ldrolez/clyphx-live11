@@ -23,7 +23,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import with_statement
-from ClyphXControlSurfaceActions import ClyphXControlSurfaceActions, VisualMetro
+from .ClyphXControlSurfaceActions import ClyphXControlSurfaceActions, VisualMetro
     
 class ClyphXControlSurfaceActions9(ClyphXControlSurfaceActions):
     __module__ = __name__
@@ -31,17 +31,17 @@ class ClyphXControlSurfaceActions9(ClyphXControlSurfaceActions):
     
     def __init__(self, parent):
         ClyphXControlSurfaceActions.__init__(self, parent)
-	    
+            
     def handle_visual_metro(self, script, args):
-	""" Handle visual metro for APCs and Launchpad. 
-	This is a specialized version for L9 that uses component guard to avoid dependency issues. """
-	if 'ON' in args and not script['metro']['component']:
-	    with self._parent.component_guard(): 
-		m = VisualMetro(self._parent, script['metro']['controls'], script['metro']['override']) 
-		script['metro']['component'] = m
-	elif 'OFF' in args and script['metro']['component']:
-	    script['metro']['component'].disconnect()
-	    script['metro']['component'] = None
+        """ Handle visual metro for APCs and Launchpad. 
+        This is a specialized version for L9 that uses component guard to avoid dependency issues. """
+        if 'ON' in args and not script['metro']['component']:
+            with self._parent.component_guard(): 
+                m = VisualMetro(self._parent, script['metro']['controls'], script['metro']['override']) 
+                script['metro']['component'] = m
+        elif 'OFF' in args and script['metro']['component']:
+            script['metro']['component'].disconnect()
+            script['metro']['component'] = None
     
 # local variables:
 # tab-width: 4

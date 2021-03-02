@@ -29,13 +29,13 @@ class MockHandshakeTask(object):
     """ Mock objects used to replace Push's handshake task. """
     
     def kill(self):
-	pass
+        pass
     
     def restart(self):
-	pass
+        pass
     
     def is_running(self):
-	return False
+        return False
 
     
 class MockHandshake(HandshakeComponent):
@@ -43,19 +43,19 @@ class MockHandshake(HandshakeComponent):
     emulation. """
 
     def __init__(self, *a, **k):
-	super(MockHandshake, self).__init__(*a, **k)
-	self._on_identity_value.subject = None
+        super(MockHandshake, self).__init__(*a, **k)
+        self._on_identity_value.subject = None
         self._on_dongle_value.subject = None
     
     def _start_handshake(self):
-	self._handshake_succeeded = None
-	self._do_succeed()
+        self._handshake_succeeded = None
+        self._do_succeed()
     
     def firmware_version(self):
-	return 1.16
+        return 1.16
     
     def has_version_requirements(self, x, y):
-	return True
+        return True
 
 # local variables:
 # tab-width: 4

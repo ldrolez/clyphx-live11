@@ -89,7 +89,7 @@ class InstantMappingMakeDoc(object):
         """ Returns a dict of dicts for each device containing its friendly name, bob
         parameters and bank names/bank parameters if applicable. """
         dev_dict = {}
-        for k, v in DEVICE_DICT.iteritems():
+        for k, v in DEVICE_DICT.items():
             has_banks = len(v) > 1
             info = {'name': DEV_NAME_TRANSLATION_TABLE.get(k, k),
                     'bob': DEVICE_BOB_DICT[k][0],
@@ -109,7 +109,7 @@ class InstantMappingMakeDoc(object):
                 for dev in self._get_device_index(dev_dict):
                     f.write(dev)
                 f.write('<hr>')
-                for key, value in sorted(dev_dict.iteritems(),
+                for key, value in sorted(dev_dict.items(),
                                          key=lambda (k, v): (v['name'], k)):
                     self._write_device_info(f, value)
                 f.write('</html>')

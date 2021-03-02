@@ -23,7 +23,7 @@
 # -*- coding: utf-8 -*-
 
 import Live
-from ClyphX import ClyphX
+from .ClyphX import ClyphX
 
 
 def create_instance(c_instance):

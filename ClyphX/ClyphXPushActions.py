@@ -21,7 +21,7 @@
 
 from __future__ import with_statement
 from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
-from consts import *
+from .consts import *
 
 UNWRITABLE_INDEXES = (17, 35, 53)
 

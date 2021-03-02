@@ -24,8 +24,8 @@
 
 import Live 
 from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
-from ActionList import ActionList
-from consts import IS_LIVE_9
+from .ActionList import ActionList
+from .consts import IS_LIVE_9
 
 """ This script allows you to create your own ClyphX actions that can be used like any other ClyphX action.
 
@@ -78,65 +78,65 @@ class ClyphXUserActions(ControlSurfaceComponent):
     
     def __init__(self, parent):
         ControlSurfaceComponent.__init__(self)
-	
-	""" Below is the dictionary of actions that this script provides. 
-	
-	For each entry:
-	- The key = the one-word (not case-sensitive) name of the action.  This is the name that is used when accessing the action from an X-Trigger.
-	
-	- The value = the name of the function in this script to call to perform the action. 
-	
-	Except for the last entry, every entry should be followed by a comma.  You can remove the 2 example entries from the dictionary if you wish. """
-	self._action_dict = {#<--DO NOTE REMOVE THIS
-	    'EX_ACTION_1' : 'example_action_one',
-	    'EX_ACTION_2' : 'example_action_two'
-	    }#<--DO NOTE REMOVE THIS
-	
-	""" The parent ClyphX script.  Through this you can access things such as the log_message function (writes to Live's Log.txt file), 
-	which you'll likely use quite a bit.  The Troubleshooting section of the ClyphX manual covers how to access Log.txt. """
+        
+        """ Below is the dictionary of actions that this script provides. 
+        
+        For each entry:
+        - The key = the one-word (not case-sensitive) name of the action.  This is the name that is used when accessing the action from an X-Trigger.
+        
+        - The value = the name of the function in this script to call to perform the action. 
+        
+        Except for the last entry, every entry should be followed by a comma.  You can remove the 2 example entries from the dictionary if you wish. """
+        self._action_dict = {#<--DO NOTE REMOVE THIS
+            'EX_ACTION_1' : 'example_action_one',
+            'EX_ACTION_2' : 'example_action_two'
+            }#<--DO NOTE REMOVE THIS
+        
+        """ The parent ClyphX script.  Through this you can access things such as the log_message function (writes to Live's Log.txt file), 
+        which you'll likely use quite a bit.  The Troubleshooting section of the ClyphX manual covers how to access Log.txt. """
         self._parent = parent
-	
-	
+        
+        
     def disconnect(self):
-	""" Called by the control surface on disconnect (app closed, script closed).  DO NOT REMOVE THIS. """
-	self._parent = None
-	if IS_LIVE_9:
-	    ControlSurfaceComponent.disconnect(self)
-	    
+        """ Called by the control surface on disconnect (app closed, script closed).  DO NOT REMOVE THIS. """
+        self._parent = None
+        if IS_LIVE_9:
+            ControlSurfaceComponent.disconnect(self)
+            
     
     def on_enabled_changed(self):
-	""" Called when this script is enabled/disabled (by calling set_enabled on it).  DO NOT REMOVE THIS. """
-	pass
+        """ Called when this script is enabled/disabled (by calling set_enabled on it).  DO NOT REMOVE THIS. """
+        pass
         
 
     def update(self):    
-	""" Called by the control surface on instantiation and in other cases such as when exiting MIDI map mode.  DO NOT REMOVE THIS. """
+        """ Called by the control surface on instantiation and in other cases such as when exiting MIDI map mode.  DO NOT REMOVE THIS. """
         pass
-	
+        
 
     def example_action_one(self, track, args):
-	""" Example action that writes to Live's log file and then triggers standard ClyphX METRO action. 
-	This can receive the same args as the METRO action (like EX_ACTION_1 ON), so it just passes args it receives to the METRO function. 
-	
-	NOTE: The arguments passed to handle_action_list_trigger are:
-	 - The track associated with the trigger.  Since our function here is not associated with any particular track, we pass the selected track.
-	 
-	 - The ActionList object, which is just a simple object that contains a name field.  You just instantiate one of these with the action list 
-	   as a string(proceeded by an identifier). """
-	self._parent.log_message('example_action_one triggered with args=' + str(args))
-	self._parent.handle_action_list_trigger(self.song().view.selected_track, ActionList('[] METRO ' + str(args)))	
-	
-	
+        """ Example action that writes to Live's log file and then triggers standard ClyphX METRO action. 
+        This can receive the same args as the METRO action (like EX_ACTION_1 ON), so it just passes args it receives to the METRO function. 
+        
+        NOTE: The arguments passed to handle_action_list_trigger are:
+         - The track associated with the trigger.  Since our function here is not associated with any particular track, we pass the selected track.
+         
+         - The ActionList object, which is just a simple object that contains a name field.  You just instantiate one of these with the action list 
+           as a string(proceeded by an identifier). """
+        self._parent.log_message('example_action_one triggered with args=' + str(args))
+        self._parent.handle_action_list_trigger(self.song().view.selected_track, ActionList('[] METRO ' + str(args)))   
+        
+        
     def example_action_two(self, track, args):
-	""" Example action that sets mixer settings of the given track to be the same as the master track. 
-	If no args or args contains VOL, sets volume.
-	If no args or args contains PAN, sets panning.
-	Obviously, does nothing if the given track is the master track. """	
-	if track != self.song().master_track:
-	    if not args or 'VOL' in args:
-		track.mixer_device.volume.value = self.song().master_track.mixer_device.volume.value
-	    if not args or 'PAN' in args:
-		track.mixer_device.panning.value = self.song().master_track.mixer_device.panning.value
+        """ Example action that sets mixer settings of the given track to be the same as the master track. 
+        If no args or args contains VOL, sets volume.
+        If no args or args contains PAN, sets panning.
+        Obviously, does nothing if the given track is the master track. """     
+        if track != self.song().master_track:
+            if not args or 'VOL' in args:
+                track.mixer_device.volume.value = self.song().master_track.mixer_device.volume.value
+            if not args or 'PAN' in args:
+                track.mixer_device.panning.value = self.song().master_track.mixer_device.panning.value
     
 
     def on_track_list_changed(self):

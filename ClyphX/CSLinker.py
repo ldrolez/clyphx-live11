@@ -24,7 +24,7 @@ from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
 from _Framework.ControlSurface import ControlSurface
 from _Framework.SessionComponent import SessionComponent
 
-from consts import *
+from .consts import *
 
 class CSLinker(ControlSurfaceComponent):
     """ CSLinker links the SessionComponents of two control surface scripts in Live 9. """
