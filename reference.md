@@ -1,5 +1,11 @@
 ## Global Actions
 
+The MIDI Actions send MIDI messages to the MIDI port selected as the Output port for the ClyphX control surface. Also, all values in MIDI Actions
+should be entered in decimal.
+
+The SCENE related Actions do not actually Launch Scenes, they Launch every Clip on a Scene. For this reason, they will function similar to Launching
+Scenes when Start Recording on Scene Launch is turned on.
+
 | Action | Description | Examples 
 | --- | --- | --- 
 | ADDAUDIO | Creates an Audio Track at the end of the Track list. | - 
@@ -99,8 +105,52 @@
 | UNMUTE | Unmute all Tracks. | -
 | UNSOLO | Unsolo all Tracks. | -
  
-The MIDI Actions send MIDI messages to the MIDI port selected as the Output port for the ClyphX control surface. Also, all values in MIDI Actions
-should be entered in decimal.
+## Track actions
 
-The SCENE related Actions do not actually Launch Scenes, they Launch every Clip on a Scene. For this reason, they will function similar to Launching
-Scenes when Start Recording on Scene Launch is turned on.
+| Action | Description | Examples 
+| --- | --- | --- 
+| ADDCLIP | Creates a 1 Bar MIDI Clip in the selected Clip Slot on the Track. | -
+| ADDCLIP x | x is the Scene number of the Clip Slot where a 1 Bar MIDI Clip will be created. Specify SEL for the selected Scene. | ADDCLIP 10, ADDCLIP 3, ADDCLIP SEL
+| ADDCLIP x y | x is the Scene number of the Clip Slot where a MIDI Clip will be created that is y Bars long. Specify SEL for the selected Scene. | ADDCLIP 10 4, ADDCLIP 3 8, ADDCLIP SEL 0.25
+| ARM | Toggle, turn on or turn off Track Arm. | ARM, ARM ON, ARM OFF
+| CUE | Adjust Preview Volume (Master Track only). This is a Continuous Parameter. | MST/CUE <, MST/CUE >, MST/CUE RESET, MST/CUE RND, MST/CUE 50, MST/CUE 100
+| DEL | Deletes the Track. It is not possible to Delete a Track if it’s the only Track in the Set. Returns and the Master cannot be Deleted. | -
+| DELDEV x | x is the number of the Device (based on the Device’s position on the Track) to Delete. Only top-level Devices (Devices that aren’t inside of Racks) can be Deleted. | DELDEV 1, DELDEV 5
+| DUPE | Duplicates the Track. Returns and the Master cannot be Duplicated. | -
+| FOLD | Toggle, turn on or turn off Track Fold. | FOLD, FOLD ON, FOLD OFF
+| IN x | Select a Track Input Routing. x is the name of the Track Input Routing selection. | IN COMPUTER KEYBOARD
+| IN < or > | Select the Prev/Next Track Input Routing selection. | IN <, IN >
+| INSUB x | Select a Track Input sub-routing. x is the name of the Track Input Sub-Routing selection. | INSUB CH. 1
+| INSUB < or > | Select the Prev/Next Track Input Sub-Routing selection. | INSUB <, INSUB >
+| JUMP x | x is the number of beats to jump the Playback Position of the playing Clip on the Track Backward/Forward by. | JUMP 1, JUMP -5, JUMP 7
+| MON or MON x | Toggle Track Monitoring state or set a particular state where x is the state to set. | MON, MON IN, MON AUTO, MON OFF
+| MUTE | Toggle, turn on or turn off Track Mute. | MUTE, MUTE ON, MUTE OFF
+| NAME x | x is the new name for the Track. The new name will be capitalized. | NAME BKG VOCALS
+| OUT x | Select a Track Ouput Routing. x is the name of the Track Output Routing selection. | OUT TO MT PLAYER 1
+| OUT < or > | Select the Prev/Next Track Output Routing selection. | OUT <, OUT >
+| OUTSUB x | Select a Track Ouput sub-routing. x is the name of the Track Output Sub-Routing selection. | OUTSUB CH. 10
+| OUTSUB < or > | Select the Prev/Next Track Output Sub-Routing selection. | OUTSUB <, OUTSUB >
+| PAN x | Adjust Track Pan. This is a Continuous Parameter. | PAN <, PAN >, PAN RESET, PAN RND, PAN 50, PAN 100
+| PLAY | When accessed via an X-Clip, Launch the Clip Slot on the same Scene as the X-Clip. Otherwise, re-Launch the playing Clip Slot or Launch the Clip Slot at the selected Scene. | -
+| PLAY x | x is the Scene number of the Clip Slot to Launch. Specify SEL for the selected Scene. You can alternatively specify the name of the Clip enclosed in quotes. | PLAY 10, PLAY 3, PLAY SEL, PLAY “My Clip”
+| PLAY RND | Launch a Clip Slot at a randomly selected Scene. | -
+| PLAY RNDx-y | Launch a Clip Slot at a randomly selected Scene in the range of x-y (where both x and y are in the range of 1 – the number of Scenes in the Set). | PLAY RND5-10, PLAY RND96-142 
+| PLAY < or > | Launch the Prev/Next Clip Slot relative to the playing Clip. This will not launch empty slots and does not apply to Group Tracks. | PLAY <, PLAY >
+| PLAY <x or >x | Launch the Clip Slot that is x-Scenes prior to or after the playing Clip. This does not apply to Group Tracks. | PLAY <5, PLAY >3
+| PLAYL Launch a Clip with Legato using the current Global Quantization value. | PLAYL “My Clip”, PLAYL RND, PLAYL >
+| PLAYQ | Launch a Clip at a specific quantization (regardless of the current Global Quantization value or the Clip’s Launch Quantization). The quantization values that can be used are the same as those mentioned for the GQ Action. | PLAYQ NONE “My Clip”, PLAYQ 1 BAR RND, PLAYQ 1/4 >
+| PLAYLQ | This is a combination of the previous two variations |  -
+| RENAMEALL | Rename all the Clips on the Track based on the Track’s name. | -
+| RENAMEALL x | Rename all the Clips on the Track where x is the base name to use. | RENAMEALL DRUMS
+| SEL | Select the Track and highlight the playing Clip or the Clip at the selected Scene. | -
+| SEL x | Select the Track and a particular Slot where x is the Scene number of the Slot. | SEL 10, SEL 3
+| SEND ltr x | ltr is the letter of the Track Send to adjust. This is a Continuous Parameter. | SEND A <, SEND A >, SEND A RESET, SEND A RND, SEND A 50, SEND A 100
+| SNAP | Store/recall snapshot of Track and Device settings. See Snap Action for more info on this. | SNAP, SNAP DEV, SNAP MIX, SNAP MIX+, SNAP PLAY
+| SOLO | Toggle, turn on or turn off Track Solo. | SOLO, SOLO ON, SOLO OFF
+| STOP | Stop the playing Clip on the Track. | -
+| STOP NQ | Stop the playing Clip on the Track immediately (not quantized). | -
+| VOL x | Adjust Track Volume. This is a Continuous Parameter. | VOL <, VOL >, VOL RESET, VOL RND, VOL 50, VOL 100
+| XFADE or XFADE x | Toggle Track Crossfade assignment or set a particular state where x is the state to set. | XFADE, XFADE A, XFADE B, XFADE OFF
+| XFADER x | Adjust Master Crossfader (Master Track only). This is a continuous parameter. | MST/XFADER <, MST/XFADER >, MST/XFADER RESET, MST/XFADER RND, MST/XFADER 50, MST/XFADER 100
+ 
+ 
