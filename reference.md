@@ -137,7 +137,7 @@ Scenes when Start Recording on Scene Launch is turned on.
 | PLAY RNDx-y | Launch a Clip Slot at a randomly selected Scene in the range of x-y (where both x and y are in the range of 1 – the number of Scenes in the Set). | PLAY RND5-10, PLAY RND96-142 
 | PLAY < or > | Launch the Prev/Next Clip Slot relative to the playing Clip. This will not launch empty slots and does not apply to Group Tracks. | PLAY <, PLAY >
 | PLAY <x or >x | Launch the Clip Slot that is x-Scenes prior to or after the playing Clip. This does not apply to Group Tracks. | PLAY <5, PLAY >3
-| PLAYL Launch a Clip with Legato using the current Global Quantization value. | PLAYL “My Clip”, PLAYL RND, PLAYL >
+| PLAYL | Launch a Clip with Legato using the current Global Quantization value. | PLAYL “My Clip”, PLAYL RND, PLAYL >
 | PLAYQ | Launch a Clip at a specific quantization (regardless of the current Global Quantization value or the Clip’s Launch Quantization). The quantization values that can be used are the same as those mentioned for the GQ Action. | PLAYQ NONE “My Clip”, PLAYQ 1 BAR RND, PLAYQ 1/4 >
 | PLAYLQ | This is a combination of the previous two variations |  -
 | RENAMEALL | Rename all the Clips on the Track based on the Track’s name. | -
@@ -153,4 +153,29 @@ Scenes when Start Recording on Scene Launch is turned on.
 | XFADE or XFADE x | Toggle Track Crossfade assignment or set a particular state where x is the state to set. | XFADE, XFADE A, XFADE B, XFADE OFF
 | XFADER x | Adjust Master Crossfader (Master Track only). This is a continuous parameter. | MST/XFADER <, MST/XFADER >, MST/XFADER RESET, MST/XFADER RND, MST/XFADER 50, MST/XFADER 100
  
- 
+## Track actions for Devices
+
+Device actions are track-based and will apply to the device selected on the track, or on the 1st device. If you want to operate on a different Device, add a number after DEV: DEV3 RESET, will reset the 3rd device and, 2/DEV3 RND, will randomize the 3rd device on track 2.
+
+A device name can also be specified with quotes (i.e. DEV"Auto Filter" RND).
+
+| Action | Description | Examples 
+| --- | --- | --- 
+| DEV | Toggle, turn on or turn off Device On/Off switch. | DEV, DEV ON, DEV OFF
+| DEV CHAINc MUTE | Toggle, turn on or turn off Chain Mute where c is the number of the Chain. | DEV CHAIN2 MUTE, DEV CHAIN4 MUTE ON, DEV CHAIN1 MUTE OFF
+| DEV CHAINc PAN x | Adjust Chain Pan where c is the number of the Chain. This is a Continuous Parameter. | DEV CHAIN2 PAN <, DEV CHAIN4 PAN >, DEV CHAIN6 PAN RESET, DEV CHAIN2 PAN RND, DEV CHAIN25 PAN 50
+| DEV CHAINc SOLO | Toggle, turn on or turn off Chain Solo where c is the number of the Chain. | DEV CHAIN2 SOLO, DEV CHAIN4 SOLO ON, DEV CHAIN1 SOLO OFF
+| DEV CHAINc VOL x | Adjust Chain Volume where c is the number of the Chain. This is a Continuous Parameter. | DEV CHAIN2 VOL <, DEV CHAIN4 VOL >, DEV CHAIN6 VOL RESET, DEV CHAIN2 VOL RND, DEV CHAIN25 VOL 50
+| DEV CS x | Adjust Device Chain Selector value. This is a Continuous Parameter. | DEV CS <, DEV CS >, DEV CS RESET, DEV CS RND, DEV CS 50, DEV CS 100
+| DEV CSEL x | x is the number of the Chain to select. | DEV CSEL 10, DEV CSEL 3
+| DEV CSEL < or > | Navigate to the Prev/Next Chain. | DEV CSEL <, DEV CSEL >
+| DEV Bn Pp x | Adjust Device Bank parameter 1 - 8 where n in the number of the bank and p in the number of the parameter within the bank to adjust. This is a Continuous Parameter. | DEV B1 P1 <, DEV B2 P1 >, DEV B3 P1 RESET, DEV B4 P1 RND, DEV B5 P1 50, DEV B6 P1 100
+| DEV Pp x | Adjust Device Best-of-Bank parameter 1 - 8 where p in the number of the parameter (or macros in the case of rack) to adjust. This is a Continuous Parameter. | DEV P1 <, DEV P1 >, DEV P1 RESET, DEV P1 RND, DEV P1 50, DEV P1 100
+| DEV RND | Randomize Device parameters. Will not affect Chain Selectors, on/off switches or multi-option controls | -
+| DEV RESET | Reset Device parameters. Will not affect Chain Selectors, on/off switches or multi-option controls | -
+| DEV SEL | Select the Device and bring the Track it is on into view. If the Device is nested in a Rack and is hidden, it cannot be selected. | -
+| DEV SET This Action is only accessible to X-Clips and should not be combined with other Actions. This will capture the values of the 8 Macros in a Rack and add them to the X-Clip’s name, thus creating a Dev Set x Action. Once the Dev Set x Action has been created, you can then combine it with other Actions if you like. | -
+| DEV SET x | x is a space-separated list of 8 Continuous Parameter values/keywords that will set the values of all 8 Macros in a Rack at once. | DEV SET 0 10 20 30 40 50 60 70, DEV SET 1 RND 3 > < 127 0 <5
+| LOOPER | Toggle, turn on or turn off Looper’s On/Off switch. Works only on the 1st looper | LOOPER, LOOPER ON, LOOPER OFF
+| LOOPER x | x is the Looper state to set. Works only on the 1st looper | LOOPER STOP, LOOPER REC, LOOPER PLAY, LOOPER OVER
+| LOOPER REV | Toggle, turn on or turn off Looper’s Reverse switch. Works only on the 1st looper | LOOPER REV, LOOPER REV ON, LOOPER REV OFF
