@@ -174,7 +174,7 @@ A device name can also be specified with quotes (i.e. DEV"Auto Filter" RND).
 | DEV RND | Randomize Device parameters. Will not affect Chain Selectors, on/off switches or multi-option controls | -
 | DEV RESET | Reset Device parameters. Will not affect Chain Selectors, on/off switches or multi-option controls | -
 | DEV SEL | Select the Device and bring the Track it is on into view. If the Device is nested in a Rack and is hidden, it cannot be selected. | -
-| DEV SET This Action is only accessible to X-Clips and should not be combined with other Actions. This will capture the values of the 8 Macros in a Rack and add them to the X-Clip’s name, thus creating a Dev Set x Action. Once the Dev Set x Action has been created, you can then combine it with other Actions if you like. | -
+| DEV SET | This Action is only accessible to X-Clips and should not be combined with other Actions. This will capture the values of the 8 Macros in a Rack and add them to the X-Clip’s name, thus creating a Dev Set x Action. Once the Dev Set x Action has been created, you can then combine it with other Actions if you like. | -
 | DEV SET x | x is a space-separated list of 8 Continuous Parameter values/keywords that will set the values of all 8 Macros in a Rack at once. | DEV SET 0 10 20 30 40 50 60 70, DEV SET 1 RND 3 > < 127 0 <5
 | LOOPER | Toggle, turn on or turn off Looper’s On/Off switch. Works only on the 1st looper | LOOPER, LOOPER ON, LOOPER OFF
 | LOOPER x | x is the Looper state to set. Works only on the 1st looper | LOOPER STOP, LOOPER REC, LOOPER PLAY, LOOPER OVER
