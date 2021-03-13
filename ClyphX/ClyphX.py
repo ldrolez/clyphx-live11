@@ -49,7 +49,7 @@ if IS_LIVE_9_5:
     from .PushEmuHandler import MockHandshakeTask, MockHandshake
 
 FOLDER = '/ClyphX/'
-SCRIPT_NAME = 'ClyphX v2.7.0 for Live 11'
+SCRIPT_NAME = 'ClyphX v2.7.1 for Live 11'
 
 class ClyphX(ControlSurface):
     __module__ = __name__
@@ -206,7 +206,7 @@ class ClyphX(ControlSurface):
             name = self.get_name(xtrigger.name).strip() 
         if name and name[0] == '[' and ']' in name:         
             # Snap action, so pass directly to snap component
-            if ' || (' in name and type(xtrigger) is Live.Clip.Clip and xtrigger.is_playing:
+            if ' || {' in name and type(xtrigger) is Live.Clip.Clip and xtrigger.is_playing:
                 self._snap_actions.recall_track_snapshot(name, xtrigger)
             # Control reassignment, so pass directly to control component
             elif '[[' in name and ']]' in name:

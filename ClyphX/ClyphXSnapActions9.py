@@ -24,7 +24,7 @@
 
 import Live 
 import math
-import pickle
+import json
 from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
 from .consts import *
 if IS_LIVE_9:
@@ -125,7 +125,7 @@ class ClyphXSnapActions(ControlSurfaceComponent):
                     snap_data[track.name] = self._current_track_data
             if snap_data:
                 if param_count <= self._parameter_limit:
-                    xclip.name = str(ident) + ' || ' + pickle.dumps(snap_data)
+                    xclip.name = '%s || %s' % (str(ident), json.dumps(snap_data))
                 else:
                     current_name = xclip.name
                     xclip.name = 'Too many parameters to store!'
@@ -197,7 +197,7 @@ class ClyphXSnapActions(ControlSurfaceComponent):
     def recall_track_snapshot(self, name, xclip, disable_smooth=False):
         """ Recalls snapshot of track params """
         self._snap_id = xclip.name[xclip.name.index('['):xclip.name.index(']')+1].strip().upper() 
-        snap_data = pickle.loads(str(xclip.name)[len(self._snap_id) + 4:])
+        snap_data = json.loads((xclip.name)[len(self._snap_id) + 4:])
         self._parameters_to_smooth = {}
         self._rack_parameters_to_smooth = {}
         is_synced = False if disable_smooth else self._init_smoothing(xclip)
@@ -262,17 +262,18 @@ class ClyphXSnapActions(ControlSurfaceComponent):
         if rack.chains and stored_params: 
             num_chains = len(rack.chains)
             for chain_key in stored_params.keys():
-                if chain_key < num_chains:  
-                    chain = rack.chains[chain_key]
+                # chain_key = int(chain_key)
+                if int(chain_key) < num_chains:  
+                    chain = rack.chains[int(chain_key)]
                     chain_devices = chain.devices
                     num_chain_devices = len(chain_devices)
                     stored_chain = stored_params[chain_key]
                     stored_devices = stored_chain['devices']
                     for device_key in stored_devices.keys():
-                        if device_key < num_chain_devices:
-                            self._recall_device_snap(chain_devices[device_key], stored_devices[device_key]['params'])
-                            if chain_devices[device_key].can_have_chains and stored_devices[device_key].__contains__('chains'):
-                                self._recall_nested_device_snap(chain_devices[device_key], stored_devices[device_key]['chains'])
+                        if int(device_key) < num_chain_devices:
+                            self._recall_device_snap(chain_devices[int(device_key)], stored_devices[device_key]['params'])
+                            if chain_devices[int(device_key)].can_have_chains and stored_devices[device_key].__contains__('chains'):
+                                self._recall_nested_device_snap(chain_devices[int(device_key)], stored_devices[device_key]['chains'])
                     if not rack.class_name.startswith('Midi') and stored_chain.__contains__('mixer'):
                         if chain.mixer_device.volume.is_enabled:
                             self._get_parameter_data_to_smooth(chain.mixer_device.volume, stored_chain['mixer'][CHAIN_VOL_POS])
