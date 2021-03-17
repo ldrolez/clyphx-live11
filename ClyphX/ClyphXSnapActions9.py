@@ -125,7 +125,7 @@ class ClyphXSnapActions(ControlSurfaceComponent):
                     snap_data[track.name] = self._current_track_data
             if snap_data:
                 if param_count <= self._parameter_limit:
-                    xclip.name = '%s || %s' % (str(ident), json.dumps(snap_data))
+                    xclip.name = '%s || %s' % (str(ident), json.dumps(snap_data, separators=(',', ':')))
                 else:
                     current_name = xclip.name
                     xclip.name = 'Too many parameters to store!'
