@@ -179,3 +179,41 @@ A device name can also be specified with quotes (i.e. DEV"Auto Filter" RND).
 | LOOPER | Toggle, turn on or turn off Looper’s On/Off switch. Works only on the 1st looper | LOOPER, LOOPER ON, LOOPER OFF
 | LOOPER x | x is the Looper state to set. Works only on the 1st looper | LOOPER STOP, LOOPER REC, LOOPER PLAY, LOOPER OVER
 | LOOPER REV | Toggle, turn on or turn off Looper’s Reverse switch. Works only on the 1st looper | LOOPER REV, LOOPER REV ON, LOOPER REV OFF
+
+## Track actions for Drum racks
+
+These actions will apply to the first drum rack on the track. 
+
+DR PAD actions operate on the current selected drum rack pad. To operate on the 2nd visible Drum Rack Pad, add 2 after the PAD keyword: DR PAD2 MUTE
+
+| Action | Description | Examples 
+| --- | --- | --- 
+| DR PAD MUTE | Toggle, turn on or turn off Drum Rack Pad Mute. | DR PAD MUTE, DR PAD MUTE ON, DR PAD MUTE OFF
+| DR PAD PAN x | Adjust Drum Rack Pad Pan. This is a continuous parameter. | DR PAD PAN <, DR PAD PAN >, DR PAD PAN RESET, DR PAD PAN RND, DR PAD PAN 50, DR PAD PAN 100
+| DR PAD SEL | Select the Drum Rack Pad. | -
+| DR PAD SEND ltr x | ltr is the letter of the Drum Rack Pad Send to adjust. This is a continuous parameter. | DR PAD SEND A <, DR PAD SEND A >, DR PAD SEND A RESET, DR PAD SEND A RND, DR PAD SEND A 50, DR PAD SEND A 100
+| DR PAD SOLO | Toggle, turn on or turn off Drum Rack Pad Solo. | DR PAD SOLO, DR PAD SOLO ON, DR PAD SOLO OFF
+| DR PAD VOL x | Adjust Drum Rack Pad Volume. This is a Continuous Parameter. | DR PAD VOL <, DR PAD VOL >, DR PAD VOL RESET, DR PAD VOL RND, DR PAD VOL 50, DR PAD VOL 100
+| DR SCOLL < or > | Scroll the Drum Rack Selector down or up by increment of 1. | DR SCROLL <, DR SCROLL >
+| DR SCOLL <x or >x | Scroll the Drum Rack Selector down or up by increment of x. | DR SCROLL <4, DR SCROLL >8
+| DR UNMUTE | Unmute all Drum Rack Pads. | -
+| DR UNSOLO | Unsolo all Drum Rack Pads. | -
+
+## Track actions for Clips
+
+The actions will apply to the playing Clip or if no Clip is playing, to the selected slot on the track. To operate on a different Clip, specify the slot
+number of the Clip after the word CLIP: 5/CLIP1 LOOP *2
+
+To operate on the selected slot or the Clip selected in Arrangement View, specify SEL
+(CLIPSEL WARP). You can also specify the Clip name enclosed in quotes (1/CLIP"MyClip" LOOP).
+
+| Action | Description | Examples 
+| --- | --- | --- 
+| CLIP | Toggle, turn on or turn off the Clip’s Activator switch. | CLIP, CLIP ON, CLIP OFF
+| CLIP CENT x | x is the Audio Clip detune value to set. | CLIP CENT -12, CLIP CENT 3
+| CLIP CENT < or > | Dec/Inc Audio Clip detune value by increment of 1. | CLIP CENT <, CLIP CENT >
+| CLIP CENT <x or >x | Dec/Inc Audio Clip detune value by increment of x. | CLIP CENT <5, CLIP CENT >7
+| CLIP CHOP | Duplicates the Clip 8 times and sets evenly distributed start/loop start positions, starting from the Clip’s current Start/Loop Start. As with any duplication of a Clip, this will overwrite Clips that exist in the Clip Slots beneath the Clip that will be duplicated. | -
+| CLIP CHOP x | Same as CLIP CHOP, but x is the number of times the Clip will be duplicated. | CHOP 4, CHOP 16, CHOP 32
+| CLIP CUE x | Set the cue point (position to play from) of the Clip. | CLIP CUE 2, CLIP CUE >
+| CLIP DEL | Deletes the Clip. | -
