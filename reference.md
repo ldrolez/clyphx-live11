@@ -216,4 +216,16 @@ To operate on the selected slot or the Clip selected in Arrangement View, specif
 | CLIP CHOP | Duplicates the Clip 8 times and sets evenly distributed start/loop start positions, starting from the Clip’s current Start/Loop Start. As with any duplication of a Clip, this will overwrite Clips that exist in the Clip Slots beneath the Clip that will be duplicated. | -
 | CLIP CHOP x | Same as CLIP CHOP, but x is the number of times the Clip will be duplicated. | CHOP 4, CHOP 16, CHOP 32
 | CLIP CUE x | Set the cue point (position to play from) of the Clip. | CLIP CUE 2, CLIP CUE >
-| CLIP DEL | Deletes the Clip. | -
+| CLIP DEL | Deletes the Clip | -
+| CLIP DUPE | Duplicates the Clip |  -
+| CLIP END x | x is the Clip End to set in beats | CLIP END 4, CLIP END 16
+| CLIP END < or > | Dec/Inc the Clip’s End by 1 beat |  CLIP END <, CLIP END >
+| CLIP END <x or >x |  Dec/Inc the Clip’s End by increment of x beats | CLIP END <2, CLIP END >0.5
+| CLIP ENVCLR | Clears all envelopes from the Clip | -
+| CLIP ENVCAP | Creates envelopes in the Clip for the current settings of the associated track’s mixer and/or Devices. See Clip EnvCap Action for more info. | CLIP ENVCAP, CLIP ENVCAP DEV, CLIP ENVCAP MIX
+| CLIP ENVCLR x | x is the parameter associated with the envelope to clear from the clip | CLIP ENVCLR VOL, CLIP ENVCLR DEV2 B1 P6
+| CLIP ENVHIDE | Hides the Clip’s envelope view. This actually applies to all Clips | -
+| CLIP ENVINS x y |  x is the parameter to insert an envelope for in the Clip and y is the type of envelope to insert. This will first clear the parameter’s envelope if one exists. The types of envelopes are: IRAMP – Linear increasing ramp. DRAMP – Linear decreasing ramp. IPYR – Linear increase until midpoint and then linear decrease. DPYR – Linear decrease until midpoint and then linear increase. SAW – Saw wave synced to 1/4 notes. SQR – Square wave synced to 1/4 notes. If the Clip is looping, the envelope will start and end within the loop. Otherwise, the envelope will span the entire length of the Clip. Envelopes can only be inserted for parameters that are not quantized. Examples of quantized parameters are an on/off switch or a filter type chooser. | CLIP ENVINS PAN SAW, CLIP ENVINS DEV P5 IRAMP, CLIP ENVINS SEND A DPYR, CLIP ENVINS SEL SQR
+| CLIP ENVINS x y a b | Same as above except that a is the minimum value and b is the max value of the envelope. These values are specified in terms of percentages (in the range of 0 – 100) of the parameter’s max value | CLIP ENVINS PAN SAW 50 75, CLIP ENVINS DEV P5 IRAMP 0 10, CLIP ENVINS SEND A DPYR 20 60, CLIP ENVINS SEL SQR 75 100
+| CLIP ENVSHOW | Shows the Clip’s envelope view. This actually applies to all Clips | -
+| CLIP ENVSHOW x x is the parameter associated with the envelope to show in envelope view | CLIP ENVSHOW VOL, CLIP ENVSHOW DEV2 B1 P6, CLIP ENVSHOW SEL
