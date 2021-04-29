@@ -388,7 +388,7 @@ class ClyphXSnapActions(ControlSurfaceComponent):
     def _apply_timed_smoothing(self, arg=None):
         """ Applies smoothing for either timer or sync """
         self._smoothing_count += 1
-        for p, v in self._parameters_to_smooth.items():
+        for p, v in self._parameters_to_smooth.copy().items():
             param_value = v[2] + (self._smoothing_count * v[0])
             if p.is_quantized:
                 p.value = v[1]
