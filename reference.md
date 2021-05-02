@@ -207,6 +207,19 @@ number of the Clip after the word CLIP: 5/CLIP1 LOOP *2
 To operate on the selected slot or the Clip selected in Arrangement View, specify SEL
 (CLIPSEL WARP). You can also specify the Clip name enclosed in quotes (1/CLIP"MyClip" LOOP).
 
+By default, the Clip Note Actions (CLIP NOTES) will apply to all the Notes in a MIDI Clip that fall
+within the Loop Start/End markers (if Loop is on) or the Start/End markers (if Loop is off). To operate
+just on a particular pitch (or a range of pitches), specify the name (or number) of the pitch (or range)
+after the word NOTES. 
+
+For example: CLIP NOTESC#3 REV, CLIP NOTESF4-F#5 VELO <<, CLIP NOTES60 NUDGE >
+
+To operate on Notes that fall on a particular time position (or a range of time positions) in the Clip,
+specify the position (or range) and use @ as a prefix. Positions should be specified in absolute beat time
+(where 1/4 note is equal to 1.0). So, in 4/4, beat 1 would be 0.0, beat 2 would be 1.0, etc. For example: CLIP NOTES @1.0 GATE >, CLIP NOTES @0.5-1.5 SPLIT
+
+You can specify both a pitch (or pitch range) and a position (or position range) to operate on. For example: CLIP NOTESC3-F3 @4.0 DEL
+
 | Action | Description | Examples 
 | --- | --- | --- 
 | CLIP | Toggle, turn on or turn off the Clip’s Activator switch. | CLIP, CLIP ON, CLIP OFF
@@ -228,4 +241,58 @@ To operate on the selected slot or the Clip selected in Arrangement View, specif
 | CLIP ENVINS x y |  x is the parameter to insert an envelope for in the Clip and y is the type of envelope to insert. This will first clear the parameter’s envelope if one exists. The types of envelopes are: IRAMP – Linear increasing ramp. DRAMP – Linear decreasing ramp. IPYR – Linear increase until midpoint and then linear decrease. DPYR – Linear decrease until midpoint and then linear increase. SAW – Saw wave synced to 1/4 notes. SQR – Square wave synced to 1/4 notes. If the Clip is looping, the envelope will start and end within the loop. Otherwise, the envelope will span the entire length of the Clip. Envelopes can only be inserted for parameters that are not quantized. Examples of quantized parameters are an on/off switch or a filter type chooser. | CLIP ENVINS PAN SAW, CLIP ENVINS DEV P5 IRAMP, CLIP ENVINS SEND A DPYR, CLIP ENVINS SEL SQR
 | CLIP ENVINS x y a b | Same as above except that a is the minimum value and b is the max value of the envelope. These values are specified in terms of percentages (in the range of 0 – 100) of the parameter’s max value | CLIP ENVINS PAN SAW 50 75, CLIP ENVINS DEV P5 IRAMP 0 10, CLIP ENVINS SEND A DPYR 20 60, CLIP ENVINS SEL SQR 75 100
 | CLIP ENVSHOW | Shows the Clip’s envelope view. This actually applies to all Clips | -
-| CLIP ENVSHOW x x is the parameter associated with the envelope to show in envelope view | CLIP ENVSHOW VOL, CLIP ENVSHOW DEV2 B1 P6, CLIP ENVSHOW SEL
+| CLIP ENVSHOW x | x is the parameter associated with the envelope to show in envelope view | CLIP ENVSHOW VOL, CLIP ENVSHOW DEV2 B1 P6, CLIP ENVSHOW SEL
+| CLIP EXTEND | Doubles the Loop Length of the MIDI Clip and duplicates its content. If Loop is on, will zoom out to show the entire Loop. | -
+| CLIP GAIN x | x is the Audio Clip Gain to set in the range of 0 – 127 | CLIP GAIN 0, CLIP GAIN 64,
+| CLIP GAIN < or > | Dec/Inc Audio Clip Gain by increment of 1. | CLIP GAIN <, CLIP GAIN >
+| CLIP GAIN <x or >x | Dec/Inc Audio Clip Gain by increment of x | CLIP GAIN <5, CLIP GAIN >2
+| CLIP GRID x | x is the fixed grid setting to apply to the Clip. | CLIP GRID OFF, CLIP GRID 8 BARS, CLIP GRID 4 BARS, CLIP GRID 2 BARS, CLIP GRID 1 BAR, CLIP GRID 1/2, CLIP GRID 1/4, CLIP GRID 1/8, CLIP GRID 1/16, CLIP GRID 1/32
+| CLIP LOOP | Toggle, turn on or turn off Clip Loop | CLIP LOOP, CLIP LOOP ON, CLIP LOOP OFF
+| CLIP LOOP x | x is the Loop Length to set in Bars. If the Clip is playing, this will move the start of the Loop to the current Playback Position (using Beat quantization). To use Bar quantization, add a ‘B’ after the Length | CLIP LOOP 0.25, CLIP LOOP 0.5, CLIP LOOP 2, CLIP LOOP 0.5B, CLIP LOOP 2B
+| CLIP LOOP *x | x is the value to multiply the Loop Length by | CLIP LOOP *0.5, CLIP LOOP *2
+| CLIP LOOP < or > | Move the Clip Loop Backward/Forward by its length | CLIP LOOP <, CLIP LOOP >
+| CLIP LOOP <x or >x | Move the Clip Loop Backward/Forward by x number of beats | CLIP LOOP <4, CLIP LOOP >16
+| CLIP LOOP END x | x is the Clip Loop End (End if Loop is off) to set in beats | CLIP LOOP END 4, CLIP LOOP END 16
+| CLIP LOOP END < or > | Dec/Inc the Clip Loop End (End if Loop is off) by 1 beat | CLIP LOOP END <, CLIP LOOP END >
+| CLIP LOOP END <x or >x | Dec/Inc the Clip Loop End (End if Loop is off) by increment of x | CLIP LOOP END <2, CLIP LOOP END >0.5
+| CLIP LOOP RESET | Reset Clip Loop Start to 1.1.1 and Clip Loop End to Clip End Marker |  -
+| CLIP LOOP SHOW | Zoom in or out to show the Clip’s entire Loop. This will do nothing if the Clip isn’t visible or its Loop is off. | -
+| CLIP LOOP START x | x is the Clip Loop Start (Start if Loop is off) to set in beats |  CLIP LOOP START 4, CLIP LOOP START 8
+| CLIP LOOP START < or > | Dec/Inc the Clip Loop Start (Start if Loop is off) by 1 beat | CLIP LOOP START <, CLIP LOOP START >
+| CLIP LOOP START <x or >x | Dec/Inc the Clip Loop Start (Start if Loop is off) by increment of x | CLIP LOOP START <2, CLIP LOOP START >0.5
+| CLIP NAME x | x is the new name for the Clip. The new name will be capitalized| CLIP NAME DRUMS
+| CLIP NOTES | Toggle, turn on or turn off the mute status of Notes | CLIP NOTES, CLIP NOTES ON, CLIP NOTES OFF
+| CLIP NOTES CMB | Combine each set of two consecutive Notes into a single Note | -
+| CLIP NOTES COMP | Compress the duration of Notes | -
+| CLIP NOTES DEL | Delete Notes |  -
+| CLIP NOTES EXP | Expand the duration of Notes |  -
+| CLIP NOTES GATE < or > | Dec/Inc the length of Notes by one 128th note |  CLIP NOTES GATE <, CLIP NOTES GATE >
+| CLIP NOTES GATE <x or >x | Dec/Inc the length of Notes by x 128th notes |  CLIP NOTES GATE <4, CLIP NOTES GATE >8
+| CLIP NOTES INV | Invert the pitches of Notes |  -
+| CLIP NOTES NUDGE < or > | Nudge Notes Backward/Forward by one 128th note |  CLIP NOTES NUDGE <, CLIP NOTES NUDGE >
+| CLIP NOTES NUDGE <x or >x | Nudge Notes Backward/Forward by x 128th notes |  CLIP NOTES NUDGE <4, CLIP NOTES NUDGE >8
+| CLIP NOTES REV | Reverse the position of Notes|  -
+| CLIP NOTES SCRN | Scramble the pitches of Notes while maintaining rhythm | -
+| CLIP NOTES SCRP | Scramble the position of Notes while maintaining pitches |  -
+| CLIP NOTES SPLIT | Split each Note into two equally sized Notes |  -
+| CLIP NOTES VELO x | x is the Note velocity to set |  CLIP NOTES VELO 64, CLIP NOTES VELO 127
+| CLIP NOTES VELO < or > | Dec/Inc the velocity of Notes by increment of 1 |  CLIP NOTES VELO <, CLIP NOTES VELO >
+| CLIP NOTES VELO <x or >x | Dec/Inc the velocity of Notes by increment of x |  CLIP NOTES VELO <5, CLIP NOTES VELO >10,
+| CLIP NOTES VELO << or CLIP NOTES VELO >> | Apply a decrescendo (descending velocities) or a crescendo (ascending velocities) to Notes. | CLIP NOTES VELO <<, CLIP NOTES VELO >>
+| CLIP NOTES VELO RND | Randomize the velocity of Notes | -
+| CLIP QNTZ x | x is the value to Quantize the Clip’s Notes or Warp markers to | CLIP QNTZ 1/4, CLIP QNTZ 1/8, CLIP QNTZ 1/8T, CLIP QNTZ 1/8 + 1/8T, CLIP QNTZ 1/16, CLIP QNTZ 1/16T, CLIP QNTZ 1/16 + 1/16T, CLIP QNTZ 1/32
+| CLIP QNTZ x y | Same as CLIP QNTZ X, but y is the Strength of quantization (in the range of 0 - 100) to apply | CLIP QNTZ 1/16 50, CLIP QNTZ 1/8 25
+| CLIP QNTZ x y z | Same as CLIP QNTZ X Y, but z is the amount of Swing (in the range of 0 - 100) to apply. | CLIP QNTZ 1/16 100 50, CLIP QNTZ 1/16 50 25
+| CLIP QNTZ n x CLIP QNTZ n x y CLIP QNTZ n x y z | Same as the CLIP QNTZ Actions listed above, but n is the pitch name or Pitch Range to Quantize | CLIP QNTZ C3 1/8, CLIP QNTZ D#4-C5 1/32 50, CLIP QNTZ E1 1/16 50 25
+| CLIP SEMI x x is the Audio Clip Transpose value to set |  CLIP SEMI -12, CLIP SEMI 5
+| CLIP SEMI < or > Dec/Inc Audio Clip Transpose value or Notes pitch by 1 semitone | CLIP SEMI <, CLIP SEMI >
+| CLIP SEMI <x or >x Dec/Inc Audio Clip Transpose value or Notes pitch by x semitones | CLIP SEMI <5, CLIP SEMI >10
+| CLIP SIG x/y x is the Time Signature Numerator value and y is the Time Signature denominator value | CLIP SIG 4/4, CLIP SIG 6/8, CLIP SIG 16/2
+| CLIP SPLIT x x is the length of the segments (in beats) to split a Clip into. This will duplicate the Clip and set each segment to be the specified length. As with any duplication of a Clip, this will overwrite Clips that exist in the Clip Slots beneath the Clip that will be duplicated. | CLIP SPLIT 1, CLIP SPLIT 0.25, CLIP SPLIT 4
+| CLIP START x | x is the Clip Start to set in beats | CLIP START 4, CLIP START 16
+| CLIP START < or > Dec/Inc the Clip’s Start by 1 beat | CLIP START <, CLIP START >
+| CLIP START <x or >x Dec/Inc the Clip’s Start by increment of x | CLIP START <2, CLIP START >0.5
+| CLIP TGRID Toggle, turn on or turn off the Clip’s triplet grid setting | CLIP TGRID, CLIP TGRID ON, CLIP TGRID OFF
+| CLIP WARP Toggle, turn on or turn off the Clip’s Warp switch | CLIP WARP, CLIP WARP ON, CLIP WARP OFF
+| CLIP WARPMODE x x is the name of the Warp Mode (as shown in the Warp Mode menu) to set. This cannot be applied if the Warp Mode is currently REX. | CLIP WARPMODE BEATS, CLIP WARPMODE COMPLEX
+| CLIP WARPMODE < or > | Move to the Prev/Next Warp Mode. This cannot be applied if the Warp Mode is currently REX. | CLIP WARPMODE <, CLIP WARPMODE >
