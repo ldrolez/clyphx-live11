@@ -284,15 +284,15 @@ You can specify both a pitch (or pitch range) and a position (or position range)
 | CLIP QNTZ x y | Same as CLIP QNTZ X, but y is the Strength of quantization (in the range of 0 - 100) to apply | CLIP QNTZ 1/16 50, CLIP QNTZ 1/8 25
 | CLIP QNTZ x y z | Same as CLIP QNTZ X Y, but z is the amount of Swing (in the range of 0 - 100) to apply. | CLIP QNTZ 1/16 100 50, CLIP QNTZ 1/16 50 25
 | CLIP QNTZ n x CLIP QNTZ n x y CLIP QNTZ n x y z | Same as the CLIP QNTZ Actions listed above, but n is the pitch name or Pitch Range to Quantize | CLIP QNTZ C3 1/8, CLIP QNTZ D#4-C5 1/32 50, CLIP QNTZ E1 1/16 50 25
-| CLIP SEMI x x is the Audio Clip Transpose value to set |  CLIP SEMI -12, CLIP SEMI 5
-| CLIP SEMI < or > Dec/Inc Audio Clip Transpose value or Notes pitch by 1 semitone | CLIP SEMI <, CLIP SEMI >
-| CLIP SEMI <x or >x Dec/Inc Audio Clip Transpose value or Notes pitch by x semitones | CLIP SEMI <5, CLIP SEMI >10
-| CLIP SIG x/y x is the Time Signature Numerator value and y is the Time Signature denominator value | CLIP SIG 4/4, CLIP SIG 6/8, CLIP SIG 16/2
-| CLIP SPLIT x x is the length of the segments (in beats) to split a Clip into. This will duplicate the Clip and set each segment to be the specified length. As with any duplication of a Clip, this will overwrite Clips that exist in the Clip Slots beneath the Clip that will be duplicated. | CLIP SPLIT 1, CLIP SPLIT 0.25, CLIP SPLIT 4
+| CLIP SEMI x | x is the Audio Clip Transpose value to set |  CLIP SEMI -12, CLIP SEMI 5
+| CLIP SEMI < or > | Dec/Inc Audio Clip Transpose value or Notes pitch by 1 semitone | CLIP SEMI <, CLIP SEMI >
+| CLIP SEMI <x or >x | Dec/Inc Audio Clip Transpose value or Notes pitch by x semitones | CLIP SEMI <5, CLIP SEMI >10
+| CLIP SIG x/y | x is the Time Signature Numerator value and y is the Time Signature denominator value | CLIP SIG 4/4, CLIP SIG 6/8, CLIP SIG 16/2
+| CLIP SPLIT x | x is the length of the segments (in beats) to split a Clip into. This will duplicate the Clip and set each segment to be the specified length. As with any duplication of a Clip, this will overwrite Clips that exist in the Clip Slots beneath the Clip that will be duplicated. | CLIP SPLIT 1, CLIP SPLIT 0.25, CLIP SPLIT 4
 | CLIP START x | x is the Clip Start to set in beats | CLIP START 4, CLIP START 16
-| CLIP START < or > Dec/Inc the Clip’s Start by 1 beat | CLIP START <, CLIP START >
-| CLIP START <x or >x Dec/Inc the Clip’s Start by increment of x | CLIP START <2, CLIP START >0.5
-| CLIP TGRID Toggle, turn on or turn off the Clip’s triplet grid setting | CLIP TGRID, CLIP TGRID ON, CLIP TGRID OFF
-| CLIP WARP Toggle, turn on or turn off the Clip’s Warp switch | CLIP WARP, CLIP WARP ON, CLIP WARP OFF
-| CLIP WARPMODE x x is the name of the Warp Mode (as shown in the Warp Mode menu) to set. This cannot be applied if the Warp Mode is currently REX. | CLIP WARPMODE BEATS, CLIP WARPMODE COMPLEX
+| CLIP START < or > | Dec/Inc the Clip’s Start by 1 beat | CLIP START <, CLIP START >
+| CLIP START <x or >x | Dec/Inc the Clip’s Start by increment of x | CLIP START <2, CLIP START >0.5
+| CLIP TGRID | Toggle, turn on or turn off the Clip’s triplet grid setting | CLIP TGRID, CLIP TGRID ON, CLIP TGRID OFF
+| CLIP WARP | Toggle, turn on or turn off the Clip’s Warp switch | CLIP WARP, CLIP WARP ON, CLIP WARP OFF
+| CLIP WARPMODE x | x is the name of the Warp Mode (as shown in the Warp Mode menu) to set. This cannot be applied if the Warp Mode is currently REX. | CLIP WARPMODE BEATS, CLIP WARPMODE COMPLEX
 | CLIP WARPMODE < or > | Move to the Prev/Next Warp Mode. This cannot be applied if the Warp Mode is currently REX. | CLIP WARPMODE <, CLIP WARPMODE >
