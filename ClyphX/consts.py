@@ -27,7 +27,8 @@
 import Live 
 
 app = Live.Application.get_application()
-IS_LIVE_10 = app.get_major_version() == 10
+IS_LIVE_11 = app.get_major_version() >= 11
+IS_LIVE_10 = app.get_major_version() >= 10
 IS_LIVE_9 = app.get_major_version() >= 9
 IS_LIVE_9_1 = IS_LIVE_10 or (IS_LIVE_9 and app.get_minor_version() >= 1)
 IS_LIVE_9_5 = IS_LIVE_10 or (IS_LIVE_9 and app.get_minor_version() >= 5)
