@@ -27,7 +27,7 @@ from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
 from .consts import *
 if IS_LIVE_9:
     from functools import partial
-    
+
 class ClyphXGlobalActions(ControlSurfaceComponent):
     __module__ = __name__
     __doc__ = ' Global actions '    
@@ -350,10 +350,13 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
             args = args.strip()
             tag_target = None
             name = None
+            subfolders = False
             if IS_LIVE_9_5:
                 if args in AUDIO_DEVS:
                     tag_target = self.application().browser.audio_effects
                     name = AUDIO_DEVS[args]
+                    if IS_LIVE_11:
+                        subfolders = True
                 elif args in MIDI_DEVS:
                     tag_target = self.application().browser.midi_effects
                     name = MIDI_DEVS[args]
@@ -361,10 +364,17 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
                     tag_target = self.application().browser.instruments
                     name = INS_DEVS[args]
                 if tag_target:
-                    for dev in tag_target.children:
-                        if dev.name == name:
-                            self.application().browser.load_item(dev)
-                            break
+                    if subfolders:
+                        for subfolder in tag_target.children:
+                            for dev in subfolder.children:
+                                if dev.name == name:
+                                    self.application().browser.load_item(dev)
+                                    break
+                    else:
+                        for dev in tag_target.children:
+                            if dev.name == name:
+                                self.application().browser.load_item(dev)
+                                break
             else:
                 if args in AUDIO_DEVS:
                     tag_target = 'Audio Effects'
