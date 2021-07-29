@@ -240,8 +240,7 @@ You can specify both a pitch (or pitch range) and a position (or position range)
 | CLIP ENVCAP | Creates envelopes in the Clip for the current settings of the associated track’s mixer and/or Devices | CLIP ENVCAP, CLIP ENVCAP DEV, CLIP ENVCAP MIX
 | CLIP ENVCAP DEV | Capture the settings of the first Device on the Track | -
 | CLIP ENVCAP DEVx | Capture the settings of the Device where x is the number of the Device | CLIP ENVCAP DEV2, CLIP ENVCAP DEV3
-| CLIP ENVCAP DEVx-y | Capture the settings of the Devices in the specified range where x is the device number to start with and y is the Device number to end with. There
-should be no space before or after the hyphen. To operate on all Devices specify ALL. | CLIP ENVCAP DEV1-4, CLIP ENVCAP DEV2-5, CLIP ENVCAP DEVALL
+| CLIP ENVCAP DEVx-y | Capture the settings of the Devices in the specified range where x is the device number to start with and y is the Device number to end with. To operate on all Devices specify ALL. | CLIP ENVCAP DEV1-4, CLIP ENVCAP DEV2-5, CLIP ENVCAP DEVALL
 | CLIP ENVCAP MIX | Capture the Volume, Pan and Sends settings of the Track | -
 | CLIP ENVCAP MIX- | Capture the Volume and Pan settings of the Track | -
 | CLIP ENVCAP MIXS | Capture the Sends settings of the Track | -
