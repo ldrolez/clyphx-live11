@@ -106,7 +106,17 @@ Scenes when Start Recording on Scene Launch is turned on.
 | UNSOLO | Unsolo all Tracks. | -
  
 ## Track actions
-
+ 
+To operate on a different Track, specify the Track followed by a slash ( / ) before the Action name:
+ * Specify the Track number `2/VOL >` 
+ * or a return letter `A/VOL >`
+ * or MST for Master `MST/VOL >` 
+ * or SEL for the Selected Track `SEL/VOL`
+ * or a track name enclosed in quotes `"My Track"/VOL >`
+ * or use the `<` and `>` keywords to operate on Tracks prior to or after the Selected Track `</MUTE, >/PLAY, >4/VOL >`
+ * or `x-x` for a range of tracks: `5-8/SEND A >` or `2-B/VOL RND` or `8-MST/PAN RESET` or `SEL-"My Track"/MUTE` or `>->4/PAN >` 
+ * or to ALL for all tracks `ALL/PLAY`
+ 
 | Action | Description | Examples 
 | --- | --- | --- 
 | ADDCLIP | Creates a 1 Bar MIDI Clip in the selected Clip Slot on the Track. | -
