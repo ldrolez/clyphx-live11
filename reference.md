@@ -88,7 +88,7 @@ Scenes when Start Recording on Scene Launch is turned on.
 | SHOWDEV | Show Track View. | -
 | SIG x/y | x is the Time Signature Numerator value and y is the Denominator value. | SIG 4/4, SIG 6/8, SIG 16/2
 | SREC | Toggle, turn on or turn off Session Record. | SREC, SREC ON, SREC OFF
-| SRECFIX x | Trigger fixed-length Session Record on all armed Tracks where x is the length to record in bars. | SRECFIX 4, SRECFIX 8, SRCFIX 0.5
+| SRECFIX x | Trigger fixed-length Session Record on all armed Tracks where x is the length to record in bars. If you use this on a MIDI track, make sure that global quantization if OFF if x is less than 1 | SRECFIX 4, SRECFIX 8, SRCFIX 0.5
 | STOPALL | Stop all Clips. | -
 | STOPALL NQ | Stop all Clips immediately (not quantized). | -
 | SWAP | Open the Browser and activate hotswapping for the selected Device. | -
@@ -228,14 +228,23 @@ You can specify both a pitch (or pitch range) and a position (or position range)
 | CLIP CENT <x or >x | Dec/Inc Audio Clip detune value by increment of x. | CLIP CENT <5, CLIP CENT >7
 | CLIP CHOP | Duplicates the Clip 8 times and sets evenly distributed start/loop start positions, starting from the Clip’s current Start/Loop Start. As with any duplication of a Clip, this will overwrite Clips that exist in the Clip Slots beneath the Clip that will be duplicated. | -
 | CLIP CHOP x | Same as CLIP CHOP, but x is the number of times the Clip will be duplicated. | CHOP 4, CHOP 16, CHOP 32
-| CLIP CUE x | Set the cue point (position to play from) of the Clip. | CLIP CUE 2, CLIP CUE >
+| CLIP CUE x | x is the position of the cue in absolute beat time. This is different than the bar/beat/sixteenths position shown in Live’s Clip View. For example, position 1.1.1 is 0 in absolute beat time | CLIP CUE 2, CLIP CUE 5.25
+| CLIP CUE < or > | Move the cue point Backward/Forward by increment of 1 beat | CLIP CUE <, CLIP CUE >
+| CLIP CUE <x or >x | Move the cue point Backward/Forward by increment of x beats | CLIP CUE <0.5, CLIP CUE >2
 | CLIP DEL | Deletes the Clip | -
 | CLIP DUPE | Duplicates the Clip |  -
 | CLIP END x | x is the Clip End to set in beats | CLIP END 4, CLIP END 16
 | CLIP END < or > | Dec/Inc the Clip’s End by 1 beat |  CLIP END <, CLIP END >
 | CLIP END <x or >x |  Dec/Inc the Clip’s End by increment of x beats | CLIP END <2, CLIP END >0.5
 | CLIP ENVCLR | Clears all envelopes from the Clip | -
-| CLIP ENVCAP | Creates envelopes in the Clip for the current settings of the associated track’s mixer and/or Devices. See Clip EnvCap Action for more info. | CLIP ENVCAP, CLIP ENVCAP DEV, CLIP ENVCAP MIX
+| CLIP ENVCAP | Creates envelopes in the Clip for the current settings of the associated track’s mixer and/or Devices | CLIP ENVCAP, CLIP ENVCAP DEV, CLIP ENVCAP MIX
+| CLIP ENVCAP DEV | Capture the settings of the first Device on the Track | -
+| CLIP ENVCAP DEVx | Capture the settings of the Device where x is the number of the Device | CLIP ENVCAP DEV2, CLIP ENVCAP DEV3
+| CLIP ENVCAP DEVx-y | Capture the settings of the Devices in the specified range where x is the device number to start with and y is the Device number to end with. There
+should be no space before or after the hyphen. To operate on all Devices specify ALL. | CLIP ENVCAP DEV1-4, CLIP ENVCAP DEV2-5, CLIP ENVCAP DEVALL
+| CLIP ENVCAP MIX | Capture the Volume, Pan and Sends settings of the Track | -
+| CLIP ENVCAP MIX- | Capture the Volume and Pan settings of the Track | -
+| CLIP ENVCAP MIXS | Capture the Sends settings of the Track | -
 | CLIP ENVCLR x | x is the parameter associated with the envelope to clear from the clip | CLIP ENVCLR VOL, CLIP ENVCLR DEV2 B1 P6
 | CLIP ENVHIDE | Hides the Clip’s envelope view. This actually applies to all Clips | -
 | CLIP ENVINS x y |  x is the parameter to insert an envelope for in the Clip and y is the type of envelope to insert. This will first clear the parameter’s envelope if one exists. The types of envelopes are: IRAMP – Linear increasing ramp. DRAMP – Linear decreasing ramp. IPYR – Linear increase until midpoint and then linear decrease. DPYR – Linear decrease until midpoint and then linear increase. SAW – Saw wave synced to 1/4 notes. SQR – Square wave synced to 1/4 notes. If the Clip is looping, the envelope will start and end within the loop. Otherwise, the envelope will span the entire length of the Clip. Envelopes can only be inserted for parameters that are not quantized. Examples of quantized parameters are an on/off switch or a filter type chooser. | CLIP ENVINS PAN SAW, CLIP ENVINS DEV P5 IRAMP, CLIP ENVINS SEND A DPYR, CLIP ENVINS SEL SQR
@@ -296,3 +305,9 @@ You can specify both a pitch (or pitch range) and a position (or position range)
 | CLIP WARP | Toggle, turn on or turn off the Clip’s Warp switch | CLIP WARP, CLIP WARP ON, CLIP WARP OFF
 | CLIP WARPMODE x | x is the name of the Warp Mode (as shown in the Warp Mode menu) to set. This cannot be applied if the Warp Mode is currently REX. | CLIP WARPMODE BEATS, CLIP WARPMODE COMPLEX
 | CLIP WARPMODE < or > | Move to the Prev/Next Warp Mode. This cannot be applied if the Warp Mode is currently REX. | CLIP WARPMODE <, CLIP WARPMODE >
+
+## Control Surface Actions
+
+Control Surface Actions relate to other Control Surface scripts that are selected in Live’s Control Surface section, in Preferences – MIDI/Sync.
+In the actions below N is the number of the Control Surface to operate on, in the range of 1 to 6. This numbering is based on the number of Control Surface scripts that are selected. For example, if only two scripts are selected, the second script will be CS2 even if the script is selected in Control Surface slot #6.
+You can alternatively specify the one-word name of the Control Surface to operate on enclosed in quotes (such as CS”APC20” RING T1), with spaces replaced by underscores. 
