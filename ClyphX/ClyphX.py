@@ -49,7 +49,7 @@ if IS_LIVE_9_5:
     from .PushEmuHandler import MockHandshakeTask, MockHandshake
 
 FOLDER = '/ClyphX/'
-SCRIPT_NAME = 'ClyphX v2.7.1 for Live 11'
+SCRIPT_NAME = 'ClyphX v2.7.2 for Live 11'
 
 class ClyphX(ControlSurface):
     __module__ = __name__
