@@ -28,7 +28,9 @@ import Live
 
 app = Live.Application.get_application()
 IS_LIVE_11 = app.get_major_version() >= 11
+IS_LIVE_11_1 = IS_LIVE_11 and app.get_minor_version() >= 1
 IS_LIVE_10 = app.get_major_version() >= 10
+IS_LIVE_10_1 = IS_LIVE_11 or (IS_LIVE_10 and app.get_minor_version() >= 1)
 IS_LIVE_9 = app.get_major_version() >= 9
 IS_LIVE_9_1 = IS_LIVE_10 or (IS_LIVE_9 and app.get_minor_version() >= 1)
 IS_LIVE_9_5 = IS_LIVE_10 or (IS_LIVE_9 and app.get_minor_version() >= 5)
@@ -226,11 +228,113 @@ if IS_LIVE_9:
     
     WARP_MODES = {'BEATS': 0, 'TONES': 1, 'TEXTURE': 2, 'RE-PITCH': 3, 'COMPLEX': 4, 'COMPLEX PRO': 6}
     
-    AUDIO_DEVS = {u'SIMPLE DELAY': u'Simple Delay', u'OVERDRIVE': u'Overdrive', u'LOOPER': u'Looper', u'AUTO FILTER': u'Auto Filter', u'EXTERNAL AUDIO EFFECT': u'External Audio Effect', u'SATURATOR': u'Saturator', u'PHASER': u'Phaser', u'VINYL DISTORTION': u'Vinyl Distortion', u'DYNAMIC TUBE': u'Dynamic Tube', u'BEAT REPEAT': u'Beat Repeat', u'MULTIBAND DYNAMICS': u'Multiband Dynamics', u'CABINET': u'Cabinet', u'AUDIO EFFECT RACK': u'Audio Effect Rack', u'FLANGER': u'Flanger', u'GATE': u'Gate', u'REVERB': u'Reverb', u'GRAIN DELAY': u'Grain Delay', u'REDUX': u'Redux', u'PING PONG DELAY': u'Ping Pong Delay', u'SPECTRUM': u'Spectrum', u'COMPRESSOR': u'Compressor', u'VOCODER': u'Vocoder', u'AMP': u'Amp', u'GLUE COMPRESSOR': u'Glue Compressor', u'EROSION': u'Erosion', u'EQ THREE': u'EQ Three', u'EQ EIGHT': u'EQ Eight', u'RESONATORS': u'Resonators', u'FREQUENCY SHIFTER': u'Frequency Shifter', u'AUTO PAN': u'Auto Pan', u'CHORUS': u'Chorus', u'LIMITER': u'Limiter', u'CORPUS': u'Corpus', u'FILTER DELAY': u'Filter Delay', u'DELAY': u'Delay', u'ECHO': u'Echo', u'SPECTAL TIME': u'Spectral Time', u'UTILITY': u'Utility', u'DRUM BUSS': u'Drum Buss', u'PEDAL': u'Pedal', u'DRUM BUSS': u'Drum Buss', u'CHANNEL EQ': u'Channel EQ', u'LFO': u'LFO', u'CHORUS ENSEMBLE': u'Chorus-Ensemble', u'PHASER FLANGER': u'Phaser-Flanger', u'HYBRID REVERB': u'Hybrid Reverb', u'SPECTRAL RESONATOR': u'Spectral Resonator'}
+    AUDIO_DEVS = {
+        u'SIMPLE DELAY': u'Simple Delay',
+        u'OVERDRIVE': u'Overdrive',
+        u'LOOPER': u'Looper',
+        u'AUTO FILTER': u'Auto Filter',
+        u'EXTERNAL AUDIO EFFECT': u'External Audio Effect',
+        u'SATURATOR': u'Saturator',
+        u'PHASER': u'Phaser',
+        u'VINYL DISTORTION': u'Vinyl Distortion',
+        u'DYNAMIC TUBE': u'Dynamic Tube',
+        u'BEAT REPEAT': u'Beat Repeat',
+        u'MULTIBAND DYNAMICS': u'Multiband Dynamics',
+        u'CABINET': u'Cabinet',
+        u'AUDIO EFFECT RACK': u'Audio Effect Rack',
+        u'FLANGER': u'Flanger',
+        u'GATE': u'Gate',
+        u'REVERB': u'Reverb',
+        u'GRAIN DELAY': u'Grain Delay',
+        u'REDUX': u'Redux',
+        u'PING PONG DELAY': u'Ping Pong Delay',
+        u'SPECTRUM': u'Spectrum',
+        u'COMPRESSOR': u'Compressor',
+        u'VOCODER': u'Vocoder',
+        u'AMP': u'Amp',
+        u'GLUE COMPRESSOR': u'Glue Compressor',
+        u'EROSION': u'Erosion',
+        u'EQ THREE': u'EQ Three',
+        u'EQ EIGHT': u'EQ Eight',
+        u'RESONATORS': u'Resonators',
+        u'FREQUENCY SHIFTER': u'Frequency Shifter',
+        u'AUTO PAN': u'Auto Pan',
+        u'CHORUS': u'Chorus',
+        u'LIMITER': u'Limiter',
+        u'CORPUS': u'Corpus',
+        u'FILTER DELAY': u'Filter Delay',
+        u'UTILITY': u'Utility',
+        u'LFO': u'LFO',
+        u'ENVELOPE FOLLOWER': u'Envelope Follower',
+        u'TUNER': u'Tuner',
+        u'SHAPER': u'Shaper'
+    }
     
-    INS_DEVS = {u'TENSION': u'Tension', u'EXTERNAL INSTRUMENT': u'External Instrument', u'ELECTRIC': u'Electric', u'INSTRUMENT RACK': u'Instrument Rack', u'DRUM RACK': u'Drum Rack', u'COLLISION': u'Collision', u'IMPULSE': u'Impulse', u'SAMPLER': u'Sampler', u'OPERATOR': u'Operator', u'ANALOG': u'Analog', u'SIMPLER': u'Simpler', u'WAVETABLE': u'Wavetable'}
+    INS_DEVS = {
+        u'TENSION': u'Tension',
+        u'EXTERNAL INSTRUMENT': u'External Instrument',
+        u'ELECTRIC': u'Electric',
+        u'INSTRUMENT RACK': u'Instrument Rack',
+        u'DRUM RACK': u'Drum Rack',
+        u'COLLISION': u'Collision',
+        u'IMPULSE': u'Impulse',
+        u'SAMPLER': u'Sampler',
+        u'OPERATOR': u'Operator',
+        u'ANALOG': u'Analog',
+        u'SIMPLER': u'Simpler'
+    }
     
-    MIDI_DEVS = {u'NOTE LENGTH': u'Note Length', u'CHORD': u'Chord', u'RANDOM': u'Random', u'MIDI EFFECT RACK': u'MIDI Effect Rack', u'SCALE': u'Scale', u'PITCH': u'Pitch', u'ARPEGGIATOR': u'Arpeggiator', u'VELOCITY': u'Velocity'}
+    MIDI_DEVS = {
+        u'NOTE LENGTH': u'Note Length',
+        u'CHORD': u'Chord',
+        u'RANDOM': u'Random',
+        u'MIDI EFFECT RACK': u'MIDI Effect Rack',
+        u'SCALE': u'Scale',
+        u'PITCH': u'Pitch',
+        u'ARPEGGIATOR': u'Arpeggiator',
+        u'VELOCITY': u'Velocity',
+        u'EXPRESSION CONTROL': u'Expression Control'
+    }
+
+if IS_LIVE_10:
+    AUDIO_DEVS.update({
+        u'ECHO': u'Echo',
+        u'DRUM BUSS': u'Drum Buss',
+        u'PEDAL': u'Pedal'
+    })
+
+    MIDI_DEVS.update({u'MIDI MONITOR': u'MIDI Monitor'})
+
+    INS_DEVS.update({u'WAVETABLE': u'Wavetable'})
+
+if IS_LIVE_10_1:
+    AUDIO_DEVS.update({
+        u'DELAY': u'Delay',
+        u'CHANNEL EQ': u'Channel EQ'
+    })
+
+if IS_LIVE_11:
+    AUDIO_DEVS.update({
+        u'CHORUS ENSEMBLE': u'Chorus-Ensemble',
+        u'PHASER FLANGER': u'Phaser-Flanger',
+        u'HYBRID REVERB': u'Hybrid Reverb',
+        u'SPECTRAL RESONATOR': u'Spectral Resonator',
+        u'SPECTAL TIME': u'Spectral Time'
+    })
+
+    MIDI_DEVS.update({
+        u'MPE CONTROL': u'MPE Control'
+    })
+
+if IS_LIVE_11_1:
+    AUDIO_DEVS.update({
+        u'SHIFTER': u'Shifter',
+        u'ALIGN DELAY': u'Align Delay'
+    })
+
+    MIDI_DEVS.update({
+        u'SHAPER MIDI': u'Shaper MIDI'
+    })
 
 # local variables:
 # tab-width: 4
