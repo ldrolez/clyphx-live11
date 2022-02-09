@@ -315,8 +315,26 @@ You can specify both a pitch (or pitch range) and a position (or position range)
 | CLIP WARPMODE x | x is the name of the Warp Mode (as shown in the Warp Mode menu) to set. This cannot be applied if the Warp Mode is currently REX. | CLIP WARPMODE BEATS, CLIP WARPMODE COMPLEX
 | CLIP WARPMODE < or > | Move to the Prev/Next Warp Mode. This cannot be applied if the Warp Mode is currently REX. | CLIP WARPMODE <, CLIP WARPMODE >
 
-## Control Surface Actions
+## Control surface actions
 
 Control Surface Actions relate to other Control Surface scripts that are selected in Live’s Control Surface section, in Preferences – MIDI/Sync.
 In the actions below N is the number of the Control Surface to operate on, in the range of 1 to 6. This numbering is based on the number of Control Surface scripts that are selected. For example, if only two scripts are selected, the second script will be CS2 even if the script is selected in Control Surface slot #6.
 You can alternatively specify the one-word name of the Control Surface to operate on enclosed in quotes (such as CS”APC20” RING T1), with spaces replaced by underscores. 
+
+| Action | Description | Examples 
+| --- | --- | --- 
+| CSN x/ACTION NAME | Apply a Track, Device, Drum Rack, Clip or Clip Cue Action to channel strip number x | CS1 2/MUTE, CS"APC40" 3/DEV RND, CS3 7/CLIP SEMI >
+| CSN x-y/ACTION NAME | Apply a Track, Device, Drum Rack, Clip or Clip Cue Action to channel strip numbers x-y. There should be no space before or after the hyphen. To operate on all Channel Strips, specify ALL | CS1 1-3/FOLD, CS"Push" 3-8/DEV, CS2 ALL/CLIP START >
+| CSN BANK x | Move the surface track bank selection forward or backward by x and select the first Track in the new Bank selection. Use 'First' or 'Last' to select the First/Last Track Bank. This works even with Surfaces without Track Banks, like User Remote Scripts for example. | CS1 BANK 1, CS"MPD32" BANK -1, CS2 BANK 8, CS2 FIRST, CS2 BANK LAST
+| CSN COLORS x y z | Change the color of the Clip Launch LEDs where x is the color to use for playing clips, y is the color to use for recording Clips and z is the color to use for stopped Clips. The available colors are: Amber, Green and Red. Only applies to the APC40, APC20 and Launchpad | CS1 COLORS RED AMBER GREEN, CS"APC20" COLORS GREEN RED AMBER
+| CSN DEV LOCK | Toggle the surface’s lock on Devices. This requires that the surface has Device Controls. | CS2 DEV LOCK
+| CSN METRO ON or CSN METRO OFF | Cause the APC's Clip Stop buttons or the Launchpad’s RightSide buttons (in every mode except for User 1) to display a
+visual metronome. The buttons will still function as usual. Only applies to the APC40, APC20 and Launchpad | CS2 METRO ON, CS"Launchpad" METRO OFF
+| CSN RING Tx Sy | x is the name or number of the first track outlined by the ring, y is the name of number of the first Scene outlined by the ring. Only one of these has to be specified so that you can change the scene offset without changing the track offset and vice versa. Only on surfaces which have a grid selector | CS1 RING T1 S20, CS"APC40" RING S"My Scene", CS4 RING T5, CS"Push" RING T"The Track" S100
+| CSN RING T< or > S< or > | Move the ring Backward/Forward by increment of 1 track and/or 1 scene. Only of these has to be specified so that you can increment Tracks without incrementing Scenes and vice versa. | CS"APC40" RING T> S<, CS3 RING T<, CS1 RING T>, CS4 RING S<, CS4 RING S>
+| CSN RING T<x or >x S<x or >x | Move the ring Backward/Forward by increment of x Tracks and/or x Scenes. Only of these has to be specified so that you can increment Tracks without incrementing Scenes and vice versa. | CS"APC40" RING T>4 S<8, CS1 RING T<2, CS1 RING T>10, CS4 RING S<20, CS4 RING S>5
+| CSN RING LAST | Moves the ring back to the position it was at prior to triggering one of the Ring Actions described above. | CS"APC40" RING LAST, CS1 RING LAST
+| CSN RINGLINK T S | Causes the Surface's ring to be linked to the selected Track and/or Scene. Only of these has to be specified so that you can link to Tracks without linking to Scenes and vice versa. You can also specify CENTER, which will cause the ring to be centered around the selected Track and/or Scene. | CS"APC20" RINGLINK T S, CS2 RINGLINK T CENTER, CS"Push" RINGLINK S
+| CSN RINGLINK OFF | Turns the Surface's ring linking off. | CS"APC20" RINGLINK OFF, CS2 RINGLINK OFF
+| CSN RPT | Toggle Note Repeat on/off | CS2 RPT, CS"MPD32" RPT
+| CSN RPT x | x is the note repeat rate to set | CS1 RPT OFF, CS1 RPT 1/4, CS1 RPT 1/4T, CS1 RPT 1/8, CS1 RPT 1/8T, CS1 RPT 1/16, CS1 RPT 1/16T, CS1 RPT 1/32, CS1 RPT 1/32T
