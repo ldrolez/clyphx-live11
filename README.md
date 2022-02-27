@@ -20,4 +20,5 @@ You can still use it but do not try to get support on nativeKONTROL forums, it i
 ## More information
 
 * The blog post: [Advanced Ableton Live Control macros with ClyphX](https://drolez.com/blog/music/advanced-ableton-live-control.php) 
+* [How to do fixed length recording with ClyphX 2.7](https://drolez.com/blog/music/live-looping-with-ableton-live.php#clyphx)
 * The original [ClyphX manual](https://github.com/ldrolez/clyphx-live10/raw/master/ClyphX%20Manual.pdf)
