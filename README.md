@@ -12,7 +12,8 @@ You can still use it but do not try to get support on nativeKONTROL forums, it i
 ## Installation
 
 * Get the ZIP in the releases.
-* Unzip it in Ableton 'Midi Remote Scripts'
+* Unzip it in Ableton browser path 'User Library/Remote Scripts' (create the directory if not present)
+* Restart Ableton Live
 * Add ClyphX as a new control surface in Ableton's preferences (input and output = None)
 * Enjoy!
 
