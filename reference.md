@@ -337,3 +337,24 @@ You can alternatively specify the one-word name of the Control Surface to operat
 | CSN RINGLINK OFF | Turns the Surface's ring linking off. | CS"APC20" RINGLINK OFF, CS2 RINGLINK OFF
 | CSN RPT | Toggle Note Repeat on/off | CS2 RPT, CS"MPD32" RPT
 | CSN RPT x | x is the note repeat rate to set | CS1 RPT OFF, CS1 RPT 1/4, CS1 RPT 1/4T, CS1 RPT 1/8, CS1 RPT 1/8T, CS1 RPT 1/16, CS1 RPT 1/16T, CS1 RPT 1/32, CS1 RPT 1/32T
+
+## PUSH Actions
+
+Applies to PUSH and PUSH 2 control surfaces, and they should be enabled in your Live preferences.
+
+| Action | Description | Examples 
+| --- | --- | --- 
+| PUSH DRINS | Cause Push to enter the standard Note Mode. This allows you to use Note Mode to control a Drum Rack. This will have no effect if the selected Track is not a MIDI Track. | -
+| PUSH MODE x | x is the Push mode to select. For the most part, these work in the same way they would work when pressing buttons on Push. | PUSH MODE SESSION, PUSH MODE NOTE, PUSH MODE STOP, PUSH MODE SOLO, PUSH MODE MUTE, PUSH MODE VOLUME, PUSH MODE PAN, PUSH MODE TRACK, PUSH MODE CLIP, PUSH MODE DEVICE, PUSH MODE MIX
+| PUSH MSG | Temporarily shows a message in Push's display. | PUSH MSG TRIGGER VERSE IN 2 BARS
+| PUSH SCL | This Action is only accessible to X-Clips and should not be combined with other Actions. This will capture the current scale settings from Note Mode and store them in the X-Clip. Once settings have been stored, you can then add other Actions if you like or copy the stored settings and paste them into the Action List of other X-Trigger types. | -
+| PUSH SCL FIXED | Toggle, turn on or turn off the Push’s Fixed function | PUSH SCL FIXED, PUSH SCL FIXED ON, PUSH SCL FIXED OFF
+| PUSH SCL INKEY | Toggle, turn on or turn off the Push’s In Key function | PUSH SCL INKEY, PUSH SCL INKEY ON, PUSH SCL INKEY OFF
+| PUSH SCL OCT < or > | Move to the Prev/Next Octave offset in Note Mode | PUSH SCL OCT <, PUSH SCL OCT >
+| PUSH SCL ROOT x | x is the Root Note to use in Note Mode | PUSH SCL ROOT D, PUSH SCL ROOT F#
+| PUSH SCL ROOT < or > | Move to the Prev/Next Root Note to use in Note Mode | PUSH SCL ROOT <, PUSH SCL ROOT >
+| PUSH SCL TYPE x | x is the name of the Scale Type as shown in Push’s display to use in Note Mode  | PUSH SCL TYPE MAJOR, PUSH SCL TYPE MINOR PENTATONIC
+| PUSH SCL TYPE < or > | Move to the Prev/Next Scale Type to use in Note Mode | PUSH SCL TYPE <, PUSH SCL TYPE >
+| PUSH SEQ x | x is the name of the Clip Notes Action to apply to the note lane currently being edited by Push’s Drum step-sequencer | PUSH SEQ VELO RND, PUSH SEQ CMB
+ 
+ 
