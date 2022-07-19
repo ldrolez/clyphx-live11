@@ -155,13 +155,34 @@ To operate on a different Track, specify the Track followed by a slash ( / ) bef
 | SEL | Select the Track and highlight the playing Clip or the Clip at the selected Scene. | -
 | SEL x | Select the Track and a particular Slot where x is the Scene number of the Slot. | SEL 10, SEL 3
 | SEND ltr x | ltr is the letter of the Track Send to adjust. This is a Continuous Parameter. | SEND A <, SEND A >, SEND A RESET, SEND A RND, SEND A 50, SEND A 100
-| SNAP | Store/recall snapshot of Track and Device settings. See Snap Action for more info on this. | SNAP, SNAP DEV, SNAP MIX, SNAP MIX+, SNAP PLAY
+| SNAP | Store/recall snapshot of Track and Device settings. See Snap Action below for more info | SNAP, SNAP DEV, SNAP MIX, SNAP MIX+, SNAP PLAY
 | SOLO | Toggle, turn on or turn off Track Solo. | SOLO, SOLO ON, SOLO OFF
 | STOP | Stop the playing Clip on the Track. | -
 | STOP NQ | Stop the playing Clip on the Track immediately (not quantized). | -
 | VOL x | Adjust Track Volume. This is a Continuous Parameter. | VOL <, VOL >, VOL RESET, VOL RND, VOL 50, VOL 100
 | XFADE or XFADE x | Toggle Track Crossfade assignment or set a particular state where x is the state to set. | XFADE, XFADE A, XFADE B, XFADE OFF
 | XFADER x | Adjust Master Crossfader (Master Track only). This is a continuous parameter. | MST/XFADER <, MST/XFADER >, MST/XFADER RESET, MST/XFADER RND, MST/XFADER 50, MST/XFADER 100
+ 
+### Details for SNAP Actions
+ 
+X-Clips, and only X-Clips, can store and recall Snapshots of Track and Device settings. The Snap Action is a Track-based Action, but differs from other Actions as it cannot be used in an Action List. Upon playing an X-Clip with a Snap Action, the related settings will be stored in the X-Clip’s name along with your identifier.
+
+You can use modifiers to Snapshot multiple tracks, for example: 1-4/SNAP DEVALL MIX+
+ 
+| Action | Description | Examples 
+| --- | --- | --- 
+| SNAP DEV | Store the settings of the first Device on the Track | -
+| SNAP DEVx | Store the settings of the Device where x is the number of the Device | SNAP DEV2, SNAP DEV8
+| SNAP DEVx-y | Store the settings of the Devices in the specified range where x is the Device number to start with and y is the Device number to end with. There should be no space before or after the hyphen. To operate on all Devices, specify ALL | SNAP DEV1-4, SNAP DEV2-5, SNAP DEVALL
+| SNAP MIX | Store the Volume, Pan and Sends settings of the Track | -
+| SNAP MIX+ | Store the Volume, Pan, Sends, Mute, Solo and Crossfade settings of the Track |  -
+| SNAP MIX- | Store the Volume, Pan, Mute, Solo and Crossfade settings of the Track |  -
+| SNAP MIXS | Store the Sends settings of the Track | -
+| SNAP PLAY | Store the playing status of the Track. This does not apply to Group Tracks, Return Tracks or the Master Track. | -
+ 
+### SNAP Tracks
+ 
+TODO...
  
 ## Track actions for Devices
 
