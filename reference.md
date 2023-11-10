@@ -104,16 +104,27 @@ Scenes when Start Recording on Scene Launch is turned on.
 | UNARM | Unarm all armable Tracks. | -
 | UNMUTE | Unmute all Tracks. | -
 | UNSOLO | Unsolo all Tracks. | -
- 
+
+All of the continuous parameters offer several control options via keywords.
+
+| Keyword | Description | Examples 
+| --- | --- | --- 
+| x | x is the parameter value to set in the range of 0 – 127 | DEV1 CS 80
+| < or > | Decrease or Increase the parameter value by increment of 1 | VOL <, PAN >
+| <x or >x | Decrease or Increase the parameter value by increment of x | PAN <4, DEV1 B3 P1 >8
+| RESET | Reset the parameter value to its default value | DEV1 P1 RESET
+| RND  | Randomize the parameter value. The value produced will be in the range of 0–127 and will then be scaled to match the range of the given parameter | SEND A RND
+| RNDx-y | Randomize the parameter value. The value produced will be in the range of x-y, both x and y are in the range of 0 – 127 and will be scaled to match the range of the given parameter | VOL RND50-60, DEV1 P5 RND5-10
+
 ## Track actions
  
 To operate on a different Track, specify the Track followed by a slash ( / ) before the Action name:
  * Specify the Track number `2/VOL >` 
  * or a return letter `A/VOL >`
  * or MST for Master `MST/VOL >` 
- * or SEL for the Selected Track `SEL/VOL`
+ * or SEL for the selected track `SEL/VOL`
  * or a track name enclosed in quotes `"My Track"/VOL >`
- * or use the `<` and `>` keywords to operate on Tracks prior to or after the Selected Track `</MUTE, >/PLAY, >4/VOL >`
+ * or use the `<` and `>` keywords to operate on tracks prior to or after the selected track `</MUTE, >/PLAY, >4/VOL >`
  * or `x-x` for a range of tracks: `5-8/SEND A >` or `2-B/VOL RND` or `8-MST/PAN RESET` or `SEL-"My Track"/MUTE` or `>->4/PAN >` 
  * or to ALL for all tracks `ALL/PLAY`
  
@@ -198,7 +209,7 @@ To control the transition speed, rename the track to 'CLYPHX SNAPE [value]', whe
 Each clip can also have different timing values. Just edit the '[]' part, and add 'SP:'. For example [ID SP:40] or
 [ID SP:S8].
 
-
+You can also add a Rack named CLYPHX SNAP, aka Snap Rack, to the Snap Track. This will allow you to send X-Snaps to the Snap Rack and use the Snap Rack’s first macro to morph between the current values of Snapped parameters and the values stored in the X-Snap. 
  
 ## Track actions for Devices
 
