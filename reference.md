@@ -182,7 +182,23 @@ You can use modifiers to Snapshot multiple tracks, for example: 1-4/SNAP DEVALL 
  
 ### SNAP Tracks
  
-TODO...
+By default, SNAP actions are recalled immediately. If you want a smooth transition between mix values, you can use a Snap Track.
+
+How to create and use SNAP Tracks?
+
+* Create a new MIDI Track and rename it to 'CLYPHX SNAP'
+* In clips below, create your snap actions. For example, add a few clips '[] 2/SNAP MIX' to capture mix parameters of the 2nd track
+* After capturing the parameters, click again on a clip and now the parameters will transition to the new saved state
+
+To control the transition speed, rename the track to 'CLYPHX SNAPE [value]', where value can be:
+
+* a number, in hundreds of milliseconds. Increase the value for slower transitions, 10 is one second.
+* S plus beats number, S4 for example, to have a transition during 4 beats.
+
+Each clip can also have different timing values. Just edit the '[]' part, and add 'SP:'. For example [ID SP:40] or
+[ID SP:S8].
+
+
  
 ## Track actions for Devices
 
