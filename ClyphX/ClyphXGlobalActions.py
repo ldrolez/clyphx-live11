@@ -21,7 +21,7 @@
 
 # emacs-mode: -*- python-*-
 # -*- coding: utf-8 -*-
-
+import re
 import Live 
 from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
 from .consts import *
@@ -958,6 +958,10 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
                     scene_name = scene_name[0:scene_name.index('"')]
                     for index in range(len(self.song().scenes)):
                         if scene_name == self.song().scenes[index].name.upper():
+                            scene = index
+                            break
+                        found=re.match(scene_name,self.song().scenes[index].name.upper(),re.M|re.I)
+                        if found:
                             scene = index
                             break
             elif args == 'SEL':
