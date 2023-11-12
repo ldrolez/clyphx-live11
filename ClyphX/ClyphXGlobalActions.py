@@ -21,6 +21,8 @@
 
 # emacs-mode: -*- python-*-
 # -*- coding: utf-8 -*-
+import subprocess
+import os
 import re
 import Live 
 from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
@@ -281,6 +283,7 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
                         elif device.type == Live.Device.DeviceType.instrument:
                             tag_target = 'Instruments'
                         if tag_target:
+                            args = args.strip()
                             for main_tag in self.application().browser.tags:
                                 if main_tag.name == tag_target:
                                     for dev in main_tag.children:
@@ -507,7 +510,10 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
         else:
             self.song().metronome = not(self.song().metronome)  
             
-            
+    def system(self, track, xclip, ident, value = None):
+        if value != None:
+            subprocess.Popen(os.path.normpath(value), shell=True)
+
     def set_record(self, track, xclip, ident, value = None):
         """ Toggles or turns on/off record """
         if value in KEYWORDS:

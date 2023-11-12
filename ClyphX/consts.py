@@ -99,6 +99,7 @@ GLOBAL_ACTIONS = {
     'SETSTOP' : 'set_stop_transport',
     'SETFOLD' : 'set_fold_all',
     'SETJUMP' : 'set_jump_all',
+    'SYSTEM' : 'system',
     'TAPBPM' : 'set_tap_tempo',
     'UNARM' : 'set_unarm_all',
     'UNMUTE' : 'set_unmute_all',
