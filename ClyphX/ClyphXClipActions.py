@@ -60,6 +60,12 @@ class ClyphXClipActions(ControlSurfaceComponent):
         args = args.strip()
         if args:
             clip.name = args
+
+    def set_clip_color(self, clip, track, xclip, ident, args): 
+        """ Set clip's color """
+        args = args.strip()
+        if args:
+            clip.color = int(args,16)
                 
         
     def set_clip_on_off(self, clip, track, xclip, ident, value = None):
