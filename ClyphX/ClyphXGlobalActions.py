@@ -21,7 +21,10 @@
 
 # emacs-mode: -*- python-*-
 # -*- coding: utf-8 -*-
-import subprocess
+try:
+    import subprocess
+except:
+    pass
 import os
 import re
 import Live 
@@ -512,7 +515,10 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
             
     def system(self, track, xclip, ident, value = None):
         if value != None:
-            subprocess.Popen(os.path.normpath(value), shell=True)
+            try:
+                subprocess.Popen(os.path.normpath(value), shell=True)
+            except:
+                os.system(os.path.normpath(value))
 
     def set_record(self, track, xclip, ident, value = None):
         """ Toggles or turns on/off record """
