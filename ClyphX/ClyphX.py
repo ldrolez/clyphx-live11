@@ -25,6 +25,7 @@
 from __future__ import with_statement
 import Live 
 import sys
+import os
 from functools import partial
 from _Framework.ControlSurface import ControlSurface 
 from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
@@ -594,12 +595,8 @@ class ClyphX(ControlSurface):
         ctrl_data = []
         prefs_data = []
         try:
-            mrs_path = ''
-            for path in sys.path:
-                if 'MIDI Remote Scripts' in path:
-                    mrs_path = path
-                    break
-            user_file = mrs_path + FOLDER + 'UserSettings.txt'
+            module_path = os.path.dirname(os.path.realpath(__file__))
+            user_file = module_path + '/UserSettings.txt'
             if not self._user_settings_logged:
                 self.log_message(' ------- Attempting to read UserSettings file: ' + user_file + '------- ')
             for line in open(user_file): 
