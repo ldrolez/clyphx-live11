@@ -289,6 +289,7 @@ class ClyphXClipActions(ControlSurfaceComponent):
                         clip.view.show_envelope()
                         clip.view.select_envelope_parameter(param)      
                         clip.clear_envelope(param)
+                        clip.create_automation_envelope(param)
                         self._perform_envelope_insertion(clip, param, env_type, env_range)
                                                     
                          
