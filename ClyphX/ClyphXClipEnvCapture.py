@@ -81,6 +81,8 @@ class ClyphXClipEnvCapture(ControlSurfaceComponent):
 
     def _insert_envelope(self, clip, param):
         env = clip.automation_envelope(param)
+        if not env:
+            env = clip.create_automation_envelope(param)
         if env:
             env.insert_step(clip.loop_start, 0.0, param.value)
                                 
