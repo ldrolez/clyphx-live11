@@ -93,11 +93,13 @@ GLOBAL_ACTIONS = {
     'TGLDETAIL': 'toggle_detail_view',
     'TGLMAIN': 'toggle_main_view',
     'STOPALL' : 'set_stop_all',
+    'TRANSPORT_STOP' : 'transport_stop',
     'SETCONT' : 'set_continue_playback',
     'SETLOC' : 'set_locator',
     'SETSTOP' : 'set_stop_transport',
     'SETFOLD' : 'set_fold_all',
     'SETJUMP' : 'set_jump_all',
+    'SYSTEM' : 'system',
     'TAPBPM' : 'set_tap_tempo',
     'UNARM' : 'set_unarm_all',
     'UNMUTE' : 'set_unmute_all',
@@ -132,6 +134,7 @@ TRACK_ACTIONS = {
     'OUT' : 'adjust_output_routing',
     'OUTSUB' : 'adjust_output_sub_routing',
     'NAME' : 'set_name',
+    'COLOR' : 'set_color',
     'RENAMEALL' : 'rename_all_clips'}  
 
 CLIP_ACTIONS = {
@@ -158,6 +161,7 @@ CLIP_ACTIONS = {
     'LOOP' : 'do_clip_loop_action',
     'SIG' : 'adjust_time_signature',
     'WARP' : 'set_warp',
+    'COLOR' : 'set_clip_color',
     'NAME' : 'set_clip_name'} 
 
 DEVICE_ACTIONS = {

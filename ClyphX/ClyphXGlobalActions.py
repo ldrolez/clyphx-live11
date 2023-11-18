@@ -21,7 +21,12 @@
 
 # emacs-mode: -*- python-*-
 # -*- coding: utf-8 -*-
-
+try:
+    import subprocess
+except:
+    pass
+import os
+import re
 import Live 
 from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
 from .consts import *
@@ -37,6 +42,7 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
         self._parent = parent
         self._last_gqntz = 4
         self._last_rqntz = 5
+        self.stopping = False
         self._repeat_enabled = False
         self._tempo_ramp_active = False
         self._tempo_ramp_settings = []
@@ -280,6 +286,7 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
                         elif device.type == Live.Device.DeviceType.instrument:
                             tag_target = 'Instruments'
                         if tag_target:
+                            args = args.strip()
                             for main_tag in self.application().browser.tags:
                                 if main_tag.name == tag_target:
                                     for dev in main_tag.children:
@@ -506,7 +513,13 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
         else:
             self.song().metronome = not(self.song().metronome)  
             
-            
+    def system(self, track, xclip, ident, value = None):
+        if value != None:
+            try:
+                subprocess.Popen(os.path.normpath(value), shell=True)
+            except:
+                os.system(os.path.normpath(value))
+
     def set_record(self, track, xclip, ident, value = None):
         """ Toggles or turns on/off record """
         if value in KEYWORDS:
@@ -540,7 +553,19 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
         """ Toggles transport """
         self.song().is_playing = not(self.song().is_playing)
         
-        
+    def transport_stop(self, track, xclip, ident, value = None):
+        """ Stop transport """
+        if self.song().is_playing:
+            if self.stopping:
+                self.song().is_playing = 0
+                self.stopping=False
+            else:
+                self.song().stop_all_clips(False)
+                self.stopping=True
+        else:
+            self.song().current_song_time = 0
+            self.stopping=False        
+            
     def set_continue_playback(self, track, xclip, ident, value = None):
         """ Continue playback from stop point """
         self.song().continue_playing()
@@ -945,6 +970,10 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
                     scene_name = scene_name[0:scene_name.index('"')]
                     for index in range(len(self.song().scenes)):
                         if scene_name == self.song().scenes[index].name.upper():
+                            scene = index
+                            break
+                        found=re.match(scene_name,self.song().scenes[index].name.upper(),re.M|re.I)
+                        if found:
                             scene = index
                             break
             elif args == 'SEL':
