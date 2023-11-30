@@ -6,6 +6,8 @@ should be entered in decimal.
 The SCENE related Actions do not actually Launch Scenes, they Launch every Clip on a Scene. For this reason, they will function similar to Launching
 Scenes when Start Recording on Scene Launch is turned on.
 
+For Scene selection, you can use a number, a string with double-quotes or a regular expression.
+ 
 | Action | Description | Examples 
 | --- | --- | --- 
 | ADDAUDIO | Creates an Audio Track at the end of the Track list. | - 
@@ -73,7 +75,7 @@ Scenes when Start Recording on Scene Launch is turned on.
 | RTRIG | Retrigger all Clips that are currently recording. | -
 | SATM | Toggle, turn on or turn off Automation Arm. | SATM, SATM ON, SATM OFF
 | SCENE | When accessed via an X-Clip, Launch the Scene the X-Clip is on. Otherwise, Launch the selected Scene. | -
-| SCENE x | x is the Scene number of the Scene to Launch. Specify SEL for the selected Scene. You can alternatively specify the Scene’s name enclosed in quotes. | SCENE 10, SCENE 3, SCENE SEL, SCENE “My Scene”
+| SCENE x | x is the Scene number of the Scene to Launch. Specify SEL for the selected Scene. You can alternatively specify the Scene’s name enclosed in quotes. | SCENE 10, SCENE 3, SCENE SEL, SCENE "My Scene"
 | SCENE RND | Launch a randomly selected Scene. | -
 | SCENE RNDx-y | Launch a randomly selected Scene in the range of x-y (where both x and y are in the range of 1 – the number of Scenes in the Set). | SCENE RND5-10, SCENE RND96-142
 | SCENE < or > | Launch the Prev/Next Scene relative to the last launched Scene.| SCENE <, SCENE >
@@ -97,6 +99,7 @@ Scenes when Start Recording on Scene Launch is turned on.
 | SWING x | x is the Note Repeat (RPT) Swing amount (in the range of 0 – 100) to set. | SWING 50, SWING 0
 | SWING < or > | Dec/Inc Note Repeat (RPT) Swing amount by increment of 1. | SWING <,SWING >
 | SWING < x or > x | Dec/Inc Note Repeat (RPT) Swing amount by increment of x. | SWING <2, SWING >10
+| SYSTEM x | Starts the x command on the OS. Can be used to start a PDF ready to display lyrics | -
 | TAPBPM | Tap tempo. | -
 | TGLBRWSR | Toggle the Browser and move the Focus to it or the main Focus. | -
 | TGLDETAIL | Toggle between Clip and Track View. | -
@@ -127,13 +130,14 @@ To operate on a different Track, specify the Track followed by a slash ( / ) bef
  * or use the `<` and `>` keywords to operate on tracks prior to or after the selected track `</MUTE, >/PLAY, >4/VOL >`
  * or `x-x` for a range of tracks: `5-8/SEND A >` or `2-B/VOL RND` or `8-MST/PAN RESET` or `SEL-"My Track"/MUTE` or `>->4/PAN >` 
  * or to ALL for all tracks `ALL/PLAY`
- 
+
 | Action | Description | Examples 
 | --- | --- | --- 
 | ADDCLIP | Creates a 1 Bar MIDI Clip in the selected Clip Slot on the Track. | -
 | ADDCLIP x | x is the Scene number of the Clip Slot where a 1 Bar MIDI Clip will be created. Specify SEL for the selected Scene. | ADDCLIP 10, ADDCLIP 3, ADDCLIP SEL
 | ADDCLIP x y | x is the Scene number of the Clip Slot where a MIDI Clip will be created that is y Bars long. Specify SEL for the selected Scene. | ADDCLIP 10 4, ADDCLIP 3 8, ADDCLIP SEL 0.25
 | ARM | Toggle, turn on or turn off Track Arm. | ARM, ARM ON, ARM OFF
+| COLOR rrggbb | Change the track color. rrggbb is an hexadecimal value for red/green/blue | COLOR 112233
 | CUE | Adjust Preview Volume (Master Track only). This is a Continuous Parameter. | MST/CUE <, MST/CUE >, MST/CUE RESET, MST/CUE RND, MST/CUE 50, MST/CUE 100
 | DEL | Deletes the Track. It is not possible to Delete a Track if it’s the only Track in the Set. Returns and the Master cannot be Deleted. | -
 | DELDEV x | x is the number of the Device (based on the Device’s position on the Track) to Delete. Only top-level Devices (Devices that aren’t inside of Racks) can be Deleted. | DELDEV 1, DELDEV 5
