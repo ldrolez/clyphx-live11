@@ -42,7 +42,6 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
         self._parent = parent
         self._last_gqntz = 4
         self._last_rqntz = 5
-        self.stopping = False
         self._repeat_enabled = False
         self._tempo_ramp_active = False
         self._tempo_ramp_settings = []
@@ -553,19 +552,7 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
         """ Toggles transport """
         self.song().is_playing = not(self.song().is_playing)
         
-    def transport_stop(self, track, xclip, ident, value = None):
-        """ Stop transport """
-        if self.song().is_playing:
-            if self.stopping:
-                self.song().is_playing = 0
-                self.stopping=False
-            else:
-                self.song().stop_all_clips(False)
-                self.stopping=True
-        else:
-            self.song().current_song_time = 0
-            self.stopping=False        
-            
+        
     def set_continue_playback(self, track, xclip, ident, value = None):
         """ Continue playback from stop point """
         self.song().continue_playing()
