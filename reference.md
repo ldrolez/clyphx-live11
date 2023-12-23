@@ -344,6 +344,9 @@ You can specify both a pitch (or pitch range) and a position (or position range)
 | CLIP NOTES REV | Reverse the position of Notes|  -
 | CLIP NOTES SCRN | Scramble the pitches of Notes while maintaining rhythm | -
 | CLIP NOTES SCRP | Scramble the position of Notes while maintaining pitches |  -
+| CLIP NOTES SEMI < or > | Dec/Inc Notes pitch by 1 semitone | CLIP NOTES SEMI <, CLIP NOTESC3 SEMI >
+| CLIP NOTES SEMI <x or >x | Dec/Inc Notes pitch by x semitones | CLIP NOTES SEMI <x, CLIP NOTESC3 SEMI >x
+| CLIP NOTES SEMI x | Set each note pitch to the named note | CLIP NOTESC3 SEMI C#3
 | CLIP NOTES SPLIT | Split each Note into two equally sized Notes |  -
 | CLIP NOTES VELO x | x is the Note velocity to set |  CLIP NOTES VELO 64, CLIP NOTES VELO 127
 | CLIP NOTES VELO < or > | Dec/Inc the velocity of Notes by increment of 1 |  CLIP NOTES VELO <, CLIP NOTES VELO >
