@@ -627,7 +627,9 @@ class ClyphXClipActions(ControlSurfaceComponent):
                 self.do_note_crescendo(clip, note_data['args'], note_data['notes_to_edit'], note_data['other_notes'])
             elif note_data['args'].startswith('VELO'):
                 self.do_note_velo_adjustment(clip, note_data['args'], note_data['notes_to_edit'], note_data['other_notes'])
-                
+            elif note_data['args'].startswith('SEMI'):
+                self.do_note_action_pitch_adjustment(clip, note_data['args'], note_data['notes_to_edit'], note_data['other_notes'])
+
             
     def set_notes_on_off(self, clip, args, notes_to_edit, other_notes): 
         """ Toggles or turns note mute on/off """
@@ -657,7 +659,28 @@ class ClyphXClipActions(ControlSurfaceComponent):
                     edited_notes.append((new_pitch, n[1], n[2], n[3], n[4]))
             if edited_notes:
                 self.write_all_notes(clip, edited_notes, note_data['other_notes'])
-                        
+
+
+    def do_note_action_pitch_adjustment(self, clip, args, notes_to_edit, other_notes): 
+        """ Adjust note pitch. Like do_note_pitch_adjustment, but a note action"""
+        # Also supports specifying specific notes instead of relative notes.
+        edited_notes = []
+        args = args.replace('SEMI ', '')
+        args = args.strip()
+        for n in notes_to_edit:
+            if args.startswith(('<', '>')):
+                factor = self._parent.get_adjustment_factor(args)
+                new_pitch = n[0] + factor
+            else:
+                (new_pitch, unused) = self.get_note_range(args)
+            if not new_pitch in range (128):
+                edited_notes = []
+                return()
+            else:
+                edited_notes.append((new_pitch, n[1], n[2], n[3], n[4])) 
+        if edited_notes:
+            self.write_all_notes(clip, edited_notes, other_notes)
+
             
     def do_note_gate_adjustment(self, clip, args, notes_to_edit, other_notes): 
         """ Adjust note gate """
