@@ -615,8 +615,10 @@ class ClyphXClipActions(ControlSurfaceComponent):
                 self.do_pitch_scramble(clip, note_data['args'], note_data['notes_to_edit'], note_data['other_notes'])
             elif note_data['args'] == 'SCRP':
                 self.do_position_scramble(clip, note_data['args'], note_data['notes_to_edit'], note_data['other_notes'])
-            elif note_data['args'] in ('CMB', 'SPLIT'):
-                self.do_note_split_or_combine(clip, note_data['args'], note_data['notes_to_edit'], note_data['other_notes'])
+            elif note_data['args'] == 'CMB':
+                self.do_note_combine(clip, note_data['args'], note_data['notes_to_edit'], note_data['other_notes'])
+            elif note_data['args'] == 'SPLIT':
+                self.do_note_split(clip, note_data['args'], note_data['notes_to_edit'], note_data['other_notes'])
             elif note_data['args'].startswith(('GATE <', 'GATE >')):
                 self.do_note_gate_adjustment(clip, note_data['args'], note_data['notes_to_edit'], note_data['other_notes'])
             elif note_data['args'].startswith(('NUDGE <', 'NUDGE >')):
@@ -630,35 +632,87 @@ class ClyphXClipActions(ControlSurfaceComponent):
             elif note_data['args'].startswith('SEMI'):
                 self.do_note_action_pitch_adjustment(clip, note_data['args'], note_data['notes_to_edit'], note_data['other_notes'])
 
-            
+
+
+    class InternalMidiNote(object):
+        """Compatibility class analog of the Live 11 API's MidiNote class, to support Live 10."""
+        # Note tuple n[0]..n[4] from get_selected_notes():
+        pitch = 0
+        start_time = 0.0
+        duration = 0.0
+        velocity = 64
+        mute = False
+        # Live 11 only: (for reference)
+        note_id = 0
+        probability = 1.0
+        release_velocity = 64.0
+        velocity_deviation = 0.0
+
+        def to_tuple(self):
+            return (self.pitch, self.start_time, self.duration, self.velocity, self.mute)
+        
+        def from_tuple(self, n):
+            self.pitch = n[0]
+            self.start_time = n[1]
+            self.duration = n[2]
+            self.velocity = n[3]
+            self.mute = n[4]
+            return self
+        
+        def to_live11_spec(self):
+            # Note: in Live 11, the returned note can not be modified.
+            if not IS_LIVE_11:
+                return None
+            return Live.Clip.MidiNoteSpecification(
+                pitch=self.pitch, start_time=self.start_time,
+                duration=self.duration, velocity=self.velocity,
+                mute=self.mute, probability=self.probability,
+                velocity_deviation=self.velocity_deviation,
+                release_velocity=self.release_velocity)
+
+        def from_note(self, n):
+            """Sets values from an existing InternalMidiNote or Live11 MidiNote"""
+            self.pitch = n.pitch
+            self.start_time = n.start_time
+            self.duration = n.duration
+            self.velocity = n.velocity
+            self.mute = n.mute
+            self.probability = n.probability
+            self.velocity_deviation = n.velocity_deviation
+            self.release_velocity = n.release_velocity
+            return self
+
+
     def set_notes_on_off(self, clip, args, notes_to_edit, other_notes): 
         """ Toggles or turns note mute on/off """
         edited_notes = []
         for n in notes_to_edit:
             new_mute = False
             if args == '':
-                new_mute = not(n[4])
+                n.mute = not(n.mute)
             elif args == 'ON':
-                new_mute = True
-            edited_notes.append((n[0], n[1], n[2], n[3], new_mute))
+                n.mute = True
+            else:
+                n.mute = False
+            edited_notes.append(n)
         if edited_notes:
             self.write_all_notes(clip, edited_notes, other_notes)
-        
-                        
+
+
     def do_note_pitch_adjustment(self, clip, factor): 
         """ Adjust note pitch. This isn't a note action, it's called via Clip Semi """
         edited_notes = []
         note_data = self.get_notes_to_operate_on(clip)
-        if note_data['notes_to_edit']:
-            for n in note_data['notes_to_edit']:
-                new_pitch = n[0] + factor
-                if not new_pitch in range (128):
-                    edited_notes = []
-                    return()
-                else:
-                    edited_notes.append((new_pitch, n[1], n[2], n[3], n[4]))
-            if edited_notes:
-                self.write_all_notes(clip, edited_notes, note_data['other_notes'])
+        if not note_data['notes_to_edit']:
+            return
+        for n in note_data['notes_to_edit']:
+            n.pitch += factor
+            if n.pitch > 127:
+                n.pitch = 127
+            if n.pitch < 0:
+                n.pitch = 0
+            edited_notes.append(n)
+        self.write_all_notes(clip, edited_notes, note_data['other_notes'])
 
 
     def do_note_action_pitch_adjustment(self, clip, args, notes_to_edit, other_notes): 
@@ -670,48 +724,48 @@ class ClyphXClipActions(ControlSurfaceComponent):
         for n in notes_to_edit:
             if args.startswith(('<', '>')):
                 factor = self._parent.get_adjustment_factor(args)
-                new_pitch = n[0] + factor
+                n.pitch += factor
             else:
-                (new_pitch, unused) = self.get_note_range(args)
-            if not new_pitch in range (128):
-                edited_notes = []
-                return()
-            else:
-                edited_notes.append((new_pitch, n[1], n[2], n[3], n[4])) 
+                (n.pitch, unused) = self.get_note_range(args)
+            if n.pitch > 127:
+                n.pitch = 127
+            if n.pitch < 0:
+                n.pitch = 0
+            edited_notes.append(n) 
         if edited_notes:
             self.write_all_notes(clip, edited_notes, other_notes)
 
-            
+
     def do_note_gate_adjustment(self, clip, args, notes_to_edit, other_notes): 
         """ Adjust note gate """
         edited_notes = []
         factor = self._parent.get_adjustment_factor(args.split()[1], True)
         for n in notes_to_edit:
-            new_gate = n[2] + (factor * 0.03125)
-            if n[1] + new_gate > clip.loop_end or new_gate < 0.03125:
-                edited_notes = []
-                return()
-            else:
-                edited_notes.append((n[0], n[1], new_gate, n[3], n[4]))
+            n.duration += (factor * 0.03125)
+            if n.start_time + n.duration > clip.loop_end:
+                n.duration = clip.loop_end - n.start_time
+            if n.duration < 0.03125:
+                n.duration = 0.03125
+            edited_notes.append(n)
         if edited_notes:
             self.write_all_notes(clip, edited_notes, other_notes)
-            
-            
+
+
     def do_note_nudge_adjustment(self, clip, args, notes_to_edit, other_notes): 
         """ Adjust note position """
         edited_notes = []
         factor = self._parent.get_adjustment_factor(args.split()[1], True)
         for n in notes_to_edit:
-            new_pos = n[1] + (factor * 0.03125)
-            if n[2] + new_pos > clip.loop_end or new_pos < 0.0:
-                edited_notes = []
-                return()
-            else:
-                edited_notes.append((n[0], new_pos, n[2], n[3], n[4]))
+            n.start_time += (factor * 0.03125)
+            if n.start_time + n.duration > clip.loop_end:
+                n.start_time = clip.loop_end - n.duration
+            if n.start_time < 0.0:
+                n.start_time = 0.0
+            edited_notes.append(n)
         if edited_notes:
             self.write_all_notes(clip, edited_notes, other_notes)
-            
-                
+
+
     def do_note_velo_adjustment(self, clip, args, notes_to_edit, other_notes): 
         """ Adjust/set/randomize note velocity """
         edited_notes = []
@@ -719,132 +773,161 @@ class ClyphXClipActions(ControlSurfaceComponent):
         args = args.strip()
         for n in notes_to_edit:
             if args == 'RND':
-                edited_notes.append((n[0], n[1], n[2], Live.Application.get_random_int(64, 64), n[4])) 
+                n.velocity = Live.Application.get_random_int(0, 128)
             elif args.startswith(('<', '>')):
                 factor = self._parent.get_adjustment_factor(args)
-                new_velo = n[3] + factor
-                if not new_velo in range (128):
-                    edited_notes = []
-                    return()
-                else:
-                    edited_notes.append((n[0], n[1], n[2], new_velo, n[4])) 
+                n.velocity += factor
             else:
                 try:
-                    edited_notes.append((n[0], n[1], n[2], float(args), n[4])) 
+                    n.velocity = int(args)
                 except: pass
+            if n.velocity > 127:
+                n.velocity = 127
+            elif n.velocity < 0:
+                n.velocity = 0
+            edited_notes.append(n)
         if edited_notes:
             self.write_all_notes(clip, edited_notes, other_notes)              
-            
-        
+
+
     def do_pitch_scramble(self, clip, args, notes_to_edit, other_notes):
         """ Scrambles the pitches in the clip, but maintains rhythm. """
         if IS_LIVE_9:
             edited_notes = []
-            pitches = [n[0] for n in notes_to_edit]
+            pitches = [n.pitch for n in notes_to_edit]
             random.shuffle(pitches)
-            for i in range(len(notes_to_edit)):
-                edited_notes.append((pitches[i], notes_to_edit[i][1], notes_to_edit[i][2], notes_to_edit[i][3], notes_to_edit[i][4]))
+            i = 0
+            for n in notes_to_edit:
+                n.pitch = pitches[i]
+                edited_notes.append(n)
+                i += 1
             if edited_notes:
                 self.write_all_notes(clip, edited_notes, other_notes)       
-            
-            
+
+
     def do_position_scramble(self, clip, args, notes_to_edit, other_notes):
         """ Scrambles the position of notes in the clip, but maintains pitches. """
         if IS_LIVE_9:
             edited_notes = []
-            positions = [n[1] for n in notes_to_edit]
+            positions = [n.start_time for n in notes_to_edit]
             random.shuffle(positions)
-            for i in range(len(notes_to_edit)):
-                edited_notes.append((notes_to_edit[i][0], positions[i], notes_to_edit[i][2], notes_to_edit[i][3], notes_to_edit[i][4]))
+            i = 0
+            for n in notes_to_edit:
+                n.start_time = positions[i]
+                edited_notes.append(n)
+                i += 1
             if edited_notes:
                 self.write_all_notes(clip, edited_notes, other_notes)
-            
-            
+
+
     def do_note_reverse(self, clip, args, notes_to_edit, other_notes): 
         """ Reverse the position of notes """
         edited_notes = []
         for n in notes_to_edit:
-            edited_notes.append((n[0], abs(clip.loop_end - (n[1] + n[2]) + clip.loop_start), n[2], n[3], n[4]))
+            n.start_time = abs(clip.loop_end - (n.start_time + n.duration) + clip.loop_start)
+            edited_notes.append(n)
         if edited_notes:
             self.write_all_notes(clip, edited_notes, other_notes)
-        
-            
+
+
     def do_note_invert(self, clip, args, notes_to_edit, other_notes): 
         """ Inverts the pitch of notes. """
         edited_notes = []
         for n in notes_to_edit:
-            edited_notes.append((127 - n[0], n[1], n[2], n[3], n[4]))
+            n.pitch = 127 - n.pitch
+            edited_notes.append(n)
         if edited_notes:
             self.write_all_notes(clip, edited_notes, other_notes)
-            
-                
+
+
     def do_note_compress(self, clip, args, notes_to_edit, other_notes): 
         """ Compresses the position and duration of notes by half. """
         edited_notes = []
         for n in notes_to_edit:
-            edited_notes.append((n[0], n[1] / 2, n[2] / 2, n[3], n[4]))
+            n.start_time /= 2
+            n.duration /= 2
+            n.duration = max(n.duration, 0.03215)
+            edited_notes.append(n)
         if edited_notes:
             self.write_all_notes(clip, edited_notes, other_notes)
-           
-            
+
+
     def do_note_expand(self, clip, args, notes_to_edit, other_notes): 
         """ Expands the position and duration of notes by 2. """
         edited_notes = []
         for n in notes_to_edit:
-            edited_notes.append((n[0], n[1] * 2, n[2] * 2, n[3], n[4]))
+            n.start_time *= 2
+            n.duration *= 2
+            edited_notes.append(n)
         if edited_notes:
             self.write_all_notes(clip, edited_notes, other_notes)
-           
-            
-    def do_note_split_or_combine(self, clip, args, notes_to_edit, other_notes):
-        """ Split notes into 2 equal parts or combine each consecutive set of 2 notes """
-        edited_notes = [] ; current_note = [] ; check_next_instance = False
-        if args == 'SPLIT':
-            for n in notes_to_edit:
-                if n[2] / 2 < 0.03125:
-                    return()
-                else:
-                    edited_notes.append(n)
-                    edited_notes.append((n[0], n[1] + (n[2] / 2), n[2] / 2, n[3], n[4]))
-        else:
-            for n in notes_to_edit:
+
+
+    def do_note_combine(self, clip, args, notes_to_edit, other_notes):
+        """ Combine each consecutive set of 2 notes. (inverse of split) """
+        edited_notes = []
+        removed_notes = [] 
+        current = None
+        for next in sorted(notes_to_edit, key=lambda note: (note.pitch, note.start_time)):
+            if not current:
+                current = next
+            elif (current.pitch == next.pitch and
+                  current.start_time + current.duration == next.start_time):
+                current.duration += next.duration
+                edited_notes.append(current)
+                removed_notes.append(next)
+                current = None
+            else:
+                edited_notes.append(current)
+                current = next
+        if current:
+            edited_notes.append(current)
+        if edited_notes:
+            self.write_all_notes(clip, edited_notes, other_notes,
+                                 removed_notes=removed_notes)
+
+
+    def do_note_split(self, clip, args, notes_to_edit, other_notes):
+        """ Split notes into 2 equal parts """
+        edited_notes = []
+        new_notes = []
+        for n in notes_to_edit:
+            if n.duration / 2 < 0.03125:
+                return
+            else:
+                n.duration /= 2
                 edited_notes.append(n)
-                if current_note and check_next_instance:
-                    if current_note[0] == n[0] and current_note[1] + current_note[2] == n[1]:
-                        edited_notes[edited_notes.index(current_note)] = [current_note[0], current_note[1], current_note[2] + n[2], current_note[3], current_note[4]]
-                        edited_notes.remove(n)
-                        current_note = [] ; check_next_instance = False
-                    else:
-                        current_note = n
-                else:
-                    current_note = n
-                    check_next_instance = True
+                new_note = self.InternalMidiNote().from_note(n)
+                new_note.start_time += n.duration
+                new_notes.append(new_note)
         if edited_notes:
-            self.write_all_notes(clip, edited_notes, other_notes)
+            self.write_all_notes(clip, edited_notes, other_notes, new_notes=new_notes)
             
     
     def do_note_crescendo(self, clip, args, notes_to_edit, other_notes):
         """ Applies crescendo/decrescendo to notes """
         edited_notes = []; last_pos = -1; pos_index = 0; new_pos = -1; new_index = 0
-        sorted_notes = sorted(notes_to_edit, key=lambda note: note[1], reverse=False)
+        sorted_notes = sorted(notes_to_edit, key=lambda note: note.start_time, reverse=False)
         if args == 'VELO <<':
-            sorted_notes = sorted(notes_to_edit, key=lambda note: note[1], reverse=True)
+            sorted_notes = sorted(notes_to_edit, key=lambda note: note.start_time, reverse=True)
         for n in sorted_notes:
-            if n[1] != last_pos:
-                last_pos = n[1]
+            if n.start_time != last_pos:
+                last_pos = n.start_time
                 pos_index += 1
         for n in sorted_notes:
-            if n[1] != new_pos:
-                new_pos = n[1]
+            if n.start_time != new_pos:
+                new_pos = n.start_time
                 new_index += 1
-            edited_notes.append((n[0], n[1], n[2], ((128 / pos_index) * new_index) - 1, n[4]))
+            n.velocity =  ((128 / pos_index) * new_index) - 1
+            edited_notes.append(n)
         if edited_notes:
             self.write_all_notes(clip, edited_notes, other_notes)
             
             
     def do_note_delete(self, clip, args, notes_to_edit, other_notes): 
         """ Delete notes """
-        self.write_all_notes(clip, [], other_notes)
+        self.write_all_notes(clip, [], other_notes, new_notes=[],
+                             removed_notes=notes_to_edit)
 
         
     def get_clip_stats(self, clip):
@@ -855,12 +938,11 @@ class ClyphXClipActions(ControlSurfaceComponent):
         clip.looping = 1
         loop_length = clip.loop_end - clip.loop_start
         return {'clip_length' : length, 'real_end' : end, 'loop_length' : loop_length}  
-    
-    
+
+
     def get_notes_to_operate_on(self, clip, args = None):
         """ Get notes within loop braces to operate on """
         notes_to_edit = [] 
-        other_notes = [] 
         new_args = None
         note_range = (0, 128)
         pos_range = (clip.loop_start, clip.loop_end)
@@ -872,15 +954,25 @@ class ClyphXClipActions(ControlSurfaceComponent):
                 pos_range = self.get_pos_range(clip, new_args[0])
                 new_args.remove(new_args[0])
             new_args = " ".join(new_args)
+
         clip.select_all_notes()
-        all_notes = clip.get_selected_notes()
+        if IS_LIVE_11:
+            original_notes = clip.get_selected_notes_extended()
+        else:
+            original_notes = []
+            for n in clip.get_selected_notes():
+                original_notes.append(self.InternalMidiNote().from_tuple(n))
         clip.deselect_all_notes()
-        for n in all_notes:
-            if n[0] in range(note_range[0], note_range[1]) and n[1] < pos_range[1] and n[1] >= pos_range[0]:
+
+        other_notes = []
+        for n in original_notes:
+            if (n.pitch in range(note_range[0], note_range[1]) and
+                n.start_time < pos_range[1] and n.start_time >= pos_range[0]):
                 notes_to_edit.append(n)
             else:
                 other_notes.append(n)
-        return {'notes_to_edit' : notes_to_edit, 'other_notes' : other_notes, 'args' : new_args}
+        return {'notes_to_edit' : notes_to_edit,
+                'other_notes' : other_notes, 'args' : new_args}
     
     
     def get_pos_range(self, clip, string):
@@ -968,15 +1060,51 @@ class ClyphXClipActions(ControlSurfaceComponent):
         if base_note in range (128):
             converted_note = base_note
         return converted_note
-         
-    
-    def write_all_notes(self, clip, edited_notes, other_notes):
-        """ Writes new notes to clip """
-        edited_notes.extend(other_notes)
-        clip.select_all_notes()
-        clip.replace_selected_notes(tuple(edited_notes))
-        clip.deselect_all_notes()
-        
-    
+
+
+    # In live 11 we need to specify which notes to add, remove, or modify.
+    # In live 10 we only specify a set of notes to replace the existing ones.
+    # In this case, other_notes represents the clip notes that were not
+    # selected in a NOTES range selector.
+    def write_all_notes(self, clip, edited_notes, other_notes,
+                        new_notes=None, removed_notes=None):
+        """ Writes notes to clip """
+        self._parent.log_message(
+            "Writing {0} edited notes, {1} unmodified notes, {2} new notes, {3} removed notes.".format(
+                len(edited_notes), len(other_notes),
+                len(new_notes if new_notes else []),
+                len(removed_notes if removed_notes else [])))
+
+        if IS_LIVE_11:
+            # Remove, update, then add must be done in that order, or we risk
+            # having modifications rejected due to temporarily overlapping notes.
+            # However, after a note has been removed, it must not be sent into a future
+            # update operation or ableton will crash the script.
+            if removed_notes:
+                clip.remove_notes_by_id([n.note_id for n in removed_notes])
+            if edited_notes:
+                clip.deselect_all_notes()
+                edited_notes_vector = clip.get_selected_notes_extended()
+                edited_notes_vector.extend(edited_notes)
+                clip.apply_note_modifications(edited_notes_vector)
+            if new_notes:
+                clip.add_new_notes(tuple([note.to_live11_spec() for note in new_notes]))
+            # In Live 11 we can just ignore other_notes since they are unmodified.
+            clip.deselect_all_notes()
+        else:
+            if other_notes:
+                edited_notes.extend(other_notes)
+            if new_notes:
+                edited_notes.extend(new_notes)
+            edited_tuples = []
+            for note in edited_notes:
+                edited_tuples.append(note.to_tuple())
+            # In Live 10 we can just ignore removed_notes since they're missing
+            # from edited_notes, other_notes, and new_notes.
+            clip.select_all_notes()
+            clip.replace_selected_notes(tuple(edited_tuples))
+            clip.deselect_all_notes()
+
+
 # local variables:
 # tab-width: 4
