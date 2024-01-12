@@ -21,7 +21,7 @@ For Scene selection, you can use a number, a string with double-quotes or a regu
 | BPM x | x is the Tempo to set in BPMs. | BPM 100, BPM 85.53
 | BPM *x | x is the value to multiply the Tempo by. | BPM *0.5, BPM *2
 | BPM < or > | Dec/Inc Tempo by increment of 1-BPM. | BPM <, BPM >
-| BPM <x or >x | Dec/Inc Tempo by increment of x-BPM. | BPM <2, BPM >0.5
+| BPM &lt;x or >x | Dec/Inc Tempo by increment of x-BPM. | BPM <2, BPM >0.5
 | BPM RAMP x y | Smoothly Ramp up/down the Tempo where x is the Ramp duration (in Beats) and y is the Tempo (in BPMs) at the end of the Ramp. | BPM RAMP 8 100, BPM RAMP 4 85.53
 | BPM RAMP x *y | Smoothly Ramp up/down the Tempo where x is the Ramp duration (in Beats) and y is the value to multiply the current Tempo by. | BPM RAMP 16 *2, BPM RAMP 4 *0.75
 | DEBUG | Activate debugging mode, which causes ClyphX to log events as they occur to assist in Troubleshooting. | -
@@ -40,7 +40,7 @@ For Scene selection, you can use a number, a string with double-quotes or a regu
 | GQ < or > | Select the Prev/Next Global Quantization value. | GQ <, GQ >
 | GRV x | x is the Global Groove amount to set. | GRV 50, GRV 0
 | GRV < or > | Dec/Inc Global Groove amount by increment of 1. | GRV <, GRV >
-| GRV <x or >x | Dec/Inc Global Groove amount by increment of x. | GRV <2, GRV >10
+| GRV &lt;x or >x | Dec/Inc Global Groove amount by increment of x. | GRV <2, GRV >10
 | HZOOM x or VZOOM x | Horizontally or vertically zoom in on the selected Track in Arrangement View where x is the number of times to zoom. Positive numbers zoom in, negative numbers zoom out. For vertical zooming, you can also include the word ALL, which will cause all Tracks to be vertically zoomed. | HZOOM 1, HZOOM -50, VZOOM 50, VZOOM -1, VZOOM ALL-50 
 | INSAUDIO or INSMIDI | Inserts an Audio or MIDI Track to the right of the selected Track that will be armed and routed from the selected Track. This will not perform an insertion if the selected Track is not the correct type. For example, if the selected Track doesn't have Audio output, INSAUDIO will do nothing. | INSAUDIO, INSMIDI
 | LEFT or RIGHT or UP or DOWN | Move Left or Right or Up or Down in Session or Arrangement View. | LEFT, RIGHT, UP, DOWN 
@@ -53,7 +53,7 @@ For Scene selection, you can use a number, a string with double-quotes or a regu
 | LOOP x | x is the Arrangement Loop Length to set in Bars. | LOOP 4, LOOP 16
 | LOOP *x | x is the value to multiply the Arrangement Loop Length by. | LOOP *0.5, LOOP *2
 | LOOP < or > | Move the Arrangement Loop Backward/Forward by its length. | LOOP <, LOOP >
-| LOOP <x or >x | Move the Arrangement Loop Backward/Forward by x number of beats. | LOOP <4, LOOP >16
+| LOOP &lt;x or >x | Move the Arrangement Loop Backward/Forward by x number of beats. | LOOP <4, LOOP >16
 | LOOP RESET | Reset Arrangement Loop Start position to 1.1.1. | -
 | METRO | Toggle, turn on or turn off Metronome. | METRO, METRO ON, METRO OFF
 | MIDI x | x is the MIDI message (of any type/length) to send. | MIDI 144 0 127, MIDI 192 6, MIDI 240 1 2 3 4 247
@@ -79,7 +79,7 @@ For Scene selection, you can use a number, a string with double-quotes or a regu
 | SCENE RND | Launch a randomly selected Scene. | -
 | SCENE RNDx-y | Launch a randomly selected Scene in the range of x-y (where both x and y are in the range of 1 – the number of Scenes in the Set). | SCENE RND5-10, SCENE RND96-142
 | SCENE < or > | Launch the Prev/Next Scene relative to the last launched Scene.| SCENE <, SCENE >
-| SCENE <x or >x | Launch the Scene that is x-Scenes prior to or after the last launched Scene. | SCENE <5, SCENE >3
+| SCENE &lt;x or >x | Launch the Scene that is x-Scenes prior to or after the last launched Scene. | SCENE <5, SCENE >3
 | SETCONT | Continue playback from the stop point. This is only useful when accessed from an X-Control. | -
 | SETFOLD | Toggle, turn on or turn off Track Fold for all Tracks. SETFOLD, SETFOLD ON, SETFOLD OFF
 | SETJUMP x | x is the number of beats to jump the Arrangement’s Playback Position Backward/Forward by. | JUMP 1, JUMP -5, JUMP 7
@@ -98,7 +98,7 @@ For Scene selection, you can use a number, a string with double-quotes or a regu
 | SWAP < or > | Swap to the Prev/Next preset (with wrapping) for the selected native Live device. Only presets that exist in the Device’s folder (or sub-folders within its folder) can be swapped. Also, the navigation here is done alphabetically (sub-folders will be entered into alphabetically as well), so it won’t necessarily line up with how you’d navigate in the Browser. | SWAP <, SWAP >
 | SWING x | x is the Note Repeat (RPT) Swing amount (in the range of 0 – 100) to set. | SWING 50, SWING 0
 | SWING < or > | Dec/Inc Note Repeat (RPT) Swing amount by increment of 1. | SWING <,SWING >
-| SWING < x or > x | Dec/Inc Note Repeat (RPT) Swing amount by increment of x. | SWING <2, SWING >10
+| SWING &lt;x or >x | Dec/Inc Note Repeat (RPT) Swing amount by increment of x. | SWING <2, SWING >10
 | SYSTEM x | Starts the x command on the OS. Can be used to start a PDF ready to display lyrics | -
 | TAPBPM | Tap tempo. | -
 | TGLBRWSR | Toggle the Browser and move the Focus to it or the main Focus. | -
@@ -114,7 +114,7 @@ All of the continuous parameters offer several control options via keywords.
 | --- | --- | --- 
 | x | x is the parameter value to set in the range of 0 – 127 | DEV1 CS 80
 | < or > | Decrease or Increase the parameter value by increment of 1 | VOL <, PAN >
-| <x or >x | Decrease or Increase the parameter value by increment of x | PAN <4, DEV1 B3 P1 >8
+| &lt;x or >x | Decrease or Increase the parameter value by increment of x | PAN <4, DEV1 B3 P1 >8
 | RESET | Reset the parameter value to its default value | DEV1 P1 RESET
 | RND  | Randomize the parameter value. The value produced will be in the range of 0–127 and will then be scaled to match the range of the given parameter | SEND A RND
 | RNDx-y | Randomize the parameter value. The value produced will be in the range of x-y, both x and y are in the range of 0 – 127 and will be scaled to match the range of the given parameter | VOL RND50-60, DEV1 P5 RND5-10
@@ -161,7 +161,7 @@ To operate on a different Track, specify the Track followed by a slash ( / ) bef
 | PLAY RND | Launch a Clip Slot at a randomly selected Scene. | -
 | PLAY RNDx-y | Launch a Clip Slot at a randomly selected Scene in the range of x-y (where both x and y are in the range of 1 – the number of Scenes in the Set). | PLAY RND5-10, PLAY RND96-142 
 | PLAY < or > | Launch the Prev/Next Clip Slot relative to the playing Clip. This will not launch empty slots and does not apply to Group Tracks. | PLAY <, PLAY >
-| PLAY <x or >x | Launch the Clip Slot that is x-Scenes prior to or after the playing Clip. This does not apply to Group Tracks. | PLAY <5, PLAY >3
+| PLAY &lt;x or >x | Launch the Clip Slot that is x-Scenes prior to or after the playing Clip. This does not apply to Group Tracks. | PLAY <5, PLAY >3
 | PLAYL | Launch a Clip with Legato using the current Global Quantization value. | PLAYL “My Clip”, PLAYL RND, PLAYL >
 | PLAYQ | Launch a Clip at a specific quantization (regardless of the current Global Quantization value or the Clip’s Launch Quantization). The quantization values that can be used are the same as those mentioned for the GQ Action. | PLAYQ NONE “My Clip”, PLAYQ 1 BAR RND, PLAYQ 1/4 >
 | PLAYLQ | This is a combination of the previous two variations |  -
@@ -257,7 +257,7 @@ DR PAD actions operate on the current selected drum rack pad. To operate on the 
 | DR PAD SOLO | Toggle, turn on or turn off Drum Rack Pad Solo. | DR PAD SOLO, DR PAD SOLO ON, DR PAD SOLO OFF
 | DR PAD VOL x | Adjust Drum Rack Pad Volume. This is a Continuous Parameter. | DR PAD VOL <, DR PAD VOL >, DR PAD VOL RESET, DR PAD VOL RND, DR PAD VOL 50, DR PAD VOL 100
 | DR SCOLL < or > | Scroll the Drum Rack Selector down or up by increment of 1. | DR SCROLL <, DR SCROLL >
-| DR SCOLL <x or >x | Scroll the Drum Rack Selector down or up by increment of x. | DR SCROLL <4, DR SCROLL >8
+| DR SCOLL &lt;x or >x | Scroll the Drum Rack Selector down or up by increment of x. | DR SCROLL <4, DR SCROLL >8
 | DR UNMUTE | Unmute all Drum Rack Pads. | -
 | DR UNSOLO | Unsolo all Drum Rack Pads. | -
 
@@ -287,17 +287,17 @@ You can specify both a pitch (or pitch range) and a position (or position range)
 | CLIP | Toggle, turn on or turn off the Clip’s Activator switch. | CLIP, CLIP ON, CLIP OFF
 | CLIP CENT x | x is the Audio Clip detune value to set. | CLIP CENT -12, CLIP CENT 3
 | CLIP CENT < or > | Dec/Inc Audio Clip detune value by increment of 1. | CLIP CENT <, CLIP CENT >
-| CLIP CENT <x or >x | Dec/Inc Audio Clip detune value by increment of x. | CLIP CENT <5, CLIP CENT >7
+| CLIP CENT &lt;x or >x | Dec/Inc Audio Clip detune value by increment of x. | CLIP CENT <5, CLIP CENT >7
 | CLIP CHOP | Duplicates the Clip 8 times and sets evenly distributed start/loop start positions, starting from the Clip’s current Start/Loop Start. As with any duplication of a Clip, this will overwrite Clips that exist in the Clip Slots beneath the Clip that will be duplicated. | -
 | CLIP CHOP x | Same as CLIP CHOP, but x is the number of times the Clip will be duplicated. | CHOP 4, CHOP 16, CHOP 32
 | CLIP CUE x | x is the position of the cue in absolute beat time. This is different than the bar/beat/sixteenths position shown in Live’s Clip View. For example, position 1.1.1 is 0 in absolute beat time | CLIP CUE 2, CLIP CUE 5.25
 | CLIP CUE < or > | Move the cue point Backward/Forward by increment of 1 beat | CLIP CUE <, CLIP CUE >
-| CLIP CUE <x or >x | Move the cue point Backward/Forward by increment of x beats | CLIP CUE <0.5, CLIP CUE >2
+| CLIP CUE &lt;x or >x | Move the cue point Backward/Forward by increment of x beats | CLIP CUE <0.5, CLIP CUE >2
 | CLIP DEL | Deletes the Clip | -
 | CLIP DUPE | Duplicates the Clip |  -
 | CLIP END x | x is the Clip End to set in beats | CLIP END 4, CLIP END 16
 | CLIP END < or > | Dec/Inc the Clip’s End by 1 beat |  CLIP END <, CLIP END >
-| CLIP END <x or >x |  Dec/Inc the Clip’s End by increment of x beats | CLIP END <2, CLIP END >0.5
+| CLIP END &lt;x or >x |  Dec/Inc the Clip’s End by increment of x beats | CLIP END <2, CLIP END >0.5
 | CLIP ENVCLR | Clears all envelopes from the Clip | -
 | CLIP ENVCAP | Creates envelopes in the Clip for the current settings of the associated track’s mixer and/or Devices | CLIP ENVCAP, CLIP ENVCAP DEV, CLIP ENVCAP MIX
 | CLIP ENVCAP DEV | Capture the settings of the first Device on the Track | -
@@ -315,21 +315,21 @@ You can specify both a pitch (or pitch range) and a position (or position range)
 | CLIP EXTEND | Doubles the Loop Length of the MIDI Clip and duplicates its content. If Loop is on, will zoom out to show the entire Loop. | -
 | CLIP GAIN x | x is the Audio Clip Gain to set in the range of 0 – 127 | CLIP GAIN 0, CLIP GAIN 64,
 | CLIP GAIN < or > | Dec/Inc Audio Clip Gain by increment of 1. | CLIP GAIN <, CLIP GAIN >
-| CLIP GAIN <x or >x | Dec/Inc Audio Clip Gain by increment of x | CLIP GAIN <5, CLIP GAIN >2
+| CLIP GAIN &lt;x or >x | Dec/Inc Audio Clip Gain by increment of x | CLIP GAIN <5, CLIP GAIN >2
 | CLIP GRID x | x is the fixed grid setting to apply to the Clip. | CLIP GRID OFF, CLIP GRID 8 BARS, CLIP GRID 4 BARS, CLIP GRID 2 BARS, CLIP GRID 1 BAR, CLIP GRID 1/2, CLIP GRID 1/4, CLIP GRID 1/8, CLIP GRID 1/16, CLIP GRID 1/32
 | CLIP LOOP | Toggle, turn on or turn off Clip Loop | CLIP LOOP, CLIP LOOP ON, CLIP LOOP OFF
 | CLIP LOOP x | x is the Loop Length to set in Bars. If the Clip is playing, this will move the start of the Loop to the current Playback Position (using Beat quantization). To use Bar quantization, add a ‘B’ after the Length | CLIP LOOP 0.25, CLIP LOOP 0.5, CLIP LOOP 2, CLIP LOOP 0.5B, CLIP LOOP 2B
 | CLIP LOOP *x | x is the value to multiply the Loop Length by | CLIP LOOP *0.5, CLIP LOOP *2
 | CLIP LOOP < or > | Move the Clip Loop Backward/Forward by its length | CLIP LOOP <, CLIP LOOP >
-| CLIP LOOP <x or >x | Move the Clip Loop Backward/Forward by x number of beats | CLIP LOOP <4, CLIP LOOP >16
+| CLIP LOOP &lt;x or >x | Move the Clip Loop Backward/Forward by x number of beats | CLIP LOOP <4, CLIP LOOP >16
 | CLIP LOOP END x | x is the Clip Loop End (End if Loop is off) to set in beats | CLIP LOOP END 4, CLIP LOOP END 16
 | CLIP LOOP END < or > | Dec/Inc the Clip Loop End (End if Loop is off) by 1 beat | CLIP LOOP END <, CLIP LOOP END >
-| CLIP LOOP END <x or >x | Dec/Inc the Clip Loop End (End if Loop is off) by increment of x | CLIP LOOP END <2, CLIP LOOP END >0.5
+| CLIP LOOP END &lt;x or >x | Dec/Inc the Clip Loop End (End if Loop is off) by increment of x | CLIP LOOP END <2, CLIP LOOP END >0.5
 | CLIP LOOP RESET | Reset Clip Loop Start to 1.1.1 and Clip Loop End to Clip End Marker |  -
 | CLIP LOOP SHOW | Zoom in or out to show the Clip’s entire Loop. This will do nothing if the Clip isn’t visible or its Loop is off. | -
 | CLIP LOOP START x | x is the Clip Loop Start (Start if Loop is off) to set in beats |  CLIP LOOP START 4, CLIP LOOP START 8
 | CLIP LOOP START < or > | Dec/Inc the Clip Loop Start (Start if Loop is off) by 1 beat | CLIP LOOP START <, CLIP LOOP START >
-| CLIP LOOP START <x or >x | Dec/Inc the Clip Loop Start (Start if Loop is off) by increment of x | CLIP LOOP START <2, CLIP LOOP START >0.5
+| CLIP LOOP START &lt;x or >x | Dec/Inc the Clip Loop Start (Start if Loop is off) by increment of x | CLIP LOOP START <2, CLIP LOOP START >0.5
 | CLIP NAME x | x is the new name for the Clip. The new name will be capitalized| CLIP NAME DRUMS
 | CLIP NOTES | Toggle, turn on or turn off the mute status of Notes | CLIP NOTES, CLIP NOTES ON, CLIP NOTES OFF
 | CLIP NOTES CMB | Combine each set of two consecutive Notes into a single Note | -
@@ -337,20 +337,20 @@ You can specify both a pitch (or pitch range) and a position (or position range)
 | CLIP NOTES DEL | Delete Notes |  -
 | CLIP NOTES EXP | Expand the duration of Notes |  -
 | CLIP NOTES GATE < or > | Dec/Inc the length of Notes by one 128th note |  CLIP NOTES GATE <, CLIP NOTES GATE >
-| CLIP NOTES GATE <x or >x | Dec/Inc the length of Notes by x 128th notes |  CLIP NOTES GATE <4, CLIP NOTES GATE >8
+| CLIP NOTES GATE &lt;x or >x | Dec/Inc the length of Notes by x 128th notes |  CLIP NOTES GATE <4, CLIP NOTES GATE >8
 | CLIP NOTES INV | Invert the pitches of Notes |  -
 | CLIP NOTES NUDGE < or > | Nudge Notes Backward/Forward by one 128th note |  CLIP NOTES NUDGE <, CLIP NOTES NUDGE >
-| CLIP NOTES NUDGE <x or >x | Nudge Notes Backward/Forward by x 128th notes |  CLIP NOTES NUDGE <4, CLIP NOTES NUDGE >8
+| CLIP NOTES NUDGE &lt;x or >x | Nudge Notes Backward/Forward by x 128th notes |  CLIP NOTES NUDGE <4, CLIP NOTES NUDGE >8
 | CLIP NOTES REV | Reverse the position of Notes|  -
 | CLIP NOTES SCRN | Scramble the pitches of Notes while maintaining rhythm | -
 | CLIP NOTES SCRP | Scramble the position of Notes while maintaining pitches |  -
 | CLIP NOTES SEMI < or > | Dec/Inc Notes pitch by 1 semitone | CLIP NOTES SEMI <, CLIP NOTESC3 SEMI >
-| CLIP NOTES SEMI <x or >x | Dec/Inc Notes pitch by x semitones | CLIP NOTES SEMI <x, CLIP NOTESC3 SEMI >x
+| CLIP NOTES SEMI &lt;x or >x | Dec/Inc Notes pitch by x semitones | CLIP NOTES SEMI <2, CLIP NOTESC3 SEMI >3
 | CLIP NOTES SEMI x | Set each note pitch to the named note | CLIP NOTESC3 SEMI C#3
 | CLIP NOTES SPLIT | Split each Note into two equally sized Notes |  -
 | CLIP NOTES VELO x | x is the Note velocity to set |  CLIP NOTES VELO 64, CLIP NOTES VELO 127
 | CLIP NOTES VELO < or > | Dec/Inc the velocity of Notes by increment of 1 |  CLIP NOTES VELO <, CLIP NOTES VELO >
-| CLIP NOTES VELO <x or >x | Dec/Inc the velocity of Notes by increment of x |  CLIP NOTES VELO <5, CLIP NOTES VELO >10,
+| CLIP NOTES VELO &lt;x or >x | Dec/Inc the velocity of Notes by increment of x |  CLIP NOTES VELO <5, CLIP NOTES VELO >10,
 | CLIP NOTES VELO << or CLIP NOTES VELO >> | Apply a decrescendo (descending velocities) or a crescendo (ascending velocities) to Notes. | CLIP NOTES VELO <<, CLIP NOTES VELO >>
 | CLIP NOTES VELO RND | Randomize the velocity of Notes | -
 | CLIP QNTZ x | x is the value to Quantize the Clip’s Notes or Warp markers to | CLIP QNTZ 1/4, CLIP QNTZ 1/8, CLIP QNTZ 1/8T, CLIP QNTZ 1/8 + 1/8T, CLIP QNTZ 1/16, CLIP QNTZ 1/16T, CLIP QNTZ 1/16 + 1/16T, CLIP QNTZ 1/32
@@ -359,12 +359,12 @@ You can specify both a pitch (or pitch range) and a position (or position range)
 | CLIP QNTZ n x CLIP QNTZ n x y CLIP QNTZ n x y z | Same as the CLIP QNTZ Actions listed above, but n is the pitch name or Pitch Range to Quantize | CLIP QNTZ C3 1/8, CLIP QNTZ D#4-C5 1/32 50, CLIP QNTZ E1 1/16 50 25
 | CLIP SEMI x | x is the Audio Clip Transpose value to set |  CLIP SEMI -12, CLIP SEMI 5
 | CLIP SEMI < or > | Dec/Inc Audio Clip Transpose value or Notes pitch by 1 semitone | CLIP SEMI <, CLIP SEMI >
-| CLIP SEMI <x or >x | Dec/Inc Audio Clip Transpose value or Notes pitch by x semitones | CLIP SEMI <5, CLIP SEMI >10
+| CLIP SEMI &lt;x or >x | Dec/Inc Audio Clip Transpose value or Notes pitch by x semitones | CLIP SEMI <5, CLIP SEMI >10
 | CLIP SIG x/y | x is the Time Signature Numerator value and y is the Time Signature denominator value | CLIP SIG 4/4, CLIP SIG 6/8, CLIP SIG 16/2
 | CLIP SPLIT x | x is the length of the segments (in beats) to split a Clip into. This will duplicate the Clip and set each segment to be the specified length. As with any duplication of a Clip, this will overwrite Clips that exist in the Clip Slots beneath the Clip that will be duplicated. | CLIP SPLIT 1, CLIP SPLIT 0.25, CLIP SPLIT 4
 | CLIP START x | x is the Clip Start to set in beats | CLIP START 4, CLIP START 16
 | CLIP START < or > | Dec/Inc the Clip’s Start by 1 beat | CLIP START <, CLIP START >
-| CLIP START <x or >x | Dec/Inc the Clip’s Start by increment of x | CLIP START <2, CLIP START >0.5
+| CLIP START &lt;x or >x | Dec/Inc the Clip’s Start by increment of x | CLIP START <2, CLIP START >0.5
 | CLIP TGRID | Toggle, turn on or turn off the Clip’s triplet grid setting | CLIP TGRID, CLIP TGRID ON, CLIP TGRID OFF
 | CLIP WARP | Toggle, turn on or turn off the Clip’s Warp switch | CLIP WARP, CLIP WARP ON, CLIP WARP OFF
 | CLIP WARPMODE x | x is the name of the Warp Mode (as shown in the Warp Mode menu) to set. This cannot be applied if the Warp Mode is currently REX. | CLIP WARPMODE BEATS, CLIP WARPMODE COMPLEX
@@ -386,7 +386,7 @@ You can alternatively specify the one-word name of the Control Surface to operat
 | CSN METRO ON or CSN METRO OFF | Cause the APC's Clip Stop buttons or the Launchpad’s RightSide buttons (in every mode except for User 1) to display a visual metronome. The buttons will still function as usual. Only applies to the APC40, APC20 and Launchpad | CS2 METRO ON, CS"Launchpad" METRO OFF
 | CSN RING Tx Sy | x is the name or number of the first track outlined by the ring, y is the name of number of the first Scene outlined by the ring. Only one of these has to be specified so that you can change the scene offset without changing the track offset and vice versa. Only on surfaces which have a grid selector | CS1 RING T1 S20, CS"APC40" RING S"My Scene", CS4 RING T5, CS"Push" RING T"The Track" S100
 | CSN RING T< or > S< or > | Move the ring Backward/Forward by increment of 1 track and/or 1 scene. Only of these has to be specified so that you can increment Tracks without incrementing Scenes and vice versa. | CS"APC40" RING T> S<, CS3 RING T<, CS1 RING T>, CS4 RING S<, CS4 RING S>
-| CSN RING T<x or >x S<x or >x | Move the ring Backward/Forward by increment of x Tracks and/or x Scenes. Only of these has to be specified so that you can increment Tracks without incrementing Scenes and vice versa. | CS"APC40" RING T>4 S<8, CS1 RING T<2, CS1 RING T>10, CS4 RING S<20, CS4 RING S>5
+| CSN RING T&lt;x or >x S&lt;x or >x | Move the ring Backward/Forward by increment of x Tracks and/or x Scenes. Only of these has to be specified so that you can increment Tracks without incrementing Scenes and vice versa. | CS"APC40" RING T>4 S<8, CS1 RING T<2, CS1 RING T>10, CS4 RING S<20, CS4 RING S>5
 | CSN RING LAST | Moves the ring back to the position it was at prior to triggering one of the Ring Actions described above. | CS"APC40" RING LAST, CS1 RING LAST
 | CSN RINGLINK T S | Causes the Surface's ring to be linked to the selected Track and/or Scene. Only of these has to be specified so that you can link to Tracks without linking to Scenes and vice versa. You can also specify CENTER, which will cause the ring to be centered around the selected Track and/or Scene. | CS"APC20" RINGLINK T S, CS2 RINGLINK T CENTER, CS"Push" RINGLINK S
 | CSN RINGLINK OFF | Turns the Surface's ring linking off. | CS"APC20" RINGLINK OFF, CS2 RINGLINK OFF
