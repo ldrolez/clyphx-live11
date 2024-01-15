@@ -29,7 +29,7 @@ from .consts import *
 if IS_LIVE_9:
     import random
 
-ENV_TYPES = ('IRAMP', 'DRAMP', 'IPYR', 'DPYR', 'SQR', 'SAW')
+ENV_TYPES = ('IRAMP', 'DRAMP', 'IPYR', 'DPYR', 'SQR', 'SAW', 'TRI')
    
 class ClyphXClipActions(ControlSurfaceComponent):
     __module__ = __name__
@@ -282,15 +282,20 @@ class ClyphXClipActions(ControlSurfaceComponent):
                         env_param_spec += arg_array[index] + ' '
                     param = self._get_envelope_parameter(track, env_param_spec)
                     if param and not param.is_quantized:
-                        env_range = (param.min, param.max)
+                        min_factor = 0.0
+                        max_factor = 1.0
                         # calculate range if specified in args
                         if env_type_index != last_arg_index:
                             try: 
-                                min_factor = int(arg_array[-2]) 
-                                max_factor = int(arg_array[-1])
-                                if min_factor in range(101) and max_factor in range(101) and min_factor < max_factor:
-                                    env_range = ((min_factor / 100.0) * param.max, (max_factor / 100.0) * param.max)
-                            except: pass
+                                min_factor = int(arg_array[-2])/100.0
+                                max_factor = int(arg_array[-1])/100.0
+                                min_factor = min(max(min_factor, 0.0), 1.0)
+                                max_factor = min(max(max_factor, 0.0), 1.0)
+                            except:
+                                min_factor = 0.0
+                                max_factor = 1.0
+                        scale = param.max - param.min
+                        env_range = (param.min + min_factor * scale, param.min + max_factor * scale)
                         self.song().view.detail_clip = clip
                         clip.view.show_envelope()
                         clip.view.select_envelope_parameter(param)      
@@ -303,30 +308,39 @@ class ClyphXClipActions(ControlSurfaceComponent):
         """ Performs the actual insertion of the envelope into the clip. """
         env = clip.automation_envelope(param)
         if env:
-            median = ((clip.loop_end - clip.loop_start) / 2.0) + clip.loop_start
-            num_beats = int(clip.loop_end - clip.loop_start) + 1
+            def ceil(x):
+                return -int(-x//1)
+            end_beat = ceil(clip.loop_end)
             start_beat = int(clip.loop_start)
-            if env_type == 'IRAMP':   
-                env.insert_step(clip.loop_start, 0.0, env_range[0])
-                env.insert_step(clip.loop_end, 0.0, env_range[1])
-            elif env_type == 'DRAMP':
-                env.insert_step(clip.loop_start, 0.0, env_range[1])
-                env.insert_step(clip.loop_end, 0.0, env_range[0])
-            elif env_type == 'IPYR':
-                env.insert_step(clip.loop_start, 0.0, env_range[0])
-                env.insert_step(median, 0.0, env_range[1])
-                env.insert_step(clip.loop_end, 0.0, env_range[0])
-            elif env_type == 'DPYR':
-                env.insert_step(clip.loop_start, 0.0, env_range[1])
-                env.insert_step(median, 0.0, env_range[0])
-                env.insert_step(clip.loop_end, 0.0, env_range[1])
-            elif env_type == 'SAW':
+            num_beats = end_beat - start_beat
+            if env_type == 'TRI':
+                if num_beats > 128: # So we don't crash Ableton
+                    return
+                env.insert_step(start_beat, 0.0, env_range[1])
                 for b in range(num_beats):
                     beat = float(b + start_beat)
-                    env.insert_step(beat, 0.0, env_range[1])
-                    if beat < clip.loop_end:
-                        env.insert_step(beat + 0.5, 0.0, env_range[0])
+                    for step in range(16):
+                        env.insert_step(beat + step*1/32.0, 1/32.0,
+                                        env_range[0]+(env_range[1]-env_range[0])*step/16.0)
+                    for step in range(16):
+                        env.insert_step(beat + step*1/32.0 + 0.5, 1/32.0,
+                                        env_range[1]-(env_range[1]-env_range[0])*step/16.0)
+                env.insert_step(beat+1, 0.0, env_range[1])
+                return
+            if env_type == 'SAW':
+                if num_beats > 128: # So we don't crash Ableton
+                    return
+                env.insert_step(start_beat, 0.0, env_range[1])
+                for b in range(num_beats):
+                    beat = float(b + start_beat)
+                    for step in range(32):
+                        env.insert_step(beat + step/32.0, 1/32.0,
+                                        env_range[0]+(env_range[1]-env_range[0])*step/31.0)
+                env.insert_step(beat+1, 0.0, env_range[1])
+                return
             elif env_type == 'SQR':
+                if num_beats > 4096: # So we don't crash Ableton
+                    return
                 for b in range(num_beats):
                     beat = float(b + start_beat)
                     if beat < clip.loop_end:
@@ -334,8 +348,31 @@ class ClyphXClipActions(ControlSurfaceComponent):
                             env.insert_step(beat, 1.0, env_range[1])
                         else:
                             env.insert_step(beat, 1.0, env_range[0])
-                        
-                    
+                return
+            # In value_function, pos is always between 0 and 1.0,
+            # and the returned value is alwayas between 0 and 1.0.
+            if env_type == 'IRAMP':
+                value_function = lambda pos : pos
+            elif env_type == 'DRAMP':
+                value_function = lambda pos : 1-pos
+            elif env_type == 'IPYR':
+                value_function = lambda pos : pos*2 if pos < 0.5 else (1-(pos-0.5)*2)
+            elif env_type == 'DPYR':
+                value_function = lambda pos : (1-pos*2) if pos < 0.5 else (pos-0.5)*2
+            else:
+                return
+            clip_len = clip.loop_end - clip.loop_start
+            # Step size at least 1/128 note (1/32 of a beat), and limit to 256 steps total.
+            step_size = 0.03125
+            while (clip_len/step_size) > 256:
+                step_size *= 2
+            scale = env_range[1]-env_range[0]
+            env.insert_step(clip.loop_start, 0, scale*value_function(0)+env_range[0])
+            for step in range(int(clip_len/step_size)+1):
+                loc = clip.loop_start + step*step_size
+                pos = step * step_size / clip_len
+                env.insert_step(loc, step_size if pos<1 else 0, scale*value_function(pos)+env_range[0])
+
     def clear_envelope(self, clip, track, xclip, ident, args):
         """ Clears the envelope of the specified param or all envelopes from the given clip. """
         if IS_LIVE_9_1:
