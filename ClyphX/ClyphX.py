@@ -50,11 +50,11 @@ if IS_LIVE_9_5:
     from .PushEmuHandler import MockHandshakeTask, MockHandshake
 
 FOLDER = '/ClyphX/'
-SCRIPT_NAME = 'ClyphX v2.7.4 for Live 11'
+SCRIPT_NAME = 'ClyphX v2.7.5 for Live 12'
 
 class ClyphX(ControlSurface):
     __module__ = __name__
-    __doc__ = " ClyphX Main for Live 11 "
+    __doc__ = " ClyphX Main for Live 12 "
     
     def __init__(self, c_instance):
         ControlSurface.__init__(self, c_instance)

@@ -363,6 +363,8 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
                     name = AUDIO_DEVS[args]
                     if IS_LIVE_11:
                         subfolders = True
+                    if IS_LIVE_12:
+                        subfolders = False
                 elif args in MIDI_DEVS:
                     tag_target = self.application().browser.midi_effects
                     name = MIDI_DEVS[args]
