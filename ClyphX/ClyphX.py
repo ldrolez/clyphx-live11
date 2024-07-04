@@ -344,7 +344,7 @@ class ClyphX(ControlSurface):
         """ Handles sequenced action lists, triggered by xclip looping """
         if self._loop_seq_clips.__contains__(xclip.name):
             if count >= len(self._loop_seq_clips[xclip.name][1]):
-                count = count - ((count / len(self._loop_seq_clips[xclip.name][1]))*len(self._loop_seq_clips[xclip.name][1]))
+                count = count % len(self._loop_seq_clips[xclip.name][1])
             action = self._loop_seq_clips[xclip.name][1][count]
             self.action_dispatch(action['track'], xclip, action['action'], action['args'], self._loop_seq_clips[xclip.name][0])
             if self._is_debugging:
