@@ -453,4 +453,57 @@ Applies to PUSH and PUSH 2 control surfaces, and they should be enabled in your 
 | PUSH SCL TYPE < or > | Move to the Prev/Next Scale Type to use in Note Mode | PUSH SCL TYPE <, PUSH SCL TYPE >
 | PUSH SEQ x | x is the name of the Clip Notes Action to apply to the note lane currently being edited by Push’s Drum step-sequencer | PUSH SEQ VELO RND, PUSH SEQ CMB
  
- 
+## User Variables
+
+### Defining/Re-Assigning Variables
+
+You can use Variables in your Action Lists to store values (like 42), single Actions (like OVER OFF), or portions of Action Names (like CLIP). There are two ways to define Variables:
+
+1. **User Settings**: Define Variables here to make them always available to any Action List in any set. Examples:
+   - `my_var1 = 42`
+   - `my_var2 = SHOWCLIP`
+
+2. **X-Clips/X-Cues**: Define or re-assign Variables temporarily (only for the current set) using the same syntax. For example, to re-assign `my_var1`:
+   - `my_var1 = 100`
+
+These temporary definitions are reset to your User Settings upon set load.
+
+**Limitations:**
+- Avoid special characters (e.g., umlauts) and the following: semi-colon ( ; ), comma ( , ), equals sign ( = ), dollar sign ( $ ).
+- The percent sign ( % ) can only be used to refer to a Variable.
+- Parentheses ( ( and ) ) are for specifying Expressions only.
+- Slashes ( / ) are for specifying division in an Expression.
+
+**NOTE:** Variable names should only contain letters, numbers, and underscores. They are not case-sensitive.
+
+### Defining/Re-Assigning Variables Programmatically
+
+To define/re-assign multiple variables with similar names and sequential values, use the `ASN` Action, which takes three arguments: the base name of the variables, the value of the first variable, and the number of variables to create. For example:
+- `ASN CLIP 1 10` creates 10 variables named clip1, clip2, etc., with values 1, 2, etc.
+- `ASN TRACK 10 5` creates 5 variables named track1, track2, etc., with values 10, 11, etc.
+
+This Action can be triggered from the Startup Action (defined in User Settings) to make the created variables always accessible.
+
+### Using Variables
+
+Once defined, you can use Variables in any Action List by enclosing them in percent signs ( % ). Examples:
+- `%my_var1%/MUTE`
+- `V=20 ; 2/VOL %v%`
+
+### Variables and Expressions
+
+You can use Expressions in Variable definitions/re-assignments. To assign a Variable to the result of an Expression, enclose the Expression in parentheses. For example:
+- `v=(%v% + 2) ; %v%/MUTE`
+
+In this example, the Variable `v` starts at 0. The Expression (%v% + 2) evaluates to 0+2, so the result is 2. The next time, it evaluates to 2+2, resulting in 4.
+
+Ensure there is nothing outside the outermost set of parentheses in an Expression. For example:
+- `v=((%v% + 1) * 10)`
+
+Use quotes correctly when combining strings in Expressions. For example:
+- `x=My ; y=Track ; v=(%x% + ' ' + %y%) ; "%v%"/MUTE`
+
+Avoid mixed variable types in an Expression. Specify each variable type to combine strings and numbers:
+- `x=Track ; y=1 ; v=('%x% ' + '%y%')`
+
+This ensures the Expression works correctly.
