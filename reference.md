@@ -1,3 +1,44 @@
+## Intro
+
+ClyphX offers a robust set of Actions to masterfully control various aspects of Ableton Live. You can unleash these Actions through X-Triggers, which come in four flavors:
+
+ * X-CLIP: Any clip in Session View that follows the correct naming convention.
+ * X-CUE: Any locator in Arrangement View with the right naming. X-Cues will perform their Action List when the playhead passes over the X-Cue. 
+ * X-CONTROL: MIDI controls at your command. X-Controls will perform their Action List when pressed. They can optionally perform a second Action List when released. 
+ * STARTUP ACTIONS: These trigger every time you load a Live set, as specified in your User Settings.
+
+You can transform any Clip or Locator in Ableton Live into an X-Clip or X-Cue by adding an Identifier in brackets at the beginning of its name. The Identifier can be any word or phrase, but it should only contain letters, numbers, and underscores. Each X-Trigger can execute an Action List. 
+
+For instance, a simple Action List might toggle Overdub on/off: `OVER`. A more complex Action List could mute Tracks 2 and 3, arm Track 4, and turn on the 3rd Device on Track 4: `2/MUTE ON ; 3/MUTE ON ; 4/ARM ON ; 4/DEV3 ON`.
+
+When specifying an Action List, separate each Action with a semi-colon ( ; ) as demonstrated above. The Actions in an Action List are carried out sequentially (first action, then second action, and so on), but the processing is almost instantaneous, making it appear as if all Actions are performed simultaneously.
+
+However, X-Triggers (excluding Startup Actions) can also step through an Action List and execute each Action one at a time with each trigger. To do this, prefix the Action List with `(PSEQ)`. For example: `(PSEQ) 1/ARM ; 2/ARM ; 3/ARM`.
+
+In this example, the first time the X-Trigger is activated, Track 1 will be Armed. The second time, Track 2 will be Armed. The third time, Track 3 will be Armed. On the fourth trigger, it will loop back to the beginning, and Track 1 will be Armed again.
+
+**NOTE:** For clarity, this document uses CAPITAL LETTERS for Action Lists. However, Action Lists are not case-sensitive. You can use whatever capitalization feels comfortable for you.
+
+### X-Clips types
+
+There are several types of X-Clips:
+
+1. **DEFAULT**
+   - **Example:** `[ID] CLIP SEMI > ; CLIP CENT -25`
+   - **Description:** This X-Clip performs its Action List when played (not just launched). This allows Action Lists to be quantized using Global or Launch Quantization.
+
+2. **DEFAULT WITH STOP**
+   - **Example:** `[ID] REC ON ; 1/ARM ; 2/ARM, UNARM ; REC OFF`
+   - **Description:** This X-Clip has two Action Lists separated by a comma (,). The first Action List runs when the X-Clip is played. The second Action List runs when the X-Clip stops playing. If you want the same Action List for both play and stop, use an asterisk (*) for the second Action List.
+
+3. **LSEQ**
+   - **Example:** `[ID](LSEQ) 1/CLIP2 CUE >1 ; 1/MUTE`
+   - **Description:** This X-Clip steps through and performs each Action in the Action List one at a time, each time the X-Clip loops, similar to a PSEQ Action List.
+
+**Notes:**
+- It takes up to 100 ms for an X-Clip launch to be recognized by ClyphX. If an X-Clip plays for less than 100 ms, its Action List might not be performed.
+- For the Default With Stop type of X-Clip, the first Action List can be a PSEQ or LSEQ, but the second Action List should be a normal Action List.
+
 ## Global Actions
 
 The MIDI Actions send MIDI messages to the MIDI port selected as the Output port for the ClyphX control surface. Also, all values in MIDI Actions
@@ -29,7 +70,7 @@ For Scene selection, you can use a number, a string with double-quotes or a regu
 | DELSCENE x | x is the Scene number to delete. Specify SEL for the selected Scene. It is not possible to delete a Scene if it’s the only Scene in the Set. | DELSCENE 10, DELSCENE 3, DELSCENE SEL
 | DEVFIRST or DEVLAST | Move to the First or Last Device on the selected Track. | DEVFIRST, DEVLAST
 | DEVLEFT or DEVRIGHT | Move Left or Right between Devices on the selected Track.  | DEVLEFT, DEVRIGHT
-| DUMMY T| his Action does nothing. This is intended for use with PSEQ Action Lists and LSEQ and DEFAULT WITH STOP X-Clips. | -
+| DUMMY | This Action does nothing. This is intended for use with PSEQ Action Lists and LSEQ and DEFAULT WITH STOP X-Clips. | -
 | DUPESCENE | When accessed via an X-Clip, Duplicate the Scene the X-Clip is on. Otherwise, Duplicate the selected Scene. | -
 | DUPESCENE x | x is the Scene number to Duplicate. Specify SEL for the selected Scene. | DUPESCENE 10, DUPESCENE 3, DUPESCENE SEL
 | FOCBRWSR | Move the Focus to the Browser and show the Browser if it isn’t visible. | -
