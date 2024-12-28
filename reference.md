@@ -507,3 +507,17 @@ Avoid mixed variable types in an Expression. Specify each variable type to combi
 - `x=Track ; y=1 ; v=('%x% ' + '%y%')`
 
 This ensures the Expression works correctly.
+
+### User Settings
+
+User settings are located in the UserSettings.txt file, which can be found in the ClyphX remote script folder. The file itself provides clear instructions on how to modify it, along with descriptions for all available options.
+
+Here’s a breakdown of the settings categories:
+
+ * [SNAPSHOT SETTINGS] : These settings control the behavior of the Snap Action.
+ * [EXTRA PREFS] : This section handles general Live options, inherited from ExtraPrefs. It also includes an option to define an Action List that will run automatically each time a set is loaded.
+ * [CSLINKER] : These settings are used to link the grid selectors of two Control Surfaces.
+ * [USER CONTROLS] : This section relates to your X-Control settings.
+ * [USER VARIABLES] : These settings manage your User Variables.
+
+Each section is clearly labeled, so you can easily find and adjust the settings that matter to you.
