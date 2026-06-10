@@ -148,6 +148,8 @@ For Scene selection, you can use a number, a string with double-quotes or a regu
 | UNARM | Unarm all armable Tracks. | -
 | UNMUTE | Unmute all Tracks. | -
 | UNSOLO | Unsolo all Tracks. | -
+| WAIT x | x represents the wait time, in hundreds of milliseconds, before advancing to the next Action in the Action List. It cannot be applied in PSEQ or LSEQ | WAIT 1, WAIT 10
+| WAITS x | Identical to WAIT, except that x represents the duration in beats, and you should specify B if the duration is in Bars. | WAITS 4B, WAITS 3
 
 All of the continuous parameters offer several control options via keywords.
 
