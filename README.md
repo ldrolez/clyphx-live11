@@ -6,16 +6,16 @@ ClyphX 2.6.2 is licensed under the GNU Lesser General Public License, which mean
 
 Starting with version 2.7.0, the code was modified to work with Live 11 and above. If you find any bugs, please report them using the Issue tab above.
 
-You can still use it but do not try to get support on nativeKONTROL forums, it is not supported by them anymore.
+Do not try to get support on nativeKONTROL forums, this free version is not supported by them anymore.
 
 ![Advanced Ableton Control Macros](https://drolez.com/blog/i/ableton-advanced-macros.gif)
 
 ## Installation
 
-* Get the ZIP in the releases.
+* Get the ZIP in 'Releases'.
 * Unzip it in Ableton browser path 'User Library/Remote Scripts' (create the directory if not present)
 * Restart Ableton Live
-* Add ClyphX as a new control surface in Ableton's preferences (input and output = None)
+* Add 'ClyphX' as a new control surface in Ableton's preferences (input and output = None)
 * Enjoy!
 
 ## More information
