@@ -252,10 +252,7 @@ class ClyphX(ControlSurface):
                         self._loop_seq_clips[xtrigger.name] = [ident, formatted_action_list]
                         self.handle_loop_seq_action_list(xtrigger, 0)
                     else:
-                        for action in formatted_action_list:
-                            self.action_dispatch(action['track'], xtrigger, action['action'], action['args'], ident)
-                            if self._is_debugging:
-                                self.log_message('handle_action_list_trigger triggered, ident=' + str(ident) + ' and track(s)=' + str(self.track_list_to_string(action['track'])) + ' and action=' + str(action['action']) + ' and args=' + str(action['args']))
+                        self.process_action_list(formatted_action_list, xtrigger, ident)
 
 
     def get_xclip_action_list(self, xclip, full_action_list):
@@ -338,6 +335,27 @@ class ClyphX(ControlSurface):
         if self._is_debugging:
             self.log_message('format_action_name returning, track(s)=' + str(self.track_list_to_string(result_track)) + ' and action=' + str(result_name.strip()) + ' and args=' + str(args.strip()))
         return {'track' : result_track, 'action' : result_name.strip(), 'args' : args.strip()}
+
+
+    def process_action_list(self, action_list, xtrigger, ident):
+        """ Processes an action list and handles WAIT actions. """
+        for index, action in enumerate(action_list):
+            action_name = action['action']
+            if action_name == 'WAIT':
+                try:
+                    wait_val = int(action['args'])
+                    remaining_actions = action_list[index+1:]
+                    if remaining_actions:
+                        if IS_LIVE_9:
+                            self.schedule_message(wait_val, partial(self.process_action_list, remaining_actions, xtrigger, ident))
+                        else:
+                            self.schedule_message(wait_val, self.process_action_list, remaining_actions, xtrigger, ident)
+                    return
+                except:
+                    pass
+            self.action_dispatch(action['track'], xtrigger, action_name, action['args'], ident)
+            if self._is_debugging:
+                self.log_message('handle_action_list_trigger triggered, ident=' + str(ident) + ' and track(s)=' + str(self.track_list_to_string(action['track'])) + ' and action=' + str(action_name) + ' and args=' + str(action['args']))
 
 
     def handle_loop_seq_action_list(self, xclip, count):

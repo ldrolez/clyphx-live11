@@ -104,7 +104,8 @@ GLOBAL_ACTIONS = {
     'UNARM' : 'set_unarm_all',
     'UNMUTE' : 'set_unmute_all',
     'UNSOLO' : 'set_unsolo_all',
-    'MAKE_DEV_DOC': 'make_instant_mapping_docs'}
+    'MAKE_DEV_DOC': 'make_instant_mapping_docs',
+    'WAIT': 'do_wait'}
 
 TRACK_ACTIONS = {
     'ARM' : 'set_arm', 
