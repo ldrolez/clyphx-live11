@@ -50,7 +50,7 @@ if IS_LIVE_9_5:
     from .PushEmuHandler import MockHandshakeTask, MockHandshake
 
 FOLDER = '/ClyphX/'
-SCRIPT_NAME = 'ClyphX v2.7.5 for Live 12'
+SCRIPT_NAME = 'ClyphX v2.7.6 for Live 12'
 
 class ClyphX(ControlSurface):
     __module__ = __name__
@@ -338,21 +338,36 @@ class ClyphX(ControlSurface):
 
 
     def process_action_list(self, action_list, xtrigger, ident):
-        """ Processes an action list and handles WAIT actions. """
+        """ Processes an action list and handles WAIT/WAITS actions. """
         for index, action in enumerate(action_list):
             action_name = action['action']
+            wait_val = None
             if action_name == 'WAIT':
                 try:
                     wait_val = int(action['args'])
-                    remaining_actions = action_list[index+1:]
-                    if remaining_actions:
-                        if IS_LIVE_9:
-                            self.schedule_message(wait_val, partial(self.process_action_list, remaining_actions, xtrigger, ident))
-                        else:
-                            self.schedule_message(wait_val, self.process_action_list, remaining_actions, xtrigger, ident)
-                    return
                 except:
                     pass
+            elif action_name == 'WAITS':
+                try:
+                    args = action['args'].upper()
+                    if args.endswith('B'):
+                        num_bars = float(args[:-1])
+                        beats_per_bar = 4.0 * self.song().signature_numerator / self.song().signature_denominator
+                        beats = num_bars * beats_per_bar
+                    else:
+                        beats = float(args)
+                    delay_seconds = beats * (60.0 / self.song().tempo)
+                    wait_val = int(delay_seconds * 10)
+                except:
+                    pass
+            if wait_val is not None:
+                remaining_actions = action_list[index+1:]
+                if remaining_actions:
+                    if IS_LIVE_9:
+                        self.schedule_message(wait_val, partial(self.process_action_list, remaining_actions, xtrigger, ident))
+                    else:
+                        self.schedule_message(wait_val, self.process_action_list, remaining_actions, xtrigger, ident)
+                return
             self.action_dispatch(action['track'], xtrigger, action_name, action['args'], ident)
             if self._is_debugging:
                 self.log_message('handle_action_list_trigger triggered, ident=' + str(ident) + ' and track(s)=' + str(self.track_list_to_string(action['track'])) + ' and action=' + str(action_name) + ' and args=' + str(action['args']))

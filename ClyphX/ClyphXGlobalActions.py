@@ -526,6 +526,11 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
         This is handled by process_action_list in ClyphX.py. """
         pass
 
+    def do_waits(self, track, xclip, ident, value = None):
+        """ Global action to wait for beats or bars before proceeding to the next action in an action list.
+        This is handled by process_action_list in ClyphX.py. """
+        pass
+
     def set_record(self, track, xclip, ident, value = None):
         """ Toggles or turns on/off record """
         if value in KEYWORDS:
