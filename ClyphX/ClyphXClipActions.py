@@ -763,7 +763,11 @@ class ClyphXClipActions(ControlSurfaceComponent):
                 factor = self._parent.get_adjustment_factor(args)
                 n.pitch += factor
             else:
-                (n.pitch, unused) = self.get_note_range(args)
+                (new_pitch, unused) = self.get_note_range(args)
+                if new_pitch != -1:
+                    n.pitch = new_pitch
+                else:
+                    continue
             if n.pitch > 127:
                 n.pitch = 127
             if n.pitch < 0:
@@ -1039,13 +1043,15 @@ class ClyphXClipActions(ControlSurfaceComponent):
             else:
                 start_note_name = self.get_note_name_from_string(string)
                 start_note_num = self.string_to_note(start_note_name)
+                if start_note_num is None:
+                    return (-1, -1)
                 note_range = (start_note_num, start_note_num + 1)
                 string = string.replace(start_note_name, '').strip()
                 if len(string) > 1 and string.startswith('-'):
                     string = string[1:]
                     end_note_name = self.get_note_name_from_string(string)
                     end_note_num = self.string_to_note(end_note_name)
-                    if end_note_num > start_note_num:
+                    if end_note_num is not None and end_note_num > start_note_num:
                         note_range = (start_note_num, end_note_num + 1)
         return note_range
     
