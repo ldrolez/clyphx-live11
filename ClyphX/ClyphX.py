@@ -198,6 +198,27 @@ class ClyphX(ControlSurface):
         self.handle_action_list_trigger(self.song().view.selected_track, ActionList('[]' + name))
 
 
+    def split_action_list_into_steps(self, action_list):
+        """ Splits an action list into steps delimited by ';' at the top level. Actions enclosed
+        in {} are kept together as a single step (with their enclosing braces removed) so that
+        multiple actions can be triggered per step in a sequence (PSEQ/LSEQ). """
+        steps = []
+        current_step = ''
+        in_group = False
+        for char in action_list:
+            if char == '{':
+                in_group = True
+            elif char == '}':
+                in_group = False
+            elif char == ';' and not in_group:
+                steps.append(current_step)
+                current_step = ''
+            else:
+                current_step += char
+        steps.append(current_step)
+        return steps
+
+
     def handle_action_list_trigger(self, track, xtrigger):
         """ Directly dispatches snapshot recall, X-Control overrides and Seq X-Clips.  Otherwise, seperates ident from action names, splits up lists of action names and calls action dispatch. """
         if self._is_debugging:
@@ -237,14 +258,20 @@ class ClyphX(ControlSurface):
                     is_loop_seq = True
                     raw_action_list = raw_action_list.replace('(LSEQ)', '').strip()
 
-                # Build formatted action list
+                # Build formatted action list. Each entry is a step (a list of action dicts).
+                # Steps are delimited by ';' at the top level. Actions enclosed in {} are kept
+                # together so that multiple actions can be triggered per step in a sequence.
                 formatted_action_list = []
-                for action in raw_action_list.split(';'):
-                    action_data = self.format_action_name(track, action.strip())
-                    if action_data:
-                        formatted_action_list.append(action_data)
+                for step in self.split_action_list_into_steps(raw_action_list):
+                    step_actions = []
+                    for action in step.split(';'):
+                        action_data = self.format_action_name(track, action.strip())
+                        if action_data:
+                            step_actions.append(action_data)
+                    if step_actions:
+                        formatted_action_list.append(step_actions)
 
-                # If seq, pass to appropriate function, else call action dispatch for each action in the formatted action list
+                # If seq, pass to appropriate function, else flatten the steps and dispatch each action
                 if formatted_action_list:
                     if is_play_seq:
                         self.handle_play_seq_action_list(formatted_action_list, xtrigger, ident)
@@ -252,7 +279,8 @@ class ClyphX(ControlSurface):
                         self._loop_seq_clips[xtrigger.name] = [ident, formatted_action_list]
                         self.handle_loop_seq_action_list(xtrigger, 0)
                     else:
-                        self.process_action_list(formatted_action_list, xtrigger, ident)
+                        flattened_action_list = [action for step in formatted_action_list for action in step]
+                        self.process_action_list(flattened_action_list, xtrigger, ident)
 
 
     def get_xclip_action_list(self, xclip, full_action_list):
@@ -374,18 +402,20 @@ class ClyphX(ControlSurface):
 
 
     def handle_loop_seq_action_list(self, xclip, count):
-        """ Handles sequenced action lists, triggered by xclip looping """
+        """ Handles sequenced action lists, triggered by xclip looping. Each step can contain
+        multiple actions (grouped with {} in the action list), all of which are dispatched. """
         if self._loop_seq_clips.__contains__(xclip.name):
             if count >= len(self._loop_seq_clips[xclip.name][1]):
                 count = count % len(self._loop_seq_clips[xclip.name][1])
-            action = self._loop_seq_clips[xclip.name][1][count]
-            self.action_dispatch(action['track'], xclip, action['action'], action['args'], self._loop_seq_clips[xclip.name][0])
+            step = self._loop_seq_clips[xclip.name][1][count]
             if self._is_debugging:
-                self.log_message('handle_loop_seq_action_list triggered, xclip.name=' + str(xclip.name) + ' and track(s)=' + str(self.track_list_to_string(action['track'])) + ' and action=' + str(action['action']) + ' and args=' + str(action['args']))
+                self.log_message('handle_loop_seq_action_list triggered, xclip.name=' + str(xclip.name) + ' and step=' + str(count))
+            self.process_action_list(step, xclip, self._loop_seq_clips[xclip.name][0])
 
 
     def handle_play_seq_action_list(self, action_list, xclip, ident):
-        """ Handles sequenced action lists, triggered by replaying/retriggering the xtrigger """
+        """ Handles sequenced action lists, triggered by replaying/retriggering the xtrigger. Each
+        step can contain multiple actions (grouped with {} in the action list), all of which are dispatched. """
         if self._play_seq_clips.__contains__(xclip.name):
             count = self._play_seq_clips[xclip.name][1] + 1
             if count > len(self._play_seq_clips[xclip.name][2])-1:
@@ -393,10 +423,10 @@ class ClyphX(ControlSurface):
             self._play_seq_clips[xclip.name] = [ident, count, action_list]
         else:
             self._play_seq_clips[xclip.name] = [ident, 0, action_list]
-        action = self._play_seq_clips[xclip.name][2][self._play_seq_clips[xclip.name][1]]
-        self.action_dispatch(action['track'], xclip, action['action'], action['args'], ident)
+        step = self._play_seq_clips[xclip.name][2][self._play_seq_clips[xclip.name][1]]
         if self._is_debugging:
-            self.log_message('handle_play_seq_action_list triggered, ident=' + str(ident) + ' and track(s)=' + str(self.track_list_to_string(action['track'])) + ' and action=' + str(action['action']) + ' and args=' + str(action['args']))
+            self.log_message('handle_play_seq_action_list triggered, ident=' + str(ident) + ' and step=' + str(self._play_seq_clips[xclip.name][1]))
+        self.process_action_list(step, xclip, ident)
 
 
     def do_parameter_adjustment(self, param, value):
