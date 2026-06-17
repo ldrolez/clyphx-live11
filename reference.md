@@ -17,6 +17,14 @@ However, X-Triggers (excluding Startup Actions) can also step through an Action 
 
 In this example, the first time the X-Trigger is activated, Track 1 will be Armed. The second time, Track 2 will be Armed. The third time, Track 3 will be Armed. On the fourth trigger, it will loop back to the beginning, and Track 1 will be Armed again.
 
+#### Triggering multiple Actions per step in a sequence
+
+By default, `(PSEQ)` Action Lists and `(LSEQ)` X-Clips step through and trigger only one Action at a time. To trigger several Actions simultaneously in a single step, enclose those Actions in curly brackets ( `{ }` ). For example:
+
+`[IDENT] (PSEQ) {BPM 100; GQ 1 BAR} ; METRO ; {BPM 200; GQ 2 BARS; RQ 1/4}`
+
+In that example, the first time it's triggered, `BPM 100` and `GQ 1 BAR` are triggered together. The second time, `METRO` is triggered. The third time, `BPM 200`, `GQ 2 BARS` and `RQ 1/4` are triggered together. As shown, a sequence can freely mix steps that contain multiple Actions with steps that consist of a single Action.
+
 **NOTE:** For clarity, this document uses CAPITAL LETTERS for Action Lists. However, Action Lists are not case-sensitive. You can use whatever capitalization feels comfortable for you.
 
 ### X-Clips types
