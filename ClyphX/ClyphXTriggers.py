@@ -129,7 +129,7 @@ class ClyphXControlComponent(ControlSurfaceComponent):
             ctrl_num = None
             on_action = None
             off_action = None
-            d = d.split('=')
+            d = d.split('=', 1)
             ctrl_name = d[0].strip()
             new_ctrl_data = d[1].split(',')
             try:
