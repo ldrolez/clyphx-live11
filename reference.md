@@ -105,6 +105,8 @@ For Scene selection, you can use a number, a string with double-quotes or a regu
 | LOOP &lt;x or >x | Move the Arrangement Loop Backward/Forward by x number of beats. | LOOP <4, LOOP >16
 | LOOP RESET | Reset Arrangement Loop Start position to 1.1.1. | -
 | METRO | Toggle, turn on or turn off Metronome. | METRO, METRO ON, METRO OFF
+| MSG x | Show the message x in Live's Status Bar. By default, the message is shown in lower case. To preserve capitalization, wrap the message in quotes. | MSG hello world, MSG "Preserve Caps"
+| MSGHOLD x | Like MSG, but keeps re-displaying the message so it persists in the Status Bar until another message (MSG/MSGHOLD) is shown. Use MSGHOLD OFF to clear it. | MSGHOLD recording, MSGHOLD "Take 1", MSGHOLD OFF
 | MIDI x | x is the MIDI message (of any type/length) to send. | MIDI 144 0 127, MIDI 192 6, MIDI 240 1 2 3 4 247
 | MIDI CC x y z | Send a MIDI Control Change message where x is the Channel (in the range of 1 – 16), y is the Control number (in the range of 0 – 127) and z is the Value (in the range of 0 – 127). | MIDI CC 1 0 127, MIDI CC 16 10 127
 | MIDI NOTE x y z | Send a MIDI Note message where x is the Channel (in the range of 1 – 16), y is the Note number (in the range of 0 – 127) and z is the Velocity (in the range of 0 – 127). This will send a Note message with virtually no length. | MIDI NOTE 1 0 127, MIDI NOTE 16 10 127

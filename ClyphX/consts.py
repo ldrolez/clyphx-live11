@@ -76,6 +76,8 @@ GLOBAL_ACTIONS = {
     'LOCLOOP' : 'do_locator_loop_action',
     'METRO' : 'set_metronome', 
     'MIDI': 'send_midi_message',
+    'MSG' : 'show_status_message',
+    'MSGHOLD' : 'hold_status_message',
     'OVER' : 'set_overdub',    
     'PIN' : 'set_punch_in',
     'POUT' : 'set_punch_out',

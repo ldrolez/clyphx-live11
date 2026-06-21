@@ -46,6 +46,8 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
         self._tempo_ramp_active = False
         self._tempo_ramp_settings = []
         self._last_beat = -1
+        self._sticky_message = None
+        self._sticky_token = 0
         self.song().add_current_song_time_listener(self.on_time_changed)
         self.song().add_is_playing_listener(self.on_time_changed)
         if self.song().clip_trigger_quantization != 0:
@@ -63,6 +65,8 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
         self.song().remove_is_playing_listener(self.on_time_changed)
         self._tempo_ramp_settings = []
         self._scenes_to_monitor = None
+        self._sticky_message = None
+        self._sticky_token += 1
         self._parent = None
         if IS_LIVE_9:
             ControlSurfaceComponent.disconnect(self)
@@ -126,6 +130,63 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
                 result.append(int(string))
         except: result = []
         return result
+
+
+    def _parse_status_message(self, xclip, args):
+        """ Builds the message to show in the status bar. The message is lower
+        cased by default; text wrapped in quotes keeps its original capitalization. """
+        args = args.replace(u'\u201c', '"').replace(u'\u201d', '"')
+        if not args:
+            return ''
+        if '"' in args:
+            # Recover the original capitalization from the unaltered trigger name
+            try:
+                name = str(xclip.name)
+            except:
+                name = ''
+            name = name.replace(u'\u201c', '"').replace(u'\u201d', '"')
+            start = name.find('"')
+            end = name.find('"', start + 1)
+            if start != -1 and end != -1:
+                return name[start + 1:end]
+            return args.replace('"', '')
+        return args.lower()
+
+
+    def show_status_message(self, track, xclip, ident, args):
+        """ Shows a message in Live's status bar. The message is shown in lower
+        case by default. To preserve capitalization, wrap the message in quotes. """
+        # Cancel any sticky message that is currently being held
+        self._sticky_message = None
+        self._sticky_token += 1
+        message = self._parse_status_message(xclip, args)
+        if message:
+            self._parent.show_message(message)
+
+
+    def hold_status_message(self, track, xclip, ident, args):
+        """ Like MSG, but keeps re-displaying the message so it persists in Live's
+        status bar until another message is shown. Use MSGHOLD OFF to clear it. """
+        if args.strip().upper() == 'OFF':
+            self._sticky_message = None
+            self._sticky_token += 1
+            return
+        message = self._parse_status_message(xclip, args)
+        self._sticky_message = message if message else None
+        self._sticky_token += 1
+        if self._sticky_message is not None:
+            self._repost_sticky_message(self._sticky_token)
+
+
+    def _repost_sticky_message(self, token):
+        """ Re-posts the held status message on a timer until it's replaced or cleared. """
+        if token != self._sticky_token or self._sticky_message is None or self._parent is None:
+            return
+        self._parent.show_message(self._sticky_message)
+        if IS_LIVE_9:
+            self._parent.schedule_message(5, partial(self._repost_sticky_message, token))
+        else:
+            self._parent.schedule_message(5, self._repost_sticky_message, token)
         
         
     def do_variable_assignment(self, track, xclip, ident, args):
