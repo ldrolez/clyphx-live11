@@ -145,7 +145,13 @@ class ClyphXGlobalActions(ControlSurfaceComponent):
             except:
                 name = ''
             name = name.replace(u'\u201c', '"').replace(u'\u201d', '"')
-            start = name.find('"')
+            # Anchor the search to after the MSG/MSGHOLD keyword so that quoted
+            # text earlier in the action list is not mistakenly matched.
+            msg_pos = name.upper().rfind('MSGHOLD')
+            if msg_pos == -1:
+                msg_pos = name.upper().rfind('MSG')
+            search_from = msg_pos if msg_pos != -1 else 0
+            start = name.find('"', search_from)
             end = name.find('"', start + 1)
             if start != -1 and end != -1:
                 return name[start + 1:end]
