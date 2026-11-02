@@ -50,7 +50,19 @@ if IS_LIVE_9_5:
     from .PushEmuHandler import MockHandshakeTask, MockHandshake
 
 FOLDER = '/ClyphX/'
-SCRIPT_NAME = 'ClyphX v2.7.6 for Live 12'
+SCRIPT_NAME = 'ClyphX v2.7.7 for Live 12'
+
+class DeferredSelectedTrack(object):
+    """ Sentinel used to defer resolution of 'SEL' track specs until action dispatch time.
+    This makes actions like 'RIGHT ; SEL/ARM ON' operate on the track selected by the
+    preceding actions instead of the track selected when the action list was parsed. """
+    __module__ = __name__
+    __doc__ = ' Deferred SEL track spec sentinel '
+    name = 'SEL'
+
+
+DEFERRED_SELECTED_TRACK = DeferredSelectedTrack()
+
 
 class ClyphX(ControlSurface):
     __module__ = __name__
@@ -352,9 +364,16 @@ class ClyphX(ControlSurface):
             return
         result_track = [origin_track]
         if len(result_name) >= 4 and (('/' in result_name[:4]) or ('-' in result_name[:4] and '/' in result_name[4:]) or (result_name[0] == '"' and '"' in result_name[1:])):
-            track_data = self.get_track_to_operate_on(result_name)
-            result_track = track_data[0]
-            result_name = track_data[1]
+            #-- Defer 'SEL' track specs to dispatch time, so they resolve to the track selected
+            #-- by earlier actions in the same list (e.g. 'RIGHT ; SEL/ARM ON'), not the track
+            #-- selected when the list was parsed
+            if result_name.split('/')[0].strip() == 'SEL':
+                result_track = [DEFERRED_SELECTED_TRACK]
+                result_name = result_name[result_name.index('/')+1:].strip()
+            else:
+                track_data = self.get_track_to_operate_on(result_name)
+                result_track = track_data[0]
+                result_name = track_data[1]
         args = ''
         name = result_name.split()
         if len(name) > 1:
@@ -396,9 +415,12 @@ class ClyphX(ControlSurface):
                     else:
                         self.schedule_message(wait_val, self.process_action_list, remaining_actions, xtrigger, ident)
                 return
-            self.action_dispatch(action['track'], xtrigger, action_name, action['args'], ident)
+            tracks = action['track']
+            if tracks and tracks[0] is DEFERRED_SELECTED_TRACK:
+                tracks = [self.song().view.selected_track]
+            self.action_dispatch(tracks, xtrigger, action_name, action['args'], ident)
             if self._is_debugging:
-                self.log_message('handle_action_list_trigger triggered, ident=' + str(ident) + ' and track(s)=' + str(self.track_list_to_string(action['track'])) + ' and action=' + str(action_name) + ' and args=' + str(action['args']))
+                self.log_message('handle_action_list_trigger triggered, ident=' + str(ident) + ' and track(s)=' + str(self.track_list_to_string(tracks)) + ' and action=' + str(action_name) + ' and args=' + str(action['args']))
 
 
     def handle_loop_seq_action_list(self, xclip, count):
