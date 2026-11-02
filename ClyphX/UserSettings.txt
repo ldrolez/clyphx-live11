@@ -245,6 +245,16 @@ CSLINKER_SCRIPT_2_NAME = None
 # Example: MY_BTN3 = NOTE, 5, 0, 1/MUTE, *
 
 
+# You can also define or re-assign Variables in the Action List. The Variable
+# definition is performed immediately, before the following Actions in the list.
+
+# Example: MY_BTN4 = NOTE, 1, 30, my_var1 = 100 ; 2/VOL %my_var1%
+
+# NOTE: A Variable's value cannot contain a comma, since commas delimit the On
+# and Off Action Lists. Neither can it contain the characters listed in the
+# User Variables section of the manual ( ; = $ % ).
+
+
 # Below is an example list that has been commented out (the # at the beginning of 
 # a line makes the line a comment). Your list should be formatted in the same way 
 # except without the # at the beginning of each line.

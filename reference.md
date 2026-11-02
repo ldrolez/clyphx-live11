@@ -482,7 +482,7 @@ Applies to PUSH and PUSH 2 control surfaces, and they should be enabled in your 
 
 ### Defining/Re-Assigning Variables
 
-You can use Variables in your Action Lists to store values (like 42), single Actions (like OVER OFF), or portions of Action Names (like CLIP). There are two ways to define Variables:
+You can use Variables in your Action Lists to store values (like 42), single Actions (like OVER OFF), or portions of Action Names (like CLIP). There are three ways to define Variables:
 
 1. **User Settings**: Define Variables here to make them always available to any Action List in any set. Examples:
    - `my_var1 = 42`
@@ -490,6 +490,11 @@ You can use Variables in your Action Lists to store values (like 42), single Act
 
 2. **X-Clips/X-Cues**: Define or re-assign Variables temporarily (only for the current set) using the same syntax. For example, to re-assign `my_var1`:
    - `my_var1 = 100`
+
+3. **X-Controls**: Define or re-assign Variables directly in an X-Control's Action List. Variable definitions are performed synchronously (immediately, before the following Actions in the list), so they can safely be used as setup Actions in the same list. Example (in `[USER CONTROLS]`):
+   - `MY_BTN = NOTE, 1, 10, my_var1 = 100 ; 2/VOL %my_var1%`
+
+**NOTE:** In an X-Control definition, a Variable's value cannot contain a comma, since commas delimit the On and Off Action Lists.
 
 These temporary definitions are reset to your User Settings upon set load.
 
